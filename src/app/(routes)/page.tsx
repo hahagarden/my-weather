@@ -1,4 +1,4 @@
-import WeatherPage from "@/pages/WeatherPage.client";
+import WeatherPage from "@/views/WeatherPage.client";
 
 export default function Home() {
   return (
