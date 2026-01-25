@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRegionsByQuery } from "@/entities/region/api/http";
 import { regionKeys } from "@/entities/region/model/queryKeys";
 
-export function useRegionSearch(debounceMs = 150) {
+export function useSearchRegion(debounceMs = 150) {
   const [input, setInput] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useFavoritesWithWeather } from '@/features/list-favorites/model/useFavoritesWithWeather';
-import WeatherCard from '@/widgets/weather-card/ui/WeatherCard';
+import WeatherCard from '@/widgets/weather-card/WeatherCard';
 
 export default function FavoritesPage() {
   const { data: favoritesWithWeather, isLoading, error } = useFavoritesWithWeather();

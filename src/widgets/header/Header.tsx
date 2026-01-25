@@ -1,6 +1,6 @@
 'use client';
 
-import RegionSearch from "@/features/region/search-region/ui/RegionSearch";
+import SearchRegionInput from "@/features/search-region/ui/SearchRegionInput";
 import Link from "next/link";
 import { useAuth } from "@/shared/hooks/useAuth";
 import LoginForm from "@/features/authenticate/ui/LoginForm";
@@ -15,7 +15,7 @@ export default function Header() {
     <header className="relative border-b pb-4 mb-4">
       <div className="flex items-center gap-4 flex-wrap">
         <Link href="/" className="text-xl font-bold">My Weather</Link>
-        <RegionSearch />
+        <SearchRegionInput />
         <Link href="/favorites" className="text-blue-600 hover:text-blue-800">
           즐겨찾기
         </Link>

@@ -1,11 +1,11 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useRegionSearch } from "../model/useRegionSearch";
+import { useSearchRegion } from "../model/useSearchRegion";
 
 export default function RegionSearch() {
   const router = useRouter();
-  const { input, setInput, results, isLoading } = useRegionSearch();
+  const { input, setInput, results, isLoading } = useSearchRegion();
 
   const handleClick = (id: number) => () => {
     router.push(`/${id}`);
