@@ -1,17 +1,5 @@
-import { Weather, WeatherInfo } from "../model/types";
-
-function parseWeatherDates(weather: Omit<Weather, 'current' | 'hourly'> & { 
-  current: Omit<WeatherInfo, 'localTime'>; 
-  hourly: Omit<WeatherInfo, 'localTime'>[]; 
-}): Weather {
-  const toLocalTime = (dt: number) => new Date(dt * 1000);
-
-  return {
-    ...weather,
-    current: { ...weather.current, localTime: toLocalTime(weather.current.dt) },
-    hourly: weather.hourly.map(h => ({ ...h, localTime: toLocalTime(h.dt) })),
-  };
-} // 유틸리티 함수
+import { Weather } from "../model/types";
+import { parseWeatherDates } from "../model/utils";
 
 export async function getWeatherByRegionId(id: number): Promise<Weather> {
   const response = await fetch(`/api/weather?id=${id}`);
