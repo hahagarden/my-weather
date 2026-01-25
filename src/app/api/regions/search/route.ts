@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { regionService } from '@/entities/region/server/service';
 
-const DEFAULT_LIMIT = 30;
+const DEFAULT_LIMIT = 100;
 
 export function GET(req: Request) {
   const url = new URL(req.url);

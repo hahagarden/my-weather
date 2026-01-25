@@ -12,14 +12,14 @@ export default function RegionSearch() {
   };
 
   return (
-    <div className="w-fit relative">
+    <div className="w-full relative">
       <input
         type="text"
         value={input}
         placeholder="Enter a city"
         onChange={(e) => setInput(e.target.value)}
       />
-      <div className="w-fit max-h-40 overflow-y-auto absolute top-full left-0">
+      <div className="w-full max-h-40 overflow-y-auto absolute top-full left-0">
         {isLoading && <p>검색 중...</p>}
         <ul>
           {results.map((city) => (
