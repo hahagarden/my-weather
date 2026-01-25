@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
 import Image from 'next/image';
+import DeleteFavoriteButton from '@/features/delete-favorite/ui/DeleteFavoriteButton';
+import UpdateFavoriteDisplayNameForm from '@/features/update-favorite-display-name/ui/UpdateFavoriteDisplayNameForm';
 
 interface WeatherCardProps {
   favorite: FavoriteWithWeather;
@@ -9,8 +12,9 @@ interface WeatherCardProps {
 
 export default function WeatherCard({ favorite }: WeatherCardProps) {
   const { region, regionLoading, weather, weatherLoading, weatherError } = favorite;
+  const [isEditing, setIsEditing] = useState(false);
 
-  const displayName = favorite.display_name || region?.regionName || `지역 ${favorite.region_id}`;
+  const displayName = favorite.display_name || region?.regionName;
 
   if (regionLoading || weatherLoading) {
     return (
@@ -35,10 +39,40 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
   return (
     <div className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-xl font-semibold mb-1">
-            {displayName}
-          </h3>
+        <div className="flex-1">
+          {isEditing ? (
+            <UpdateFavoriteDisplayNameForm
+              favoriteId={favorite.id}
+              currentDisplayName={displayName ?? ''}
+              onCancel={() => setIsEditing(false)}
+            />
+          ) : (
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl font-semibold mb-1">
+                {displayName}
+              </h3>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+                title="이름 편집"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
           <p className="text-sm text-gray-500">
             {new Date(current.localTime).toLocaleString('ko-KR')}
           </p>
@@ -75,7 +109,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 text-sm">
+      <div className="grid grid-cols-2 gap-4 text-sm mb-4">
         <div>
           <span className="text-gray-600">최고온도</span>
           <span className="ml-2 font-medium">{weather.daily[0].temp.max}°C</span>
@@ -84,6 +118,13 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
           <span className="text-gray-600">최저온도</span>
           <span className="ml-2 font-medium">{weather.daily[0].temp.min}°C</span>
         </div>
+      </div>
+
+      <div className="flex justify-end">
+        <DeleteFavoriteButton
+          favoriteId={favorite.id}
+          className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+        />
       </div>
     </div>
   );
