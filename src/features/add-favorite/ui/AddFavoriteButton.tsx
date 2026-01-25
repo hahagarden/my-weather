@@ -4,6 +4,7 @@ import { useAddFavorite } from '../model/useAddFavorite';
 import { useAuth } from '@/shared/hooks/useAuth';
 import type { FavoriteInsert } from '@/entities/favorite/model/types';
 import { useState } from 'react';
+import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 
 interface AddFavoriteButtonProps {
   regionId: number;
@@ -18,7 +19,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
 
   const handleClick = () => {
     if (!user) {
-      setError('로그인이 필요합니다.');
+      setError(AUTH_ERRORS.LOGIN_REQUIRED);
       return;
     }
 
@@ -29,7 +30,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
     };
     addFavoriteMutation.mutate(favorite, {
       onError: (err: Error) => {
-        setError(err.message || '즐겨찾기 추가에 실패했습니다.');
+        setError(formatError(FAVORITE_ERRORS.ADD_FAILED, err));
       },
       onSuccess: () => {
         setError(null);

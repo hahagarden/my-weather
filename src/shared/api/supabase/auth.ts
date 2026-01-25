@@ -1,5 +1,6 @@
 import { createClient } from './client';
 import type { User } from '@supabase/supabase-js';
+import { AUTH_ERRORS } from '@/shared/constants/errorMessages';
 
 /**
  * 현재 로그인한 사용자를 가져옵니다.
@@ -10,7 +11,7 @@ export async function getCurrentUser(): Promise<User> {
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   
   if (authError || !user) {
-    throw new Error('로그인이 필요합니다.');
+    throw new Error(AUTH_ERRORS.LOGIN_REQUIRED);
   }
   
   return user;

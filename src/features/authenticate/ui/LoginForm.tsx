@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useLogin } from '../model/useLogin';
 import { useSignUp } from '../model/useSignUp';
+import { AUTH_ERRORS, formatError } from '@/shared/constants/errorMessages';
 
 export default function LoginForm() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -21,7 +22,7 @@ export default function LoginForm() {
     const password = formData.get('password') as string;
 
     if (!email || !password) {
-      setError('이메일과 비밀번호를 입력해주세요.');
+      setError(AUTH_ERRORS.EMAIL_PASSWORD_REQUIRED);
       return;
     }
 
@@ -31,7 +32,7 @@ export default function LoginForm() {
       { email, password },
       {
         onError: (err: Error) => {
-          setError(err.message || '오류가 발생했습니다. 다시 시도해주세요.');
+          setError(formatError(AUTH_ERRORS.AUTH_FAILED, err));
         },
         onSuccess: (data) => {
           console.log(data);

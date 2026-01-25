@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useUpdateFavoriteDisplayName } from '../model/useUpdateFavoriteDisplayName';
+import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 
 interface UpdateFavoriteDisplayNameFormProps {
   favoriteId: number;
@@ -23,7 +24,7 @@ export default function UpdateFavoriteDisplayNameForm({
     setError(null);
 
     if (!displayName.trim()) {
-      setError('이름을 입력해주세요.');
+      setError(FAVORITE_ERRORS.DISPLAY_NAME_REQUIRED);
       return;
     }
 
@@ -31,7 +32,7 @@ export default function UpdateFavoriteDisplayNameForm({
       { id: favoriteId, displayName: displayName.trim() },
       {
         onError: (err: Error) => {
-          setError(err.message || '이름 변경에 실패했습니다.');
+          setError(formatError(FAVORITE_ERRORS.UPDATE_DISPLAY_NAME_FAILED, err));
         },
         onSuccess: () => {
           onCancel?.();

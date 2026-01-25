@@ -6,6 +6,7 @@ import { useGeolocation } from "@/shared/hooks/useGeolocation";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import AddFavoriteButton from "@/features/add-favorite/ui/AddFavoriteButton";
+import { GENERAL_ERRORS } from "@/shared/constants/errorMessages";
 
 export default function WeatherPage({ id }: { id: number | null }) {
   const geo = useGeolocation({enabled: id === null}); // id가 없으면 현재 위치 기반 날씨 조회
@@ -14,7 +15,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
       queryKey:id ? weatherKeys.byRegionId(id) : geo.status === 'success' ? weatherKeys.byCoords(geo.coords.lat, geo.coords.lon) : ['weather', 'idle'],
       queryFn: () => {
         if (id) return getWeatherByRegionId(id);
-        if (!geo.coords) throw new Error('Missing coordinates');
+        if (!geo.coords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
         return getWeatherByCoords(geo.coords.lat, geo.coords.lon);
       },
       enabled: Boolean(id) || geo.status === 'success',

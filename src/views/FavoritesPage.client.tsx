@@ -2,6 +2,7 @@
 
 import { useFavoritesWithWeather } from '@/features/list-favorites/model/useFavoritesWithWeather';
 import WeatherCard from '@/widgets/weather-card/WeatherCard';
+import { GENERAL_ERRORS } from '@/shared/constants/errorMessages';
 
 export default function FavoritesPage() {
   const { data: favoritesWithWeather, isLoading, error } = useFavoritesWithWeather();
@@ -19,7 +20,7 @@ export default function FavoritesPage() {
     return (
       <div className="p-6">
         <h2 className="text-2xl font-bold mb-6">즐겨찾기</h2>
-        <div className="text-red-500">오류가 발생했습니다: {error.message}</div>
+        <div className="text-red-500">{GENERAL_ERRORS.RETRY}: {error.message}</div>
       </div>
     );
   }

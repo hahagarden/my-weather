@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { regionService } from '@/entities/region/server/service';
+import { getErrorMessage } from '@/shared/constants/errorMessages';
 
 export async function GET(
   request: Request,
@@ -11,7 +12,7 @@ export async function GET(
     return NextResponse.json({ data: region });
   } catch (e) {
     return NextResponse.json(
-      { message: e instanceof Error ? e.message : 'Unknown error' },
+      { message: getErrorMessage(e) },
       { status: 404 }
     );
   }

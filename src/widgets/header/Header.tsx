@@ -5,11 +5,24 @@ import Link from "next/link";
 import { useAuth } from "@/shared/hooks/useAuth";
 import LoginForm from "@/features/authenticate/ui/LoginForm";
 import LogoutButton from "@/features/authenticate/ui/LogoutButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header() {
   const { user, loading } = useAuth();
   const [showLoginForm, setShowLoginForm] = useState(false);
+
+  useEffect(() => {
+    // 커스텀 이벤트 리스너: 다른 컴포넌트에서 로그인 폼을 열도록 요청할 때
+    const handleOpenLoginForm = () => {
+      setShowLoginForm(true);
+    };
+
+    window.addEventListener('openLoginForm', handleOpenLoginForm);
+
+    return () => {
+      window.removeEventListener('openLoginForm', handleOpenLoginForm);
+    };
+  }, []);
 
   return (
     <header className="relative border-b pb-4 mb-4">

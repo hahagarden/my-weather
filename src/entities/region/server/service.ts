@@ -2,6 +2,7 @@ import 'server-only';
 import Fuse, { type IFuseOptions } from 'fuse.js';
 import type { Region, RegionSearchItem } from '../model/types';
 import { regionRepo } from './repo';
+import { REGION_ERRORS } from '@/shared/constants/errorMessages';
 
 function normalizeQuery(q: string): string {
   const trimmed = q.trim();
@@ -91,7 +92,7 @@ export const regionService = {
 
   getById(id: number): Region {
     const region = regionRepo.findById(id);
-    if (!region) throw new Error(`Region not found: ${id}`);
+    if (!region) throw new Error(REGION_ERRORS.NOT_FOUND(id));
     return region;
   },
 };

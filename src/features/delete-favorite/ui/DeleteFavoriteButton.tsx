@@ -2,6 +2,7 @@
 
 import { useDeleteFavorite } from '../model/useDeleteFavorite';
 import { useState } from 'react';
+import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 
 interface DeleteFavoriteButtonProps {
   favoriteId: number;
@@ -20,7 +21,7 @@ export default function DeleteFavoriteButton({ favoriteId, className }: DeleteFa
     setError(null);
     deleteFavoriteMutation.mutate(favoriteId, {
       onError: (err: Error) => {
-        setError(err.message || '즐겨찾기 삭제에 실패했습니다.');
+        setError(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
       },
       onSuccess: () => {
         setError(null);

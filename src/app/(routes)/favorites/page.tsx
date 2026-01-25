@@ -7,8 +7,18 @@ import { regionService } from '@/entities/region/server/service';
 import { regionKeys } from '@/entities/region/model/queryKeys';
 import { weatherService } from '@/entities/weather/server/service';
 import { weatherKeys } from '@/entities/weather/model/queryKeys';
+import { createClient } from '@/shared/api/supabase/server';
+import AuthRequiredPage from '@/views/AuthRequiredPage.client';
 
 export default async function Page() {
+  // 로그인 확인
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  
+  if (authError || !user) {
+    return <AuthRequiredPage />;
+  }
+
   const qc = new QueryClient();
 
   try {

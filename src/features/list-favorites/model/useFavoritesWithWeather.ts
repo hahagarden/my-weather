@@ -8,6 +8,7 @@ import { regionKeys } from '@/entities/region/model/queryKeys';
 import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
 import { getFavorites } from '@/entities/favorite/api/supabase';
 import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
+import { FAVORITE_ERRORS } from '@/shared/constants/errorMessages';
 
 export function useFavoritesWithWeather() {
   const { data: favorites, isLoading, error } = useQuery({
@@ -51,6 +52,6 @@ export function useFavoritesWithWeather() {
   return {
     data: favoritesWithWeather,
     isLoading: isLoading || isRegionLoading || isWeatherLoading,
-    error: error || (hasRegionError || hasWeatherError ? new Error('일부 정보를 불러오는데 실패했습니다.') : null),
+    error: error || (hasRegionError || hasWeatherError ? new Error(FAVORITE_ERRORS.LOAD_PARTIAL_FAILED) : null),
   };
 }

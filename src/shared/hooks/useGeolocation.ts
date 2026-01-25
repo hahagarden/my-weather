@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GENERAL_ERRORS } from "@/shared/constants/errorMessages";
 
 type GeoState =
   | { status: "idle"; coords: null; error: null }
@@ -46,7 +47,7 @@ export function useGeolocation({
       setState({
         status: "error",
         coords: null,
-        error: new Error("Geolocation is not supported in this environment."),
+        error: new Error(GENERAL_ERRORS.GEOLOCATION_NOT_SUPPORTED),
       });
       return;
     }
