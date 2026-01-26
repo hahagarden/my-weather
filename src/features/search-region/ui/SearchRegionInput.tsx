@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MapPin, Search } from "lucide-react";
 
 import { useSearchRegion } from "@/features/search-region/model";
 
 export default function RegionSearch() {
   const router = useRouter();
+  const pathname = usePathname();
   const { input, setInput, results: suggestions } = useSearchRegion(250);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = (id: number) => () => {
     router.push(`/${id}`);
@@ -29,10 +31,15 @@ export default function RegionSearch() {
     return () => document.removeEventListener("click", outsideRefClickHandler);
   }, []);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [pathname]);
+
   return (
     <div ref={searchRef} className="flex-1 max-w-md mx-1 sm:mx-8 relative">
       <div className="relative">
         <input
+          ref={inputRef}
           type="text"
           placeholder="주소 검색"
           value={input}
@@ -41,6 +48,7 @@ export default function RegionSearch() {
             setInput(e.target.value);
             setShowSuggestions(true);
           }}
+          autoFocus
           className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none shadow-sm"
         />
         <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
