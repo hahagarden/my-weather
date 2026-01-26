@@ -49,9 +49,9 @@ export default function RegionSearch() {
             setShowSuggestions(true);
           }}
           autoFocus
-          className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none shadow-sm"
+          className="w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 border-none rounded-full py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none shadow-sm"
         />
-        <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-500 dark:text-gray-400" />
       </div>
 
       {showSuggestions && input && suggestions.length > 0 && (

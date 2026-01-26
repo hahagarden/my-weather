@@ -74,10 +74,10 @@ export default function WeatherPage({ id }: { id: number | null }) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative overflow-hidden bg-white rounded-3xl shadow-xl border border-gray-100">
+      <div className="relative overflow-hidden bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800">
         <div className="relative p-6 md:p-8">
           <div className="flex justify-between items-start mb-6 gap-2 md:gap-4">
-            <div className="flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
               <MapPin className="w-4 h-4 md:w-6 md:h-6" />
               <span className="font-medium text-lg md:text-xl">
                 {displayName}
@@ -87,7 +87,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
               (favorite ? (
                 <RemoveFavoriteButton
                   favoriteId={favorite.id}
-                  className="p-2 rounded-full transition-all bg-yellow-100 text-yellow-500 shadow-inner"
+                  className="p-2 rounded-full transition-all bg-yellow-100 dark:bg-yellow-400/20 text-yellow-500 dark:text-yellow-400 shadow-inner"
                 >
                   <Star className="w-6 h-6 md:w-8 md:h-8 fill-current" />
                 </RemoveFavoriteButton>
@@ -95,7 +95,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
                 <AddFavoriteButton
                   regionId={id}
                   displayName={displayName}
-                  className="p-2 rounded-full transition-all bg-gray-100 text-gray-400 hover:text-yellow-500"
+                  className="p-2 rounded-full transition-all bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-yellow-500 dark:hover:text-yellow-400"
                 >
                   <Star className="w-6 h-6 md:w-8 md:h-8" />
                 </AddFavoriteButton>
@@ -103,19 +103,19 @@ export default function WeatherPage({ id }: { id: number | null }) {
           </div>
 
           <div className="flex items-center gap-6 mb-8">
-            <div className="text-7xl font-bold text-gray-900">
+            <div className="text-7xl font-bold text-gray-900 dark:text-gray-100">
               {Math.round(data.current.temp)}°
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-2xl font-semibold text-gray-800">
+              <span className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
                 {WEATHER_CONDITIONS[currentConditionKey]?.label}
               </span>
               <div className="flex gap-4 text-sm font-medium">
-                <span className="flex items-center text-blue-500 text-lg font-bold">
+                <span className="flex items-center text-blue-500 dark:text-blue-400 text-lg font-bold">
                   <ArrowDown className="w-4 h-4 mr-1" />
                   {Math.round(today.temp.min)}°
                 </span>
-                <span className="flex items-center text-red-500 text-lg font-bold">
+                <span className="flex items-center text-red-500 dark:text-red-400 text-lg font-bold">
                   <ArrowUp className="w-4 h-4 mr-1" />
                   {Math.round(today.temp.max)}°
                 </span>
@@ -125,8 +125,8 @@ export default function WeatherPage({ id }: { id: number | null }) {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-800 mb-4 px-2">
+      <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-800">
+        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 px-2">
           시간대별 기온
         </h3>
 
@@ -137,15 +137,17 @@ export default function WeatherPage({ id }: { id: number | null }) {
             return (
               <div
                 key={`${hour.time}-${index}`}
-                className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 transition-colors"
+                className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/70 transition-colors"
               >
-                <span className="text-xs text-gray-400 mb-2">{hour.time}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 mb-2">
+                  {hour.time}
+                </span>
                 <div className="mb-2">
                   {condition?.icon ?? (
                     <SunDim className="w-6 h-6 text-yellow-500" />
                   )}
                 </div>
-                <span className="text-sm font-bold text-gray-700">
+                <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
                   {hour.temp}°
                 </span>
               </div>

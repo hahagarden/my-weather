@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
-import { Star, SunDim } from "lucide-react";
+import { Moon, Star, SunDim } from "lucide-react";
 
 import { LoginButton, LogoutButton } from "@/features/authenticate/ui";
 import { SearchRegionInput } from "@/features/search-region/ui";
@@ -9,9 +11,29 @@ import { useAuth } from "@/shared/hooks";
 
 export default function Header() {
   const { user, loading } = useAuth();
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setTheme(storedTheme);
+      return;
+    }
+
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setTheme(prefersDark ? "dark" : "light");
+  }, []);
+
+  useEffect(() => {
+    const isDark = theme === "dark";
+    document.documentElement.classList.toggle("dark", isDark);
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 gap-2">
           {/* Logo */}
@@ -19,7 +41,7 @@ export default function Header() {
             <div className="p-2 bg-blue-500 rounded-xl group-hover:bg-blue-600 transition-colors">
               <SunDim className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 hidden sm:inline">
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 hidden sm:inline">
               My Weather
             </span>
           </Link>
@@ -32,19 +54,37 @@ export default function Header() {
             {loading
               ? null
               : user && (
-                  <span className="text-sm font-medium text-gray-700 hidden md:inline">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200 hidden md:inline">
                     {user.email?.split("@")[0]} 님
                   </span>
                 )}
 
             <Link
               href="/favorites"
-              className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 text-sm font-semibold text-gray-700 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition-colors"
+              className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-yellow-50 dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title="즐겨찾기"
             >
               <Star className="w-5 h-5" />
               <span className="hidden sm:inline">즐겨찾기</span>
             </Link>
+
+            <button
+              type="button"
+              onClick={() =>
+                setTheme((prev) => (prev === "dark" ? "light" : "dark"))
+              }
+              className="flex items-center justify-center p-2 sm:px-4 sm:py-2 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              title={theme === "dark" ? "라이트 모드" : "다크 모드"}
+              aria-label={
+                theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"
+              }
+            >
+              {theme === "dark" ? (
+                <SunDim className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </button>
 
             {user ? <LogoutButton /> : <LoginButton />}
           </div>

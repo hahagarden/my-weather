@@ -62,7 +62,7 @@ export default function UpdateFavoriteDisplayNameForm({
         type="text"
         value={displayName}
         onChange={(e) => setDisplayName(e.target.value)}
-        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all mb-6"
+        className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all mb-6"
         placeholder={currentDisplayName}
       />
       <div className="flex gap-3">

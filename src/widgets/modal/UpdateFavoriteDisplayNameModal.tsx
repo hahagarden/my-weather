@@ -22,7 +22,9 @@ export default function UpdateFavoriteDisplayNameModal() {
       onClose={closeUpdateFavoriteDisplayNameModal}
     >
       <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">이름 수정</h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+          이름 수정
+        </h2>
         <UpdateFavoriteDisplayNameForm
           favoriteId={updateFavoriteDisplayNameModal.favoriteId}
           currentDisplayName={updateFavoriteDisplayNameModal.currentDisplayName}

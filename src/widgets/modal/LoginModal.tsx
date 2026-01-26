@@ -20,14 +20,14 @@ export default function LoginModal() {
     <Modal isOpen={loginModal.isOpen} onClose={handleClose}>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             {mode === "login" ? "로그인" : "회원가입"}
           </h2>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 rounded-full"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -36,7 +36,7 @@ export default function LoginModal() {
         <div className="mt-6 text-center">
           <button
             onClick={() => setMode(mode === "login" ? "signup" : "login")}
-            className="text-sm text-blue-600 font-medium hover:underline"
+            className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
           >
             {mode === "login"
               ? "계정이 없으신가요? 회원가입"
