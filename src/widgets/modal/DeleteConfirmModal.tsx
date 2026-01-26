@@ -5,6 +5,7 @@ import { useDeleteFavorite } from '@/features/delete-favorite/model/useDeleteFav
 import { AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
+import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
 import Modal from '@/shared/ui/Modal';
 
 export default function DeleteConfirmModal() {
@@ -16,7 +17,7 @@ export default function DeleteConfirmModal() {
 
     deleteFavoriteMutation.mutate(deleteModal.favoriteId, {
       onSuccess: () => {
-        toast.success('즐겨찾기가 삭제되었습니다.');
+        toast.success(FAVORITE_TOASTS.DELETE_SUCCESS);
         closeDeleteModal();
       },
       onError: (err: Error) => {

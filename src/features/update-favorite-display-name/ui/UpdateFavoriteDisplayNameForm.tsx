@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useUpdateFavoriteDisplayName } from '../model/useUpdateFavoriteDisplayName';
 import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
+import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
+import { toast } from 'sonner';
 
 interface UpdateFavoriteDisplayNameFormProps {
   favoriteId: number;
@@ -36,6 +38,7 @@ export default function UpdateFavoriteDisplayNameForm({
         },
         onSuccess: () => {
           onCancel?.();
+          toast.success(FAVORITE_TOASTS.UPDATE_DISPLAY_NAME_SUCCESS);
         },
       }
     );

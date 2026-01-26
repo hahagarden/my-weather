@@ -4,7 +4,9 @@ import { useModalStore } from '@/shared/stores/modalStore';
 import { useLogout } from '@/features/authenticate/model/useLogout';
 import { LogOut, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
 import Modal from '@/shared/ui/Modal';
+import { AUTH_ERRORS } from '@/shared/constants/errorMessages';
 
 export default function LogoutConfirmModal() {
   const { logoutModal, closeLogoutModal } = useModalStore();
@@ -13,11 +15,11 @@ export default function LogoutConfirmModal() {
   const handleConfirm = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success('로그아웃되었습니다.');
+        toast.success(AUTH_TOASTS.LOGOUT_SUCCESS);
         closeLogoutModal();
       },
       onError: () => {
-        toast.error('로그아웃 중 오류가 발생했습니다.');
+        toast.error(AUTH_ERRORS.LOGOUT_FAILED);
       },
     });
   };

@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { useLogin } from '../model/useLogin';
 import { useSignUp } from '../model/useSignUp';
 import { AUTH_ERRORS, formatError, SUPABASE_ERRORS } from '@/shared/constants/errorMessages';
+import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
 import { useModalStore } from '@/shared/stores/modalStore';
 import { toast } from 'sonner';
 import { Lock, Mail } from 'lucide-react';
@@ -54,7 +55,7 @@ export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
           setError(formatError(AUTH_ERRORS.AUTH_FAILED, err as Error));
         },
         onSuccess: () => {
-          toast.success(isSignUp ? '이메일이 전송되었습니다. \n링크로 접속하여 인증을 완료해주세요!' : '로그인되었습니다!');
+          toast.success(isSignUp ? AUTH_TOASTS.SIGNUP_EMAIL_SENT : AUTH_TOASTS.LOGIN_SUCCESS);
           closeLoginModal();
         },
       }

@@ -4,6 +4,7 @@ import { useAddFavorite } from '../model/useAddFavorite';
 import { useAuth } from '@/shared/hooks/useAuth';
 import type { FavoriteInsert } from '@/entities/favorite/model/types';
 import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
+import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
 import { useQuery } from '@tanstack/react-query';
 import { getFavorites } from '@/entities/favorite/api/supabase';
 import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
@@ -51,7 +52,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
     };
     addFavoriteMutation.mutate(favorite, {
       onSuccess: () => {
-        toast.success('즐겨찾기가 추가되었습니다!');
+        toast.success(FAVORITE_TOASTS.ADD_SUCCESS);
       },
       onError: (err: Error) => {
         toast.error(formatError(FAVORITE_ERRORS.ADD_FAILED, err));

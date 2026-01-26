@@ -17,6 +17,7 @@ export const AUTH_ERRORS = {
   INVALID_CREDENTIALS: '이메일 또는 비밀번호가 일치하지 않습니다.',
   WEAK_PASSWORD: '비밀번호는 6자 이상이어야 합니다.',
   EMAIL_NOT_CONFIRMED: '이메일이 인증되지 않았습니다.',
+  LOGOUT_FAILED: '로그아웃 중 오류가 발생했습니다.',
 } as const;
 
 // 즐겨찾기 관련 에러 메시지
