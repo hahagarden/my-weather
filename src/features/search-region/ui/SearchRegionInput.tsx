@@ -55,19 +55,19 @@ export default function RegionSearch() {
       </div>
 
       {showSuggestions && input && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-150 origin-top">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden animate-in fade-in zoom-in duration-150 origin-top">
           <ul className="max-h-[320px] overflow-y-auto no-scrollbar py-2">
             {suggestions.map((city) => (
               <li key={city.id}>
                 <button
                   onClick={handleClick(city.id)}
-                  className="w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-gray-50 transition-colors group"
+                  className="w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
                 >
-                  <div className="p-1.5 bg-gray-100 rounded-lg group-hover:bg-blue-50 transition-colors hidden sm:inline">
-                    <MapPin className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
+                  <div className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-gray-700 transition-colors hidden sm:inline">
+                    <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-800">
+                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                       {city.name}
                     </span>
                   </div>
