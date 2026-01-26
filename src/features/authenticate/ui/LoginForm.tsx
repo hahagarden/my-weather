@@ -8,7 +8,6 @@ import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
 import { useModalStore } from '@/shared/stores/modalStore';
 import { toast } from 'sonner';
 import { Lock, Mail } from 'lucide-react';
-import { AuthError, AuthInvalidCredentialsError, AuthWeakPasswordError, isAuthWeakPasswordError } from '@supabase/supabase-js';
 
 export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
   const [error, setError] = useState<string | null>(null);

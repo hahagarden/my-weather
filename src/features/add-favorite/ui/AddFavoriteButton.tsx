@@ -22,7 +22,7 @@ const MAX_FAVORITES = 6;
 export default function AddFavoriteButton({ regionId, displayName, className }: AddFavoriteButtonProps) {
   const addFavoriteMutation = useAddFavorite();
   const { user, loading } = useAuth();
-  const { openAuthModal } = useModalStore();
+  const { openLoginModal } = useModalStore();
 
   // 즐겨찾기 목록 조회 (로그인된 사용자만)
   const { data: favorites } = useQuery({
@@ -37,7 +37,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
   const handleClick = () => {
     if (!user) {
       toast.error(AUTH_ERRORS.LOGIN_REQUIRED);
-      openAuthModal();
+      openLoginModal();
       return;
     }
 

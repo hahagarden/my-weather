@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/shared/stores/modalStore';
 import { useLogout } from '@/features/authenticate/model/useLogout';
-import { LogOut, X } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
 import Modal from '@/shared/ui/Modal';
