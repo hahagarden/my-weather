@@ -11,6 +11,7 @@
 ```bash
 pnpm install
 ```
+설치가 끝나면 `scripts/generate-regions.mjs`가 자동 실행되어 지역 데이터가 생성됩니다.
 
 ### 2) 환경 변수 설정
 `.env.local` 파일을 생성하고 아래 값을 입력합니다.
@@ -32,6 +33,11 @@ supabase-migrations/002_enforce-favorites-limit.sql
 pnpm dev
 ```
 브라우저에서 `http://localhost:3000` 접속
+
+### (선택) 지역 데이터 수동 생성
+```bash
+pnpm setup
+```
 
 ### 5) 프로덕션 빌드/실행
 ```bash

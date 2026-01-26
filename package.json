@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "setup": "node scripts/generate-regions.mjs",
+    "postinstall": "node scripts/generate-regions.mjs",
     "prebuild": "node scripts/generate-regions.mjs",
     "dev": "next dev",
     "build": "next build",
