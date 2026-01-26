@@ -83,7 +83,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
         </div>
         <div className="flex-1">
           <div className="text-3xl font-black text-gray-800">{current.temp}°</div>
-          <div className="flex gap-3 text-xs font-bold mt-1">
+          <div className="flex gap-3 text-sm font-bold mt-1">
             <span className="flex items-center text-blue-500"><ArrowDown className="w-3 h-3 mr-1" />{today.temp.min}°</span>
             <span className="flex items-center text-red-500"><ArrowUp className="w-3 h-3 mr-1" />{today.temp.max}°</span>
           </div>

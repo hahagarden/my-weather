@@ -101,12 +101,12 @@ export default function WeatherPage({ id }: { id: number | null }) {
             <div className="flex flex-col gap-1">
               <span className="text-2xl font-semibold text-gray-800">{conditionInfo.label}</span>
               <div className="flex gap-4 text-sm font-medium">
-                <span className="flex items-center text-blue-500 text-lg">
-                  <ArrowDown className="w-3 h-3 mr-1" />
+                <span className="flex items-center text-blue-500 text-lg font-bold">
+                  <ArrowDown className="w-4 h-4 mr-1" />
                   {Math.round(today.temp.min)}°
                 </span>
-                <span className="flex items-center text-red-500 text-lg">
-                  <ArrowUp className="w-3 h-3 mr-1" />
+                <span className="flex items-center text-red-500 text-lg font-bold">
+                  <ArrowUp className="w-4 h-4 mr-1" />
                   {Math.round(today.temp.max)}°
                 </span>
               </div>
