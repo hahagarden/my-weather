@@ -1,6 +1,8 @@
-import { createClient } from './client';
 import type { User } from '@supabase/supabase-js';
-import { AUTH_ERRORS } from '@/shared/constants/errorMessages';
+
+import { AUTH_ERRORS } from '@/shared/constants';
+
+import { createClient } from './client';
 
 /**
  * 현재 로그인한 사용자를 가져옵니다.

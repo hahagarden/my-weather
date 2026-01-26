@@ -1,5 +1,5 @@
-import { Region } from "@/entities/region/model/types";
-import { Weather } from "@/entities/weather/model/types";
+import type { Region } from "@/entities/region/model";
+import type { Weather } from "@/entities/weather/model";
 
 export interface Favorite {
   id: number;

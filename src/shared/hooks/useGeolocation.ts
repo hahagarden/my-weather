@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GENERAL_ERRORS } from "@/shared/constants/errorMessages";
+
+import { GENERAL_ERRORS } from "@/shared/constants";
 
 type GeoState =
   | { status: "idle"; coords: null; error: null }

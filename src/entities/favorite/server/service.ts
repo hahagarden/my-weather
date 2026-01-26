@@ -1,6 +1,8 @@
 import 'server-only';
+
 import { createClient } from '@/shared/api/supabase/server';
-import type { Favorite } from '../model/types';
+
+import type { Favorite } from '../model';
 
 export const favoriteService = {
   async getFavorites(): Promise<Favorite[]> {

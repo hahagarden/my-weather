@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { weatherService } from "@/entities/weather/server/service";
-import { GENERAL_ERRORS, getErrorMessage, REGION_ERRORS, WEATHER_ERRORS } from "@/shared/constants/errorMessages";
+
+import { weatherService } from "@/entities/weather/server";
+import { GENERAL_ERRORS, getErrorMessage, REGION_ERRORS, WEATHER_ERRORS } from "@/shared/constants";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

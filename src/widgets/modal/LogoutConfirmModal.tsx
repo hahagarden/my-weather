@@ -1,12 +1,12 @@
 'use client';
 
-import { useModalStore } from '@/shared/stores/modalStore';
-import { useLogout } from '@/features/authenticate/model/useLogout';
 import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
-import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
-import Modal from '@/shared/ui/Modal';
-import { AUTH_ERRORS } from '@/shared/constants/errorMessages';
+
+import { useLogout } from '@/features/authenticate/model';
+import { AUTH_ERRORS, AUTH_TOASTS } from '@/shared/constants';
+import { useModalStore } from '@/shared/stores';
+import { Modal } from '@/shared/ui';
 
 export default function LogoutConfirmModal() {
   const { logoutModal, closeLogoutModal } = useModalStore();

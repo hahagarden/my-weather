@@ -1,8 +1,8 @@
 'use client';
 
-import { useModalStore } from '@/shared/stores/modalStore';
-import UpdateFavoriteDisplayNameForm from '@/features/update-favorite-display-name/ui/UpdateFavoriteDisplayNameForm';
-import Modal from '@/shared/ui/Modal';
+import { UpdateFavoriteDisplayNameForm } from '@/features/update-favorite-display-name/ui';
+import { useModalStore } from '@/shared/stores';
+import { Modal } from '@/shared/ui';
 
 export default function UpdateFavoriteDisplayNameModal() {
   const {updateFavoriteDisplayNameModal , closeUpdateFavoriteDisplayNameModal } = useModalStore();

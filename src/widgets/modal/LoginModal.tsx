@@ -1,10 +1,11 @@
 'use client';
 
-import { useModalStore } from '@/shared/stores/modalStore';
-import LoginForm from '@/features/authenticate/ui/LoginForm';
-import { X } from 'lucide-react';
-import Modal from '@/shared/ui/Modal';
 import { useState } from 'react';
+import { X } from 'lucide-react';
+
+import { LoginForm } from '@/features/authenticate/ui';
+import { useModalStore } from '@/shared/stores';
+import { Modal } from '@/shared/ui';
 
 export default function LoginModal() {
   const { loginModal, closeLoginModal } = useModalStore();

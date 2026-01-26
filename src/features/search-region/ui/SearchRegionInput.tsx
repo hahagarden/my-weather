@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from "next/navigation";
-import { useSearchRegion } from "../model/useSearchRegion";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { MapPin, Search } from "lucide-react";
+
+import { useSearchRegion } from "@/features/search-region/model";
 
 export default function RegionSearch() {
   const router = useRouter();

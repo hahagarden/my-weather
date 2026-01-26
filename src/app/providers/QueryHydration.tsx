@@ -1,7 +1,7 @@
 'use client';
 
-import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import { ReactNode } from 'react';
+import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 
 export default function QueryHydration({
   children,

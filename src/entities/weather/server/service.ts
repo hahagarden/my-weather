@@ -1,8 +1,9 @@
 import 'server-only';
-import { Weather } from '../model/types';
-import { regionService } from '@/entities/region/server/service';
-import { parseWeatherDates } from '../model/utils';
-import { WEATHER_ERRORS } from '@/shared/constants/errorMessages';
+
+import { regionService } from '@/entities/region/server';
+import { WEATHER_ERRORS } from '@/shared/constants';
+
+import { parseWeatherDates, type Weather } from '../model';
 
 export const weatherService = {
   async getWeatherByCoords(lat: number, lon: number): Promise<Weather> {

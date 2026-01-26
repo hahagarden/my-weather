@@ -1,5 +1,4 @@
-import { Weather } from "../model/types";
-import { parseWeatherDates } from "../model/utils";
+import { parseWeatherDates, type Weather } from "../model";
 
 export async function getWeatherByRegionId(id: number): Promise<Weather> {
   const response = await fetch(`/api/weather?id=${id}`);

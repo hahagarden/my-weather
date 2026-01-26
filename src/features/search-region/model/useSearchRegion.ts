@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getRegionsByQuery } from "@/entities/region/api/http";
-import { regionKeys } from "@/entities/region/model/queryKeys";
+
+import { getRegionsByQuery } from "@/entities/region/api";
+import { regionKeys } from "@/entities/region/model";
 
 export function useSearchRegion(debounceMs = 150) {
   const [input, setInput] = useState("");

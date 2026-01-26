@@ -1,14 +1,14 @@
 'use client';
 
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { getWeatherByRegionId } from '@/entities/weather/api/http';
-import { weatherKeys } from '@/entities/weather/model/queryKeys';
-import { getRegionById } from '@/entities/region/api/http';
-import { regionKeys } from '@/entities/region/model/queryKeys';
-import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
-import { getFavorites } from '@/entities/favorite/api/supabase';
-import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
-import { FAVORITE_ERRORS } from '@/shared/constants/errorMessages';
+
+import { getFavorites } from '@/entities/favorite/api';
+import { favoriteKeys, type FavoriteWithWeather } from '@/entities/favorite/model';
+import { getRegionById } from '@/entities/region/api';
+import { regionKeys } from '@/entities/region/model';
+import { getWeatherByRegionId } from '@/entities/weather/api';
+import { weatherKeys } from '@/entities/weather/model';
+import { FAVORITE_ERRORS } from '@/shared/constants';
 
 export function useFavoritesWithWeather() {
   const { data: favorites, isLoading, error } = useQuery({

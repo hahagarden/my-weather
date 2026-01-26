@@ -1,6 +1,7 @@
-import { createClient } from '@/shared/api/supabase/client';
 import { getCurrentUser } from '@/shared/api/supabase/auth';
-import type { Favorite, FavoriteInsert } from '../model/types';
+import { createClient } from '@/shared/api/supabase/client';
+
+import type { Favorite, FavoriteInsert } from '../model';
 
 const supabase = createClient();
 

@@ -1,11 +1,12 @@
-import { QueryHydration } from "@/app/providers";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import WeatherPage from "@/views/WeatherPage.client";
-import { weatherKeys } from "@/entities/weather/model/queryKeys";
-import { weatherService } from "@/entities/weather/server/service";
 import { notFound } from "next/navigation";
-import { favoriteKeys } from "@/entities/favorite/model/queryKeys";
-import { favoriteService } from "@/entities/favorite/server/service";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+
+import { QueryHydration } from "@/app/providers";
+import { favoriteKeys } from "@/entities/favorite/model";
+import { favoriteService } from "@/entities/favorite/server";
+import { weatherKeys } from "@/entities/weather/model";
+import { weatherService } from "@/entities/weather/server";
+import WeatherPage from "@/views/WeatherPage.client";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const id = Number((await params).id);

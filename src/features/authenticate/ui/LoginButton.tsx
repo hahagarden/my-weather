@@ -1,7 +1,8 @@
 'use client';
 
 import { LogIn } from "lucide-react";
-import { useModalStore } from "@/shared/stores/modalStore";
+
+import { useModalStore } from "@/shared/stores";
 
 export default function LoginButton() {
   const { openLoginModal } = useModalStore();

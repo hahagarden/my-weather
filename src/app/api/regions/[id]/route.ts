@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { regionService } from '@/entities/region/server/service';
-import { getErrorMessage } from '@/shared/constants/errorMessages';
+
+import { regionService } from '@/entities/region/server';
+import { getErrorMessage } from '@/shared/constants';
 
 export async function GET(
   request: Request,

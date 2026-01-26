@@ -1,10 +1,11 @@
 'use client';
 
-import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
-import { useModalStore } from '@/shared/stores/modalStore';
-import { ArrowDown, ArrowUp, Edit2, Trash2 } from 'lucide-react';
-import { WEATHER_CONDITIONS } from '@/shared/constants/weatherConditions';
 import { useRouter } from 'next/navigation';
+import { ArrowDown, ArrowUp, Edit2, Trash2 } from 'lucide-react';
+
+import type { FavoriteWithWeather } from '@/entities/favorite/model';
+import { WEATHER_CONDITIONS } from '@/shared/constants';
+import { useModalStore } from '@/shared/stores';
 
 interface WeatherCardProps {
   favorite: FavoriteWithWeather;

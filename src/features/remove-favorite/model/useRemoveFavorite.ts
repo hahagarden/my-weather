@@ -1,8 +1,9 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteFavorite } from '@/entities/favorite/api/supabase';
-import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
+
+import { deleteFavorite } from '@/entities/favorite/api';
+import { favoriteKeys } from '@/entities/favorite/model';
 
 export function useRemoveFavorite() {
   const queryClient = useQueryClient();

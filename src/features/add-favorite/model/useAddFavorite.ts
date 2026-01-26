@@ -1,9 +1,9 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addFavorite } from '@/entities/favorite/api/supabase';
-import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
-import type { FavoriteInsert } from '@/entities/favorite/model/types';
+
+import { addFavorite } from '@/entities/favorite/api';
+import { type FavoriteInsert,favoriteKeys } from '@/entities/favorite/model';
 
 export function useAddFavorite() {
   const queryClient = useQueryClient();

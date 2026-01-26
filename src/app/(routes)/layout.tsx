@@ -1,5 +1,5 @@
 import Header from "@/widgets/header/Header";
-import { LoginModal, LogoutConfirmModal, UpdateFavoriteDisplayNameModal, DeleteConfirmModal } from "@/widgets/modal";
+import { DeleteConfirmModal,LoginModal, LogoutConfirmModal, UpdateFavoriteDisplayNameModal } from "@/widgets/modal";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

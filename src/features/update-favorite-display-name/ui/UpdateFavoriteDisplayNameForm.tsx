@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useUpdateFavoriteDisplayName } from '../model/useUpdateFavoriteDisplayName';
-import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
-import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
 import { toast } from 'sonner';
+
+import { useUpdateFavoriteDisplayName } from '@/features/update-favorite-display-name/model';
+import { FAVORITE_ERRORS, FAVORITE_TOASTS, formatError } from '@/shared/constants';
 
 interface UpdateFavoriteDisplayNameFormProps {
   favoriteId: number;

@@ -1,11 +1,11 @@
 'use client';
 
-import SearchRegionInput from "@/features/search-region/ui/SearchRegionInput";
 import Link from "next/link";
-import { useAuth } from "@/shared/hooks/useAuth";
 import { Star, SunDim } from "lucide-react";
-import LogoutButton from "@/features/authenticate/ui/LogoutButton";
-import LoginButton from "@/features/authenticate/ui/LoginButton";
+
+import { LoginButton, LogoutButton } from "@/features/authenticate/ui";
+import { SearchRegionInput } from "@/features/search-region/ui";
+import { useAuth } from "@/shared/hooks";
 
 export default function Header() {
   const { user, loading } = useAuth();

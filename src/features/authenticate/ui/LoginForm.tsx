@@ -1,13 +1,12 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { useLogin } from '../model/useLogin';
-import { useSignUp } from '../model/useSignUp';
-import { AUTH_ERRORS, formatError, SUPABASE_ERRORS } from '@/shared/constants/errorMessages';
-import { AUTH_TOASTS } from '@/shared/constants/toastMessages';
-import { useModalStore } from '@/shared/stores/modalStore';
-import { toast } from 'sonner';
 import { Lock, Mail } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { useLogin, useSignUp } from '@/features/authenticate/model';
+import { AUTH_ERRORS, AUTH_TOASTS, formatError, SUPABASE_ERRORS } from '@/shared/constants';
+import { useModalStore } from '@/shared/stores';
 
 export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
   const [error, setError] = useState<string | null>(null);

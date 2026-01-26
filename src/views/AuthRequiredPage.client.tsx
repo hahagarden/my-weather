@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Lock, Home, LogIn } from 'lucide-react';
-import { useModalStore } from '@/shared/stores/modalStore';
+import { Home, Lock, LogIn } from 'lucide-react';
+
+import { useModalStore } from '@/shared/stores';
 
 export default function AuthRequiredError() {
   const { openLoginModal } = useModalStore();

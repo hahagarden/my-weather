@@ -1,12 +1,12 @@
 'use client';
 
-import { useModalStore } from '@/shared/stores/modalStore';
 import { AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
-import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
-import Modal from '@/shared/ui/Modal';
-import { useRemoveFavorite } from '@/features/remove-favorite/model/useRemoveFavorite';
+
+import { useRemoveFavorite } from '@/features/remove-favorite/model';
+import { FAVORITE_ERRORS, FAVORITE_TOASTS, formatError } from '@/shared/constants';
+import { useModalStore } from '@/shared/stores';
+import { Modal } from '@/shared/ui';
 
 export default function DeleteConfirmModal() {
   const { deleteModal, closeDeleteModal } = useModalStore();

@@ -1,4 +1,4 @@
-import { Sun, CloudSun, Cloud, CloudDrizzle, CloudRain, CloudLightning, CloudSnow, CloudFog } from 'lucide-react';
+import { Cloud, CloudDrizzle, CloudFog,CloudLightning, CloudRain, CloudSnow, CloudSun, Sun } from 'lucide-react';
 
 export const WEATHER_CONDITIONS: Record<string, { icon: React.ReactNode; label: string; }> = {
     '01': {

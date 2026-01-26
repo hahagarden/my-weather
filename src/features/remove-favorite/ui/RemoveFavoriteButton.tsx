@@ -1,12 +1,12 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useRemoveFavorite } from '../model/useRemoveFavorite';
-import { useAuth } from '@/shared/hooks/useAuth';
-import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
-import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
 import { toast } from 'sonner';
-import { useModalStore } from '@/shared/stores/modalStore';
+
+import { useRemoveFavorite } from '@/features/remove-favorite/model';
+import { AUTH_ERRORS, FAVORITE_ERRORS, FAVORITE_TOASTS, formatError } from '@/shared/constants';
+import { useAuth } from '@/shared/hooks';
+import { useModalStore } from '@/shared/stores';
 
 interface RemoveFavoriteButtonProps {
   favoriteId: number;

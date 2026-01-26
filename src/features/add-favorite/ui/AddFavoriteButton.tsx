@@ -1,16 +1,15 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useAddFavorite } from '../model/useAddFavorite';
-import { useAuth } from '@/shared/hooks/useAuth';
-import type { FavoriteInsert } from '@/entities/favorite/model/types';
-import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
-import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
-import { toast } from 'sonner';
-import { useModalStore } from '@/shared/stores/modalStore';
 import { useQuery } from '@tanstack/react-query';
-import { getFavorites } from '@/entities/favorite/api/supabase';
-import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
+import { toast } from 'sonner';
+
+import { getFavorites } from '@/entities/favorite/api';
+import { type FavoriteInsert,favoriteKeys } from '@/entities/favorite/model';
+import { useAddFavorite } from '@/features/add-favorite/model';
+import { AUTH_ERRORS, FAVORITE_ERRORS, FAVORITE_TOASTS, formatError } from '@/shared/constants';
+import { useAuth } from '@/shared/hooks';
+import { useModalStore } from '@/shared/stores';
 
 interface AddFavoriteButtonProps {
   regionId: number;

@@ -1,5 +1,6 @@
-import { QueryProvider, ToastProvider } from "./providers";
 import "./globals.css";
+
+import { QueryProvider, ToastProvider } from "./providers";
 
 export default function RootLayout({
   children,

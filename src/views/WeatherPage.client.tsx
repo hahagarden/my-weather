@@ -1,22 +1,20 @@
 'use client';
 
 import { useMemo } from "react";
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ArrowDown, ArrowUp, MapPin, Star, SunDim } from "lucide-react";
-import { getWeatherByCoords, getWeatherByRegionId } from "@/entities/weather/api/http";
-import { weatherKeys } from "@/entities/weather/model/queryKeys";
-import { useGeolocation } from "@/shared/hooks/useGeolocation";
-import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
-import AddFavoriteButton from "@/features/add-favorite/ui/AddFavoriteButton";
-import { GENERAL_ERRORS } from "@/shared/constants/errorMessages";
-import { getFavoriteByRegionId } from "@/entities/favorite/api/supabase";
-import { favoriteKeys } from "@/entities/favorite/model/queryKeys";
-import RemoveFavoriteButton from "@/features/remove-favorite/ui/RemoveFavoriteButton";
-import { useAuth } from "@/shared/hooks/useAuth";
-import { WEATHER_CONDITIONS } from "@/shared/constants/weatherConditions";
-import { getRegionById } from "@/entities/region/api/http";
-import { regionKeys } from "@/entities/region/model/queryKeys";
+import { ArrowDown, ArrowUp, MapPin, Star, SunDim } from "lucide-react";
+
+import { getFavoriteByRegionId } from "@/entities/favorite/api";
+import { favoriteKeys } from "@/entities/favorite/model";
+import { getRegionById } from "@/entities/region/api";
+import { regionKeys } from "@/entities/region/model";
+import { getWeatherByCoords, getWeatherByRegionId } from "@/entities/weather/api";
+import { weatherKeys } from "@/entities/weather/model";
+import { AddFavoriteButton } from "@/features/add-favorite/ui";
+import { RemoveFavoriteButton } from "@/features/remove-favorite/ui";
+import { GENERAL_ERRORS, WEATHER_CONDITIONS } from "@/shared/constants";
+import { useAuth, useGeolocation } from "@/shared/hooks";
+import { LoadingSpinner } from "@/shared/ui";
 
 export default function WeatherPage({ id }: { id: number | null }) {
   const geo = useGeolocation({enabled: id === null}); // id가 없으면 현재 위치 기반 날씨 조회

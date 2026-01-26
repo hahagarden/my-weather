@@ -1,8 +1,11 @@
 import 'server-only';
+
 import Fuse, { type IFuseOptions } from 'fuse.js';
-import type { Region, RegionSearchItem } from '../model/types';
+
+import { REGION_ERRORS } from '@/shared/constants';
+
+import type { Region, RegionSearchItem } from '../model';
 import { regionRepo } from './repo';
-import { REGION_ERRORS } from '@/shared/constants/errorMessages';
 
 function normalizeQuery(q: string): string {
   const trimmed = q.trim();

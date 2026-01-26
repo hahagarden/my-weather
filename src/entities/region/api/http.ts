@@ -1,4 +1,4 @@
-import { Region, RegionSearchItem } from "../model/types";
+import type { Region, RegionSearchItem } from "../model";
 
 export async function getRegionsByQuery(query: string): Promise<RegionSearchItem[]> {
   const response = await fetch(`/api/regions/search?q=${query}`);

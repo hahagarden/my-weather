@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { regionService } from '@/entities/region/server/service';
-import { getErrorMessage, REGION_ERRORS } from '@/shared/constants/errorMessages';
+
+import { regionService } from '@/entities/region/server';
+import { getErrorMessage, REGION_ERRORS } from '@/shared/constants';
 
 const DEFAULT_LIMIT = 100;
 

@@ -1,10 +1,11 @@
 'use client';
 
-import { useFavoritesWithWeather } from '@/features/list-favorites/model/useFavoritesWithWeather';
-import WeatherCard from '@/widgets/weather-card/WeatherCard';
-import { GENERAL_ERRORS } from '@/shared/constants/errorMessages';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Star } from 'lucide-react';
+
+import { useFavoritesWithWeather } from '@/features/list-favorites/model';
+import { GENERAL_ERRORS } from '@/shared/constants';
+import { LoadingSpinner } from '@/shared/ui';
+import { WeatherCard } from '@/widgets/weather-card';
 
 export default function FavoritesPage() {
   const { data: favoritesWithWeather, isLoading, error } = useFavoritesWithWeather();

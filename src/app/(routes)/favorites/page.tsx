@@ -1,14 +1,15 @@
-import { QueryHydration } from '@/app/providers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import FavoritesPage from '@/views/FavoritesPage.client';
-import { favoriteService } from '@/entities/favorite/server/service';
-import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
-import { regionService } from '@/entities/region/server/service';
-import { regionKeys } from '@/entities/region/model/queryKeys';
-import { weatherService } from '@/entities/weather/server/service';
-import { weatherKeys } from '@/entities/weather/model/queryKeys';
+
+import { QueryHydration } from '@/app/providers';
+import { favoriteKeys } from '@/entities/favorite/model';
+import { favoriteService } from '@/entities/favorite/server';
+import { regionKeys } from '@/entities/region/model';
+import { regionService } from '@/entities/region/server';
+import { weatherKeys } from '@/entities/weather/model';
+import { weatherService } from '@/entities/weather/server';
 import { createClient } from '@/shared/api/supabase/server';
 import AuthRequiredPage from '@/views/AuthRequiredPage.client';
+import FavoritesPage from '@/views/FavoritesPage.client';
 
 export default async function Page() {
   // 로그인 확인
