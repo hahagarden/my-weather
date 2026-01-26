@@ -3,7 +3,7 @@ import { Ghost, Home } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] h-screen p-6 text-center animate-in fade-in zoom-in duration-300">
+    <div className="flex flex-col items-center justify-center min-h-full text-center animate-in fade-in zoom-in duration-300">
       <div className="w-24 h-24 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-6">
         <Ghost className="w-12 h-12" />
       </div>

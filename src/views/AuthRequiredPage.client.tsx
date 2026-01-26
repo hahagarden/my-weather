@@ -8,7 +8,7 @@ export default function AuthRequiredError() {
   const { openLoginModal } = useModalStore();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] h-screen text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col items-center justify-center min-h-full text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="w-24 h-24 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-6 shadow-sm border border-blue-100">
         <Lock className="w-10 h-10" />
       </div>
