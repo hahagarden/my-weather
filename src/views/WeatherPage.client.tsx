@@ -23,7 +23,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
   const geo = useGeolocation({ enabled: id === null }); // id가 없으면 현재 위치 기반 날씨 조회
   const { user } = useAuth();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: id
       ? weatherKeys.byRegionId(id)
       : geo.status === "success"
@@ -63,8 +63,20 @@ export default function WeatherPage({ id }: { id: number | null }) {
     [data?.hourly],
   );
 
-  if (!data || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (isError || !data || data.daily.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-8 text-center shadow-lg">
+          <p className="text-gray-600 dark:text-gray-400">
+            해당 장소의 정보가 제공되지 않습니다.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const displayName = id ? (region?.regionName ?? `지역 ${id}`) : "현재 위치";

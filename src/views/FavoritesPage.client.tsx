@@ -28,8 +28,10 @@ export default function FavoritesPage() {
       </div>
 
       {error ? (
-        <div className="text-red-500 dark:text-red-400">
-          {GENERAL_ERRORS.RETRY}
+        <div className="rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-8 text-center shadow-lg">
+          <p className="text-gray-600 dark:text-gray-400">
+            {GENERAL_ERRORS.RETRY}
+          </p>
         </div>
       ) : !favoritesWithWeather || favoritesWithWeather.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-gray-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800">
