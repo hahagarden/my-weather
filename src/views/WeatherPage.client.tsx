@@ -24,20 +24,18 @@ export default function WeatherPage({ id }: { id: number | null }) {
   console.log(data);
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <div>{isLoading 
-        ? 'Loading...' 
-        : <>
-            <div>현재 기온 {data?.current.temp}°C</div>
-            <div>최고 기온 {data?.daily[0].temp.max}°C</div>
-            <div>최저 기온 {data?.daily[0].temp.min}°C</div>
-            <div>시간대별 날씨 {data?.hourly.slice(0, 24).map(h => <div key={h.dt}><Image width={20} height={20} src={`https://openweathermap.org/img/wn/${h.weather[0].icon}@2x.png`} alt={h.weather[0].description} />{h.temp}°C, {h.localTime.toDateString()}</div>)}</div>
-          </>
-        }
-      </div>
-        {id && <AddFavoriteButton regionId={id} />}
-      </div>
+    <div className="flex justify-between items-center mb-4">
+      <div>{isLoading 
+      ? 'Loading...' 
+      : <>
+          <div>현재 기온 {data?.current.temp}°C</div>
+          <div>최고 기온 {data?.daily[0].temp.max}°C</div>
+          <div>최저 기온 {data?.daily[0].temp.min}°C</div>
+          <div>시간대별 날씨 {data?.hourly.slice(0, 24).map(h => <div key={h.dt}><Image width={20} height={20} src={`https://openweathermap.org/img/wn/${h.weather[0].icon}@2x.png`} alt={h.weather[0].description} />{h.temp}°C, {h.localTime.toDateString()}</div>)}</div>
+        </>
+      }
+    </div>
+      {id && <AddFavoriteButton regionId={id} />}
     </div>
   );
 }

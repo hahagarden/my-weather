@@ -1,9 +1,10 @@
 'use client';
 
 import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
-import Image from 'next/image';
-import DeleteFavoriteButton from '@/features/delete-favorite/ui/DeleteFavoriteButton';
 import { useModalStore } from '@/shared/stores/modalStore';
+import { ArrowDown, ArrowUp, Edit2, Trash2 } from 'lucide-react';
+import { WEATHER_CONDITIONS } from '@/shared/constants/weatherConditions';
+import { useRouter } from 'next/navigation';
 
 interface WeatherCardProps {
   favorite: FavoriteWithWeather;
@@ -11,9 +12,24 @@ interface WeatherCardProps {
 
 export default function WeatherCard({ favorite }: WeatherCardProps) {
   const { region, regionLoading, weather, weatherLoading, weatherError } = favorite;
-  const { openUpdateFavoriteDisplayNameModal } = useModalStore();
+  const { openUpdateFavoriteDisplayNameModal, openDeleteModal } = useModalStore();
+  const router = useRouter();
 
   const displayName = favorite.display_name || region?.regionName;
+
+  const onEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || '');
+  };
+
+  const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    openDeleteModal(favorite.id);
+  };
+
+  const onClick = () => {
+    router.push(`/${favorite.region_id}`);
+  };
 
   if (regionLoading || weatherLoading) {
     return (
@@ -32,90 +48,50 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
     );
   }
 
+  const today = weather.daily[0];
+
   const current = weather.current;
-  const weatherMain = current.weather[0];
+  const currentImage = WEATHER_CONDITIONS[current.weather[0].icon.slice(0, 2)];
 
   return (
-    <div className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start mb-4">
+    <div className="group relative bg-white rounded-3xl p-6 shadow-md border border-gray-100 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+    onClick={onClick}
+    >
+      <div className="flex justify-between items-start mb-4 gap-4">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 mb-1">{displayName}</h3>
+        </div>
+        <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+          <button 
+            onClick={onEdit}
+            className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+          >
+            <Edit2 className="w-4 h-4" />
+          </button>
+          <button 
+            onClick={onDelete}
+            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-6">
+        <div className="p-4 bg-gray-50 rounded-2xl">
+          {currentImage.icon}
+        </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h3 className="text-xl font-semibold mb-1">
-              {displayName}
-            </h3>
-            <button
-              onClick={() => openUpdateFavoriteDisplayNameModal(favorite.id, displayName ?? '')}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
-              title="이름 편집"
-            >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-              </button>
-            </div>
-          <p className="text-sm text-gray-500">
-            {new Date(current.localTime).toLocaleString('ko-KR')}
-          </p>
-        </div>
-        <div className="text-right">
-          <div className="text-3xl font-bold">
-            {Math.round(current.temp)}°C
-          </div>
-          <div className="text-sm text-gray-600">
-            체감 {Math.round(current.feels_like)}°C
+          <div className="text-3xl font-black text-gray-800">{current.temp}°</div>
+          <div className="flex gap-3 text-xs font-bold mt-1">
+            <span className="flex items-center text-blue-500"><ArrowDown className="w-3 h-3 mr-1" />{today.temp.min}°</span>
+            <span className="flex items-center text-red-500"><ArrowUp className="w-3 h-3 mr-1" />{today.temp.max}°</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mb-4">
-        {weatherMain && (
-          <>
-            <div className="text-4xl">
-              {weatherMain.icon && (
-                <Image
-                  width={64}
-                  height={64}
-                  src={`https://openweathermap.org/img/wn/${weatherMain.icon}@2x.png`}
-                  alt={weatherMain.description}
-                  className="w-16 h-16"
-                />
-              )}
-            </div>
-            <div>
-              <p className="font-medium capitalize">{weatherMain.description}</p>
-              <p className="text-sm text-gray-600">{weatherMain.main}</p>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-        <div>
-          <span className="text-gray-600">최고온도</span>
-          <span className="ml-2 font-medium">{weather.daily[0].temp.max}°C</span>
-        </div>
-        <div>
-          <span className="text-gray-600">최저온도</span>
-          <span className="ml-2 font-medium">{weather.daily[0].temp.min}°C</span>
-        </div>
-      </div>
-
-      <div className="flex justify-end">
-        <DeleteFavoriteButton
-          favoriteId={favorite.id}
-          className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
-        />
+      <div className="mt-4 pt-4 border-t border-gray-50">
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{currentImage.label}</span>
       </div>
     </div>
   );

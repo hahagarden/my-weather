@@ -3,45 +3,33 @@
 import { useFavoritesWithWeather } from '@/features/list-favorites/model/useFavoritesWithWeather';
 import WeatherCard from '@/widgets/weather-card/WeatherCard';
 import { GENERAL_ERRORS } from '@/shared/constants/errorMessages';
+import { Star } from 'lucide-react';
 
 export default function FavoritesPage() {
   const { data: favoritesWithWeather, isLoading, error } = useFavoritesWithWeather();
 
-  if (isLoading) {
-    return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">즐겨찾기</h2>
-        <div className="text-gray-500">로딩 중...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">즐겨찾기</h2>
-        <div className="text-red-500">{GENERAL_ERRORS.RETRY}: {error.message}</div>
-      </div>
-    );
-  }
-
-  if (!favoritesWithWeather || favoritesWithWeather.length === 0) {
-    return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">즐겨찾기</h2>
-        <div className="text-gray-500">즐겨찾기한 지역이 없습니다.</div>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">즐겨찾기</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {favoritesWithWeather.map((favorite) => (
-          <WeatherCard key={favorite.id} favorite={favorite} />
-        ))}
+    <div className="max-w-6xl mx-auto sm:p-8 animate-in fade-in duration-500">
+      <div className="flex items-center gap-3 mb-8">
+        <Star className="w-8 h-8 text-yellow-500 fill-current" />
+        <h1 className="text-3xl font-black text-gray-900">내 즐겨찾기</h1>
       </div>
+
+      { isLoading
+      ? <div className="text-gray-500">로딩 중...</div>
+      : error 
+      ? <div className="text-red-500">{GENERAL_ERRORS.RETRY}</div> 
+      : !favoritesWithWeather || favoritesWithWeather.length === 0 
+      ? <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
+          <p className="text-gray-400 text-lg">아직 즐겨찾는 지역이 없습니다.</p>
+          <p className="text-gray-400 text-sm mt-1">상단 검색창에서 지역을 검색해 즐겨찾기에 추가해보세요.</p>
+        </div>
+      : <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {favoritesWithWeather.map((fav) => (
+            <WeatherCard key={fav.id} favorite={fav} />
+          ))}
+        </div>
+      }       
     </div>
   );
 }
