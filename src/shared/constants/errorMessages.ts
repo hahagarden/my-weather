@@ -16,6 +16,7 @@ export const FAVORITE_ERRORS = {
   UPDATE_DISPLAY_NAME_FAILED: '이름 변경에 실패했습니다.',
   DISPLAY_NAME_REQUIRED: '이름을 입력해주세요.',
   LOAD_PARTIAL_FAILED: '일부 정보를 불러오는데 실패했습니다.',
+  MAX_LIMIT_REACHED: '즐겨찾기는 최대 6개까지 추가할 수 있습니다.',
 } as const;
 
 // 일반 에러 메시지

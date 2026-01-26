@@ -1,4 +1,4 @@
-import { QueryProvider } from "./providers";
+import { QueryProvider, ToastProvider } from "./providers";
 import "./globals.css";
 
 export default function RootLayout({
@@ -9,7 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <ToastProvider />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
