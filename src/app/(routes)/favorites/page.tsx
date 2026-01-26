@@ -1,4 +1,4 @@
-import { QueryProvider } from '@/app/providers';
+import { QueryHydration } from '@/app/providers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import FavoritesPage from '@/views/FavoritesPage.client';
 import { favoriteService } from '@/entities/favorite/server/service';
@@ -56,8 +56,8 @@ export default async function Page() {
   const dehydratedState = dehydrate(qc);
   
   return (
-    <QueryProvider dehydratedState={dehydratedState}>
+    <QueryHydration dehydratedState={dehydratedState}>
       <FavoritesPage />
-    </QueryProvider>
+    </QueryHydration>
   );
 }

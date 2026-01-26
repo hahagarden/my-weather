@@ -1,0 +1,55 @@
+'use client';
+
+import { useModalStore } from '@/shared/stores/modalStore';
+import { useDeleteFavorite } from '@/features/delete-favorite/model/useDeleteFavorite';
+import { AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
+import Modal from '@/shared/ui/Modal';
+
+export default function DeleteConfirmModal() {
+  const { deleteModal, closeDeleteModal } = useModalStore();
+  const deleteFavoriteMutation = useDeleteFavorite();
+
+  const handleConfirm = () => {
+    if (!deleteModal.favoriteId) return;
+
+    deleteFavoriteMutation.mutate(deleteModal.favoriteId, {
+      onSuccess: () => {
+        toast.success('즐겨찾기가 삭제되었습니다.');
+        closeDeleteModal();
+      },
+      onError: (err: Error) => {
+        toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
+      },
+    });
+  };
+
+  if (!deleteModal.isOpen || !deleteModal.favoriteId) return null;
+
+  return (
+    <Modal isOpen={deleteModal.isOpen} onClose={closeDeleteModal}>
+      <div className="p-6 text-center">
+        <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <AlertCircle className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">정말 삭제하시겠습니까?</h2>
+        <p className="text-gray-500 mb-6">즐겨찾기에서 이 지역이 제거됩니다.</p>
+        <div className="flex gap-3">
+          <button
+            onClick={closeDeleteModal}
+            className="flex-1 py-2 text-gray-600 font-semibold bg-gray-100 rounded-xl hover:bg-gray-200"
+          >
+            취소
+          </button>
+          <button
+            onClick={handleConfirm}
+            className="flex-1 py-2 text-white font-semibold bg-red-600 rounded-xl hover:bg-red-700"
+          >
+            {deleteFavoriteMutation.isPending ? '삭제 중...' : '삭제'}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+}

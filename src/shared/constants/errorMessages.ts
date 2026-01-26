@@ -2,11 +2,21 @@
  * 애플리케이션 전역에서 사용되는 에러 메시지 상수
  */
 
+// SUPABASE 에러 메시지
+export const SUPABASE_ERRORS = {
+  INVALID_CREDENTIALS: 'invalid login credentials',
+  WEAK_PASSWORD: 'password should be at least 6 characters',
+  EMAIL_NOT_CONFIRMED: 'email not confirmed',
+} as const;
+
 // 인증 관련 에러 메시지
 export const AUTH_ERRORS = {
   LOGIN_REQUIRED: '로그인이 필요합니다.',
   EMAIL_PASSWORD_REQUIRED: '이메일과 비밀번호를 입력해주세요.',
   AUTH_FAILED: '오류가 발생했습니다. 다시 시도해주세요.',
+  INVALID_CREDENTIALS: '이메일 또는 비밀번호가 일치하지 않습니다.',
+  WEAK_PASSWORD: '비밀번호는 6자 이상이어야 합니다.',
+  EMAIL_NOT_CONFIRMED: '이메일이 인증되지 않았습니다.',
 } as const;
 
 // 즐겨찾기 관련 에러 메시지

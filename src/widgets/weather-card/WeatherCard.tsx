@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import type { FavoriteWithWeather } from '@/entities/favorite/model/types';
 import Image from 'next/image';
 import DeleteFavoriteButton from '@/features/delete-favorite/ui/DeleteFavoriteButton';
-import UpdateFavoriteDisplayNameForm from '@/features/update-favorite-display-name/ui/UpdateFavoriteDisplayNameForm';
+import { useModalStore } from '@/shared/stores/modalStore';
 
 interface WeatherCardProps {
   favorite: FavoriteWithWeather;
@@ -12,7 +11,7 @@ interface WeatherCardProps {
 
 export default function WeatherCard({ favorite }: WeatherCardProps) {
   const { region, regionLoading, weather, weatherLoading, weatherError } = favorite;
-  const [isEditing, setIsEditing] = useState(false);
+  const { openUpdateFavoriteDisplayNameModal } = useModalStore();
 
   const displayName = favorite.display_name || region?.regionName;
 
@@ -40,22 +39,15 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
     <div className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          {isEditing ? (
-            <UpdateFavoriteDisplayNameForm
-              favoriteId={favorite.id}
-              currentDisplayName={displayName ?? ''}
-              onCancel={() => setIsEditing(false)}
-            />
-          ) : (
-            <div className="flex items-center gap-2">
-              <h3 className="text-xl font-semibold mb-1">
-                {displayName}
-              </h3>
-              <button
-                onClick={() => setIsEditing(true)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-                title="이름 편집"
-              >
+          <div className="flex items-center gap-2">
+            <h3 className="text-xl font-semibold mb-1">
+              {displayName}
+            </h3>
+            <button
+              onClick={() => openUpdateFavoriteDisplayNameModal(favorite.id, displayName ?? '')}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+              title="이름 편집"
+            >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -72,7 +64,6 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
                 </svg>
               </button>
             </div>
-          )}
           <p className="text-sm text-gray-500">
             {new Date(current.localTime).toLocaleString('ko-KR')}
           </p>

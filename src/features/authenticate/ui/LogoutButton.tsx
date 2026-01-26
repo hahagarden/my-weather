@@ -1,17 +1,16 @@
 'use client';
 
-import { useLogout } from '../model/useLogout';
+import { useModalStore } from '@/shared/stores/modalStore';
 
 export default function LogoutButton() {
-  const logoutMutation = useLogout();
+  const { openLogoutModal } = useModalStore();
 
   return (
     <button
-      onClick={() => logoutMutation.mutate()}
-      disabled={logoutMutation.isPending}
+      onClick={openLogoutModal}
       className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {logoutMutation.isPending ? '로그아웃 중...' : '로그아웃'}
+      로그아웃
     </button>
   );
 }

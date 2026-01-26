@@ -3,13 +3,17 @@
 import { FormEvent, useState } from 'react';
 import { useLogin } from '../model/useLogin';
 import { useSignUp } from '../model/useSignUp';
-import { AUTH_ERRORS, formatError } from '@/shared/constants/errorMessages';
+import { AUTH_ERRORS, formatError, SUPABASE_ERRORS } from '@/shared/constants/errorMessages';
+import { useModalStore } from '@/shared/stores/modalStore';
+import { toast } from 'sonner';
+import { Lock, Mail } from 'lucide-react';
+import { AuthError, AuthInvalidCredentialsError, AuthWeakPasswordError, isAuthWeakPasswordError } from '@supabase/supabase-js';
 
-export default function LoginForm() {
-  const [isSignUp, setIsSignUp] = useState(false);
+export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
   const [error, setError] = useState<string | null>(null);
   const loginMutation = useLogin();
   const signUpMutation = useSignUp();
+  const { closeLoginModal } = useModalStore();
 
   const isPending = loginMutation.isPending || signUpMutation.isPending;
 
@@ -31,70 +35,66 @@ export default function LoginForm() {
     mutation.mutate(
       { email, password },
       {
-        onError: (err: Error) => {
-          setError(formatError(AUTH_ERRORS.AUTH_FAILED, err));
+        onError: (err: unknown) => {
+          const errMessage = (err as { message?: string }).message?.toLowerCase();
+          
+          if(errMessage?.includes(SUPABASE_ERRORS.WEAK_PASSWORD)) {
+            setError(AUTH_ERRORS.WEAK_PASSWORD);
+            return;
+          }
+          if(errMessage?.includes(SUPABASE_ERRORS.EMAIL_NOT_CONFIRMED)) {
+            setError(AUTH_ERRORS.EMAIL_NOT_CONFIRMED);
+            return;
+          }
+          if(errMessage?.includes(SUPABASE_ERRORS.INVALID_CREDENTIALS)) {
+            setError(AUTH_ERRORS.INVALID_CREDENTIALS);
+            return;
+          }
+
+          setError(formatError(AUTH_ERRORS.AUTH_FAILED, err as Error));
         },
-        onSuccess: (data) => {
-          console.log(data);
-          window.alert('로그인 성공');
+        onSuccess: () => {
+          toast.success(isSignUp ? '이메일이 전송되었습니다. \n링크로 접속하여 인증을 완료해주세요!' : '로그인되었습니다!');
+          closeLoginModal();
         },
       }
     );
   };
 
   return (
-    <div className="p-4 border rounded-lg bg-white shadow-sm">
-      <h2 className="text-lg font-semibold mb-4">
-        {isSignUp ? '회원가입' : '로그인'}
-      </h2>
-      <form id="auth-form" onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            이메일
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="example@email.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            비밀번호
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="••••••••"
-          />
-        </div>
-        {error && (
-          <div className="text-red-600 text-sm">{error}</div>
-        )}
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isPending ? '처리 중...' : isSignUp ? '회원가입' : '로그인'}
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setIsSignUp(!isSignUp);
-            setError(null);
-          }}
-          className="w-full text-sm text-gray-600 hover:text-gray-800"
-        >
-          {isSignUp ? '이미 계정이 있으신가요? 로그인' : '계정이 없으신가요? 회원가입'}
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+            <div className="relative">
+              <input
+                name="email"
+                type="email"
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="email@example.com"
+              />
+              <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+            <div className="relative">
+              <input
+                name="password"
+                type="password"
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="••••••••"
+              />
+              <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95"
+          >
+            {isPending ? '로딩중...' : isSignUp ? '가입하기' : '로그인'}
+          </button>
+          {error && <span className="text-xs text-red-600">{error}</span>}
+        </form>
   );
 }

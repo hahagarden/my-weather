@@ -3,12 +3,12 @@
 import { useAddFavorite } from '../model/useAddFavorite';
 import { useAuth } from '@/shared/hooks/useAuth';
 import type { FavoriteInsert } from '@/entities/favorite/model/types';
-import { useState } from 'react';
 import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 import { useQuery } from '@tanstack/react-query';
 import { getFavorites } from '@/entities/favorite/api/supabase';
 import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
 import { toast } from 'sonner';
+import { useModalStore } from '@/shared/stores/modalStore';
 
 interface AddFavoriteButtonProps {
   regionId: number;
@@ -21,6 +21,7 @@ const MAX_FAVORITES = 6;
 export default function AddFavoriteButton({ regionId, displayName, className }: AddFavoriteButtonProps) {
   const addFavoriteMutation = useAddFavorite();
   const { user, loading } = useAuth();
+  const { openAuthModal } = useModalStore();
 
   // 즐겨찾기 목록 조회 (로그인된 사용자만)
   const { data: favorites } = useQuery({
@@ -35,9 +36,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
   const handleClick = () => {
     if (!user) {
       toast.error(AUTH_ERRORS.LOGIN_REQUIRED);
-      
-      // 로그인 폼 열기
-      window.dispatchEvent(new CustomEvent('openLoginForm'));
+      openAuthModal();
       return;
     }
 
@@ -51,6 +50,9 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
       display_name: displayName,
     };
     addFavoriteMutation.mutate(favorite, {
+      onSuccess: () => {
+        toast.success('즐겨찾기가 추가되었습니다!');
+      },
       onError: (err: Error) => {
         toast.error(formatError(FAVORITE_ERRORS.ADD_FAILED, err));
       },

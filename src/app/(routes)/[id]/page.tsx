@@ -1,4 +1,4 @@
-import { QueryProvider } from "@/app/providers";
+import { QueryHydration } from "@/app/providers";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import WeatherPage from "@/views/WeatherPage.client";
 import { weatherKeys } from "@/entities/weather/model/queryKeys";
@@ -19,7 +19,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   const dehydratedState = dehydrate(qc);
   return (
-    <QueryProvider dehydratedState={dehydratedState}>
+    <QueryHydration dehydratedState={dehydratedState}>
       <WeatherPage id={id} />
-    </QueryProvider>);
+    </QueryHydration>
+  );
 }

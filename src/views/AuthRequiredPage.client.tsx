@@ -2,12 +2,10 @@
 
 import Link from 'next/link';
 import { Lock, Home, LogIn } from 'lucide-react';
+import { useModalStore } from '@/shared/stores/modalStore';
 
 export default function AuthRequiredError() {
-  const onLoginClick = () => {
-    // Header의 로그인 버튼 클릭과 동일한 동작을 하도록 커스텀 이벤트 발생
-    window.dispatchEvent(new CustomEvent('openLoginForm'));
-  };
+  const { openAuthModal } = useModalStore();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-6 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -21,7 +19,7 @@ export default function AuthRequiredError() {
       </p>
       <div className="flex flex-col sm:flex-row gap-5">
         <button 
-          onClick={onLoginClick}
+          onClick={openAuthModal}
           className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-100 transition-all active:scale-95 group"
         >
           <LogIn className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

@@ -3,26 +3,12 @@
 import SearchRegionInput from "@/features/search-region/ui/SearchRegionInput";
 import Link from "next/link";
 import { useAuth } from "@/shared/hooks/useAuth";
-import LoginForm from "@/features/authenticate/ui/LoginForm";
 import LogoutButton from "@/features/authenticate/ui/LogoutButton";
-import { useState, useEffect } from "react";
+import { useModalStore } from "@/shared/stores/modalStore";
 
 export default function Header() {
   const { user, loading } = useAuth();
-  const [showLoginForm, setShowLoginForm] = useState(false);
-
-  useEffect(() => {
-    // 커스텀 이벤트 리스너: 다른 컴포넌트에서 로그인 폼을 열도록 요청할 때
-    const handleOpenLoginForm = () => {
-      setShowLoginForm(true);
-    };
-
-    window.addEventListener('openLoginForm', handleOpenLoginForm);
-
-    return () => {
-      window.removeEventListener('openLoginForm', handleOpenLoginForm);
-    };
-  }, []);
+  const { openLoginModal } = useModalStore();
 
   return (
     <header className="relative border-b pb-4 mb-4">
@@ -44,7 +30,7 @@ export default function Header() {
           ) : (
             <>
               <button
-                onClick={() => setShowLoginForm(!showLoginForm)}
+                onClick={openLoginModal}
                 className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
                 로그인
@@ -53,18 +39,6 @@ export default function Header() {
           )}
         </div>
       </div>
-      
-      {showLoginForm && !user && !loading && (
-        <div className="absolute top-full right-0 mt-2 z-50">
-          <LoginForm />
-          <button
-            onClick={() => setShowLoginForm(false)}
-            className="mt-2 w-full text-sm text-gray-600 hover:text-gray-800 text-center"
-          >
-            닫기
-          </button>
-        </div>
-      )}
     </header>
   );
 }
