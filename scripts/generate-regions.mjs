@@ -1,100 +1,125 @@
 import { parse } from "csv-parse/sync";
 import { readFile, writeFile } from "fs/promises";
 
-/* 
-JSON 파일을 배열로 변환
-*/
-const stringArrays = JSON.parse(await readFile("./data/korea_districts.json", "utf-8"));
-const addresses = stringArrays.map((str) => str.split("-"));
+const PATHS = {
+    districtsJson: "./data/korea_districts.json",
+    districtsCodeCsv: "./data/korea_districts_code.csv",
+    geoSidoCsv: "./data/geo-sido.csv",
+    geoSigCsv: "./data/geo-sig.csv",
+    geoEmdCsv: "./data/geo-emd.csv",
+    outputJson: "./src/entities/region/server/regions-full.generated.json",
+};
 
-addresses.forEach((addressArr) => {
+const CSV_PARSE_OPTIONS = {
+    from_line: 2,
+    skip_empty_lines: true,
+    trim: true,
+};
+
+const splitAddress = (addressText) => {
+    const parts = addressText.split("-");
     // "전북특별자치도-전주시완산구-중앙동1가" -> ["전북특별자치도", "전주시", "완산구", "중앙동1가"] 별도 처리
-    if (addressArr[1] && addressArr[1].includes("시") && addressArr[1].includes("구") && addressArr[1].indexOf("시") < addressArr[1].indexOf("구")) {
-        const indexOfSi = addressArr[1].indexOf("시");
-        addressArr.splice(1, 1, addressArr[1].slice(0, indexOfSi + 1), addressArr[1].slice(indexOfSi + 1));
+    if (parts[1] && parts[1].includes("시") && parts[1].includes("구") && parts[1].indexOf("시") < parts[1].indexOf("구")) {
+        const indexOfSi = parts[1].indexOf("시");
+        parts.splice(1, 1, parts[1].slice(0, indexOfSi + 1), parts[1].slice(indexOfSi + 1));
     }
+    return parts;
+};
 
-    return addressArr;
-});
+const parseSimpleCsv = (text) => parse(text, CSV_PARSE_OPTIONS);
 
-/*
-CSV 파일을 배열로 변환
-*/
-const codeText = await readFile('./data/korea_districts_code.csv', 'utf-8');
-const codeLines = parse(codeText, {
-    from_line: 2,
-    skip_empty_lines: true,
-    trim: true,
-    on_record: (record) => {
-        const [code, name, rest] = record.slice(0, -3);
-        return [code, name, ...rest.split(' ')];
-    },
-}); // ["4111100000","장안구","경기도 수원시 장안구","구지역","Y","시군구"] -> ["4111100000","장안구","경기도","수원시","장안구"]
+const parseCodeCsv = (text) =>
+    parse(text, {
+        ...CSV_PARSE_OPTIONS,
+        on_record: (record) => {
+            const [code, name, rest] = record.slice(0, -3);
+            return [code, name, ...rest.split(" ")];
+        },
+    }); // ["4111100000","장안구","경기도 수원시 장안구","구지역","Y","시군구"] -> ["4111100000","장안구","경기도","수원시","장안구"]
 
-const geoSidoText = await readFile('./data/geo-sido.csv','utf-8');
-const geoSidoLines = parse(geoSidoText, {
-    from_line: 2,
-    skip_empty_lines: true,
-    trim: true,
-  });
+const normalizeQuery = (addressArr) => {
+    const last = addressArr.at(-1);
+    return last === "세종시" ? "세종특별자치시" : last; // "세종시" 별도 처리
+};
 
-const geoSigText = await readFile('./data/geo-sig.csv','utf-8');
-const geoSigLines = parse(geoSigText, {
-    from_line: 2,
-    skip_empty_lines: true,
-    trim: true,
-  });
+const findCodeLine = (codeLines, query, addressArr) =>
+    codeLines.find((line) => query === line[1] && addressArr.includes(line.at(-1)));
 
-const geoEmdText = await readFile('./data/geo-emd.csv','utf-8');
-const geoEmdLines = parse(geoEmdText, {
-    from_line: 2,
-    skip_empty_lines: true,
-    trim: true,
-  });
+const getCoordinates = (code, geoSidoLines, geoSigLines, geoEmdLines) => {
+    // 코드가 00000000으로 끝나면 시도단위에서 좌표 추출
+    // 코드가 00000으로 끝나면 시구단위에서 좌표 추출
+    // 그렇지 않으면 읍면동단위에서 좌표 추출(리단위는 제외)
+    if (code.endsWith("00000000")) {
+        const targetLineSido = geoSidoLines.find((line) => line[1] === code.slice(0, 2));
+        return { lon: targetLineSido[3], lat: targetLineSido[4] };
+    }
+    if (code.endsWith("00000")) {
+        const targetLineSig = geoSigLines.find((line) => line[2] === code.slice(0, 5));
+        return { lon: targetLineSig[6], lat: targetLineSig[7] };
+    }
+    const targetLineEmd = geoEmdLines.find((line) => line[2] === code.slice(0, 8));
+    return { lon: targetLineEmd[6], lat: targetLineEmd[7] };
+};
 
-/*
-데이터 조합
-*/
-let errCount = 0;
+const createRegionRecord = (addressArr, index, codeLines, geoSidoLines, geoSigLines, geoEmdLines) => {
+    const query = normalizeQuery(addressArr);
+    const codeLine = findCodeLine(codeLines, query, addressArr);
+    const code = codeLine?.[0] ?? null;
 
-const parsed = addresses.map((addressArr, index) => {
-    const query = addressArr.at(-1) === "세종시" ? "세종특별자치시" : addressArr.at(-1); // "세종시" 별도 처리
-
-    const [code, ] = codeLines.find((line) => (query === line[1] ) && addressArr.includes(line.at(-1))); // 검색어 중복이 있을 경우 관할소로 구별
-    let lon = null, lat = null;
+    let lon = null;
+    let lat = null;
 
     try {
-        // 코드가 00000000으로 끝나면 시도단위에서 좌표 추출
-        // 코드가 00000으로 끝나면 시구단위에서 좌표 추출
-        // 그렇지 않으면 읍면동단위에서 좌표 추출(리단위는 제외)
-        if (code.endsWith('00000000')) {
-            const targetLineSido = geoSidoLines.find((line) => line[1] === code.slice(0, 2));
-            lon = targetLineSido[3];
-            lat = targetLineSido[4];
-        } else if (code.endsWith('00000')) {
-            const targetLineSig = geoSigLines.find((line) => line[2] === code.slice(0, 5));
-            lon = targetLineSig[6];
-            lat = targetLineSig[7];
-        } else {
-            const targetLineEmd = geoEmdLines.find((line) => line[2] === code.slice(0, 8));
-            lon = targetLineEmd[6];
-            lat = targetLineEmd[7];
+        if (!code) {
+            throw new Error("region code not found");
         }
+        ({ lon, lat } = getCoordinates(code, geoSidoLines, geoSigLines, geoEmdLines));
     } catch (error) {
-        errCount++;
-        console.error("========> error", addressArr, code, error);
+        return {
+            error: error instanceof Error ? error.message : "unknown error",
+            addressArr,
+            code,
+            id: index + 1,
+            regionName: addressArr.join(" "),
+            regionParts: addressArr,
+            regionCode: code,
+            lon,
+            lat,
+        };
     }
 
     return {
-        id: index+1,
+        id: index + 1,
         regionName: addressArr.join(" "),
         regionParts: addressArr,
         regionCode: code,
         lon,
         lat,
+    };
+};
+
+const stringArrays = JSON.parse(await readFile(PATHS.districtsJson, "utf-8"));
+const addresses = stringArrays.map(splitAddress);
+
+const codeText = await readFile(PATHS.districtsCodeCsv, "utf-8");
+const codeLines = parseCodeCsv(codeText);
+
+const geoSidoLines = parseSimpleCsv(await readFile(PATHS.geoSidoCsv, "utf-8"));
+const geoSigLines = parseSimpleCsv(await readFile(PATHS.geoSigCsv, "utf-8"));
+const geoEmdLines = parseSimpleCsv(await readFile(PATHS.geoEmdCsv, "utf-8"));
+
+const parsed = [];
+let errCount = 0;
+
+addresses.forEach((addressArr, index) => {
+    const record = createRegionRecord(addressArr, index, codeLines, geoSidoLines, geoSigLines, geoEmdLines);
+    if ("error" in record) {
+        errCount += 1;
+        console.error("========> error", record.addressArr, record.regionCode, record.error);
     }
+    parsed.push(record);
 });
 
 console.log("========> error count:", errCount);
 
-await writeFile('./src/entities/region/server/regions-full.generated.json', JSON.stringify(parsed, null, 2), 'utf-8');
+await writeFile(PATHS.outputJson, JSON.stringify(parsed, null, 2), "utf-8");

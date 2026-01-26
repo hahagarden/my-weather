@@ -71,8 +71,6 @@ export default function WeatherPage({ id }: { id: number | null }) {
   const today = data.daily[0];
   const currentConditionKey =
     data.current.weather[0]?.icon?.slice(0, 2) ?? "01";
-  const conditionInfo =
-    WEATHER_CONDITIONS[currentConditionKey] ?? WEATHER_CONDITIONS["01"];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -110,7 +108,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-2xl font-semibold text-gray-800">
-                {conditionInfo.label}
+                {WEATHER_CONDITIONS[currentConditionKey]?.label}
               </span>
               <div className="flex gap-4 text-sm font-medium">
                 <span className="flex items-center text-blue-500 text-lg font-bold">
