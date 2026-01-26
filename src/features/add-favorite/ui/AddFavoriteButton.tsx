@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useAddFavorite } from '../model/useAddFavorite';
 import { useAuth } from '@/shared/hooks/useAuth';
 import type { FavoriteInsert } from '@/entities/favorite/model/types';
@@ -15,11 +16,12 @@ interface AddFavoriteButtonProps {
   regionId: number;
   displayName?: string | null;
   className?: string;
+  children?: ReactNode;
 }
 
 const MAX_FAVORITES = 6;
 
-export default function AddFavoriteButton({ regionId, displayName, className }: AddFavoriteButtonProps) {
+export default function AddFavoriteButton({ regionId, displayName, className, children }: AddFavoriteButtonProps) {
   const addFavoriteMutation = useAddFavorite();
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
@@ -65,7 +67,7 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
         disabled={addFavoriteMutation.isPending}
         className={className}
       >
-        {addFavoriteMutation.isPending ? '추가 중...' : '⭐ 즐겨찾기 추가'}
+        {children ?? (addFavoriteMutation.isPending ? '추가 중...' : '⭐ 즐겨찾기 추가')}
       </button>
     </div>
   );

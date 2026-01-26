@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useRemoveFavorite } from '../model/useRemoveFavorite';
 import { useAuth } from '@/shared/hooks/useAuth';
 import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
@@ -10,9 +11,10 @@ import { useModalStore } from '@/shared/stores/modalStore';
 interface RemoveFavoriteButtonProps {
   favoriteId: number;
   className?: string;
+  children?: ReactNode;
 }
 
-export default function RemoveFavoriteButton({ favoriteId, className }: RemoveFavoriteButtonProps) {
+export default function RemoveFavoriteButton({ favoriteId, className, children }: RemoveFavoriteButtonProps) {
   const removeFavoriteMutation = useRemoveFavorite();
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
@@ -40,7 +42,7 @@ export default function RemoveFavoriteButton({ favoriteId, className }: RemoveFa
       disabled={removeFavoriteMutation.isPending}
       className={className}
     >
-      {removeFavoriteMutation.isPending ? '해제 중...' : '즐겨찾기 해제'}
+      {children ?? (removeFavoriteMutation.isPending ? '해제 중...' : '즐겨찾기 해제')}
     </button>
   );
 }
