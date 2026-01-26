@@ -1,21 +1,21 @@
 'use client';
 
 import { useModalStore } from '@/shared/stores/modalStore';
-import { useDeleteFavorite } from '@/features/delete-favorite/model/useDeleteFavorite';
 import { AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
 import Modal from '@/shared/ui/Modal';
+import { useRemoveFavorite } from '@/features/remove-favorite/model/useRemoveFavorite';
 
 export default function DeleteConfirmModal() {
   const { deleteModal, closeDeleteModal } = useModalStore();
-  const deleteFavoriteMutation = useDeleteFavorite();
+  const removeFavoriteMutation = useRemoveFavorite();
 
   const handleConfirm = () => {
     if (!deleteModal.favoriteId) return;
 
-    deleteFavoriteMutation.mutate(deleteModal.favoriteId, {
+    removeFavoriteMutation.mutate(deleteModal.favoriteId, {
       onSuccess: () => {
         toast.success(FAVORITE_TOASTS.DELETE_SUCCESS);
         closeDeleteModal();
@@ -47,7 +47,7 @@ export default function DeleteConfirmModal() {
             onClick={handleConfirm}
             className="flex-1 py-2 text-white font-semibold bg-red-600 rounded-xl hover:bg-red-700"
           >
-            {deleteFavoriteMutation.isPending ? '삭제 중...' : '삭제'}
+            {removeFavoriteMutation.isPending ? '삭제 중...' : '삭제'}
           </button>
         </div>
       </div>
