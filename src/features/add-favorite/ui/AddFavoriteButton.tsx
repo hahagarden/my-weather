@@ -5,11 +5,11 @@ import { useAuth } from '@/shared/hooks/useAuth';
 import type { FavoriteInsert } from '@/entities/favorite/model/types';
 import { AUTH_ERRORS, FAVORITE_ERRORS, formatError } from '@/shared/constants/errorMessages';
 import { FAVORITE_TOASTS } from '@/shared/constants/toastMessages';
+import { toast } from 'sonner';
+import { useModalStore } from '@/shared/stores/modalStore';
 import { useQuery } from '@tanstack/react-query';
 import { getFavorites } from '@/entities/favorite/api/supabase';
 import { favoriteKeys } from '@/entities/favorite/model/queryKeys';
-import { toast } from 'sonner';
-import { useModalStore } from '@/shared/stores/modalStore';
 
 interface AddFavoriteButtonProps {
   regionId: number;
@@ -21,18 +21,14 @@ const MAX_FAVORITES = 6;
 
 export default function AddFavoriteButton({ regionId, displayName, className }: AddFavoriteButtonProps) {
   const addFavoriteMutation = useAddFavorite();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const { openLoginModal } = useModalStore();
 
-  // 즐겨찾기 목록 조회 (로그인된 사용자만)
   const { data: favorites } = useQuery({
     queryKey: favoriteKeys.list(),
     queryFn: getFavorites,
     enabled: !!user,
   });
-
-  const favoritesCount = favorites?.length ?? 0;
-  const isMaxLimitReached = favoritesCount >= MAX_FAVORITES;
 
   const handleClick = () => {
     if (!user) {
@@ -41,6 +37,8 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
       return;
     }
 
+    const favoritesCount = favorites?.length ?? 0;
+    const isMaxLimitReached = favoritesCount >= MAX_FAVORITES;
     if (isMaxLimitReached) {
       toast.error(FAVORITE_ERRORS.MAX_LIMIT_REACHED);
       return;
@@ -59,14 +57,6 @@ export default function AddFavoriteButton({ regionId, displayName, className }: 
       },
     });
   };
-
-  if (loading) {
-    return (
-      <button disabled className={className}>
-        로딩 중...
-      </button>
-    );
-  }
 
   return (
     <div className="flex flex-col items-end gap-1">

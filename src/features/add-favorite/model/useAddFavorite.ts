@@ -10,8 +10,11 @@ export function useAddFavorite() {
 
   return useMutation({
     mutationFn: (favorite: FavoriteInsert) => addFavorite(favorite),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: favoriteKeys.list() });
+    onSuccess: async (favorite) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: favoriteKeys.list() }),
+        queryClient.invalidateQueries({ queryKey: favoriteKeys.byRegionId(favorite.region_id) }),
+      ]);
     },
   });
 }

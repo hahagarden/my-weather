@@ -14,6 +14,19 @@ export const getFavorites = async (): Promise<Favorite[]> => {
   return data;
 };
 
+export const getFavoriteByRegionId = async (regionId: number): Promise<Favorite | null> => {
+  const user = await getCurrentUser(); 
+
+  const { data, error } = await supabase
+    .from('favorites')
+    .select('*')
+    .eq('region_id', regionId)
+    .eq('user_id', user.id)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+};
+
 export const addFavorite = async (favorite: FavoriteInsert): Promise<Favorite> => {
   const user = await getCurrentUser(); 
 

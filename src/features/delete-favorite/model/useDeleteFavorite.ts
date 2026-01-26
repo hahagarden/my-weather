@@ -9,8 +9,11 @@ export function useDeleteFavorite() {
 
   return useMutation({
     mutationFn: (id: number) => deleteFavorite(id),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: favoriteKeys.list() });
+    onSuccess: async (favorite) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: favoriteKeys.list() }),
+        queryClient.invalidateQueries({ queryKey: favoriteKeys.byRegionId(favorite.region_id) }),
+      ]);
     },
   });
 }

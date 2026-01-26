@@ -8,9 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import AddFavoriteButton from "@/features/add-favorite/ui/AddFavoriteButton";
 import { GENERAL_ERRORS } from "@/shared/constants/errorMessages";
+import { getFavoriteByRegionId } from "@/entities/favorite/api/supabase";
+import { favoriteKeys } from "@/entities/favorite/model/queryKeys";
+import RemoveFavoriteButton from "@/features/remove-favorite/ui/RemoveFavoriteButton";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 export default function WeatherPage({ id }: { id: number | null }) {
   const geo = useGeolocation({enabled: id === null}); // id가 없으면 현재 위치 기반 날씨 조회
+  const { user } = useAuth();
   
   const { data, isLoading } = useQuery({
       queryKey:id ? weatherKeys.byRegionId(id) : geo.status === 'success' ? weatherKeys.byCoords(geo.coords.lat, geo.coords.lon) : ['weather', 'idle'],
@@ -22,6 +27,11 @@ export default function WeatherPage({ id }: { id: number | null }) {
       enabled: Boolean(id) || geo.status === 'success',
   });
 
+  const { data: favorite } = useQuery({
+    queryKey: favoriteKeys.byRegionId(id ?? 0),
+    queryFn: () => getFavoriteByRegionId(id as number),
+    enabled: Boolean(id) && !!user,
+  });
 
   if (!data || isLoading) {
     return <LoadingSpinner />;
@@ -35,7 +45,13 @@ export default function WeatherPage({ id }: { id: number | null }) {
         <div>최저 기온 {data?.daily[0].temp.min}°C</div>
         <div>시간대별 날씨 {data?.hourly.slice(0, 24).map(h => <div key={h.dt}><Image width={20} height={20} src={`https://openweathermap.org/img/wn/${h.weather[0].icon}@2x.png`} alt={h.weather[0].description} />{h.temp}°C, {h.localTime.toDateString()}</div>)}</div>
       </div>
-      {id && <AddFavoriteButton regionId={id} />}
+      {id && (
+        favorite ? (
+          <RemoveFavoriteButton favoriteId={favorite.id} />
+        ) : (
+          <AddFavoriteButton regionId={id} />
+        )
+      )}
     </div>
   );
 }
