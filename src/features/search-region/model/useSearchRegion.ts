@@ -20,6 +20,7 @@ export function useSearchRegion(debounceMs = 150) {
     queryKey: regionKeys.search(debouncedQuery),
     queryFn: () => getRegionsByQuery(debouncedQuery),
     enabled: debouncedQuery.length > 0,
+    placeholderData: (prev) => prev,
   });
 
   return {
