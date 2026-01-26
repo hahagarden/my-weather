@@ -10,14 +10,19 @@ export default function LoginModal() {
   const { loginModal, closeLoginModal } = useModalStore();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
 
+  const handleClose = () => {
+    closeLoginModal();
+    setMode('login');
+  };
+
   return (
-    <Modal isOpen={loginModal.isOpen} onClose={closeLoginModal}>
+    <Modal isOpen={loginModal.isOpen} onClose={handleClose}>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">
             {mode === 'login' ? '로그인' : '회원가입'}
           </h2>
-          <button onClick={closeLoginModal} className="p-2 hover:bg-gray-100 rounded-full">
+          <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-full">
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
