@@ -1,14 +1,18 @@
-'use client';
+"use client";
 
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
-import { useFavoritesWithWeather } from '@/features/list-favorites/model';
-import { GENERAL_ERRORS } from '@/shared/constants';
-import { LoadingSpinner } from '@/shared/ui';
-import { WeatherCard } from '@/widgets/weather-card';
+import { useFavoritesWithWeather } from "@/features/list-favorites/model";
+import { GENERAL_ERRORS } from "@/shared/constants";
+import { LoadingSpinner } from "@/shared/ui";
+import { WeatherCard } from "@/widgets/weather-card";
 
 export default function FavoritesPage() {
-  const { data: favoritesWithWeather, isLoading, error } = useFavoritesWithWeather();
+  const {
+    data: favoritesWithWeather,
+    isLoading,
+    error,
+  } = useFavoritesWithWeather();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -21,19 +25,24 @@ export default function FavoritesPage() {
         <h1 className="text-3xl font-black text-gray-900">내 즐겨찾기</h1>
       </div>
 
-      { error 
-      ? <div className="text-red-500">{GENERAL_ERRORS.RETRY}</div> 
-      : !favoritesWithWeather || favoritesWithWeather.length === 0 
-      ? <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-          <p className="text-gray-400 text-lg">아직 즐겨찾는 지역이 없습니다.</p>
-          <p className="text-gray-400 text-sm mt-1">상단 검색창에서 지역을 검색해 즐겨찾기에 추가해보세요.</p>
+      {error ? (
+        <div className="text-red-500">{GENERAL_ERRORS.RETRY}</div>
+      ) : !favoritesWithWeather || favoritesWithWeather.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
+          <p className="text-gray-400 text-lg">
+            아직 즐겨찾는 지역이 없습니다.
+          </p>
+          <p className="text-gray-400 text-sm mt-1">
+            상단 검색창에서 지역을 검색해 즐겨찾기에 추가해보세요.
+          </p>
         </div>
-      : <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {favoritesWithWeather.map((fav) => (
             <WeatherCard key={fav.id} favorite={fav} />
           ))}
         </div>
-      }       
+      )}
     </div>
   );
 }

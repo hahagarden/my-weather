@@ -1,39 +1,41 @@
-import { getCurrentUser } from '@/shared/api/supabase/auth';
-import { createClient } from '@/shared/api/supabase/client';
+import { getCurrentUser } from "@/shared/api/supabase/auth";
+import { createClient } from "@/shared/api/supabase/client";
 
-import type { Favorite, FavoriteInsert } from '../model';
+import type { Favorite, FavoriteInsert } from "../model";
 
 const supabase = createClient();
 
 export const getFavorites = async (): Promise<Favorite[]> => {
-  await getCurrentUser(); 
+  await getCurrentUser();
 
-  const { data, error } = await supabase
-    .from('favorites')
-    .select('*');
+  const { data, error } = await supabase.from("favorites").select("*");
   if (error) throw error;
   return data;
 };
 
-export const getFavoriteByRegionId = async (regionId: number): Promise<Favorite | null> => {
-  const user = await getCurrentUser(); 
+export const getFavoriteByRegionId = async (
+  regionId: number,
+): Promise<Favorite | null> => {
+  const user = await getCurrentUser();
 
   const { data, error } = await supabase
-    .from('favorites')
-    .select('*')
-    .eq('region_id', regionId)
-    .eq('user_id', user.id)
+    .from("favorites")
+    .select("*")
+    .eq("region_id", regionId)
+    .eq("user_id", user.id)
     .maybeSingle();
   if (error) throw error;
   return data;
 };
 
-export const addFavorite = async (favorite: FavoriteInsert): Promise<Favorite> => {
-  const user = await getCurrentUser(); 
+export const addFavorite = async (
+  favorite: FavoriteInsert,
+): Promise<Favorite> => {
+  const user = await getCurrentUser();
 
   // user_id를 포함하여 insert
   const { data, error } = await supabase
-    .from('favorites')
+    .from("favorites")
     .insert({
       ...favorite,
       user_id: user.id,
@@ -44,13 +46,16 @@ export const addFavorite = async (favorite: FavoriteInsert): Promise<Favorite> =
   return data;
 };
 
-export const updateFavoriteDisplayName = async (id: number, displayName: string): Promise<Favorite> => {
-  await getCurrentUser(); 
+export const updateFavoriteDisplayName = async (
+  id: number,
+  displayName: string,
+): Promise<Favorite> => {
+  await getCurrentUser();
 
   const { data, error } = await supabase
-    .from('favorites')
+    .from("favorites")
     .update({ display_name: displayName })
-    .eq('id', id)
+    .eq("id", id)
     .select()
     .single();
 
@@ -59,12 +64,12 @@ export const updateFavoriteDisplayName = async (id: number, displayName: string)
 };
 
 export const deleteFavorite = async (id: number): Promise<Favorite> => {
-  await getCurrentUser(); 
+  await getCurrentUser();
 
   const { data, error } = await supabase
-    .from('favorites')
+    .from("favorites")
     .delete()
-    .eq('id', id)
+    .eq("id", id)
     .select()
     .single();
   if (error) throw error;

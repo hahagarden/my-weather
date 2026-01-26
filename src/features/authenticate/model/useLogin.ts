@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 
-import { createClient } from '@/shared/api/supabase/client';
+import { createClient } from "@/shared/api/supabase/client";
 
-import { revalidateAuth } from './actions';
+import { revalidateAuth } from "./actions";
 
 interface LoginCredentials {
   email: string;

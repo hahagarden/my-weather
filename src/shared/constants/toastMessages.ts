@@ -4,14 +4,15 @@
 
 // 인증 관련 토스트 메시지
 export const AUTH_TOASTS = {
-  LOGIN_SUCCESS: '로그인되었습니다!',
-  SIGNUP_EMAIL_SENT: '이메일이 전송되었습니다. \n링크로 접속하여 인증을 완료해주세요!',
-  LOGOUT_SUCCESS: '로그아웃되었습니다.',
+  LOGIN_SUCCESS: "로그인되었습니다!",
+  SIGNUP_EMAIL_SENT:
+    "이메일이 전송되었습니다. \n링크로 접속하여 인증을 완료해주세요!",
+  LOGOUT_SUCCESS: "로그아웃되었습니다.",
 } as const;
 
 // 즐겨찾기 관련 토스트 메시지
 export const FAVORITE_TOASTS = {
-  ADD_SUCCESS: '즐겨찾기가 추가되었습니다!',
-  DELETE_SUCCESS: '즐겨찾기가 삭제되었습니다.',
-  UPDATE_DISPLAY_NAME_SUCCESS: '즐겨찾기 이름이 변경되었습니다.',
+  ADD_SUCCESS: "즐겨찾기가 추가되었습니다!",
+  DELETE_SUCCESS: "즐겨찾기가 삭제되었습니다.",
+  UPDATE_DISPLAY_NAME_SUCCESS: "즐겨찾기 이름이 변경되었습니다.",
 } as const;

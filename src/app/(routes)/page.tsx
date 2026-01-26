@@ -2,7 +2,7 @@ import WeatherPage from "@/views/WeatherPage.client";
 
 export default function Home() {
   return (
-    <div >
+    <div>
       <WeatherPage id={null} />
     </div>
   );

@@ -1,8 +1,8 @@
-import type { User } from '@supabase/supabase-js';
+import type { User } from "@supabase/supabase-js";
 
-import { AUTH_ERRORS } from '@/shared/constants';
+import { AUTH_ERRORS } from "@/shared/constants";
 
-import { createClient } from './client';
+import { createClient } from "./client";
 
 /**
  * 현재 로그인한 사용자를 가져옵니다.
@@ -10,11 +10,14 @@ import { createClient } from './client';
  */
 export async function getCurrentUser(): Promise<User> {
   const supabase = createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     throw new Error(AUTH_ERRORS.LOGIN_REQUIRED);
   }
-  
+
   return user;
 }

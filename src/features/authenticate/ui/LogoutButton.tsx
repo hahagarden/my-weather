@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { LogOut } from 'lucide-react';
+import { LogOut } from "lucide-react";
 
-import { useModalStore } from '@/shared/stores';
+import { useModalStore } from "@/shared/stores";
 
 export default function LogoutButton() {
   const { openLogoutModal } = useModalStore();

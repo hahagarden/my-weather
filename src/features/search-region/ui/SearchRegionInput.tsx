@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ export default function RegionSearch() {
   const handleClick = (id: number) => () => {
     router.push(`/${id}`);
     setShowSuggestions(false);
-    setInput('');
+    setInput("");
   };
 
   useEffect(() => {
@@ -25,8 +25,8 @@ export default function RegionSearch() {
       }
     };
 
-    document.addEventListener('click', outsideRefClickHandler);
-    return () => document.removeEventListener('click', outsideRefClickHandler);
+    document.addEventListener("click", outsideRefClickHandler);
+    return () => document.removeEventListener("click", outsideRefClickHandler);
   }, []);
 
   return (
@@ -38,7 +38,7 @@ export default function RegionSearch() {
           value={input}
           onFocus={() => input.trim() && setShowSuggestions(true)}
           onChange={(e) => {
-            setInput(e.target.value); 
+            setInput(e.target.value);
             setShowSuggestions(true);
           }}
           className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none shadow-sm"
@@ -59,7 +59,9 @@ export default function RegionSearch() {
                     <MapPin className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-800">{city.name}</span>
+                    <span className="text-sm font-semibold text-gray-800">
+                      {city.name}
+                    </span>
                   </div>
                 </button>
               </li>
@@ -67,6 +69,6 @@ export default function RegionSearch() {
           </ul>
         </div>
       )}
-  </div>
+    </div>
   );
 }

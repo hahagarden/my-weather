@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import type { User } from '@supabase/supabase-js';
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 
-import { createClient } from '@/shared/api/supabase/client';
+import { createClient } from "@/shared/api/supabase/client";
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -12,19 +12,21 @@ export function useAuth() {
 
   useEffect(() => {
     const initAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-        setLoading(false);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
     };
-    
+
     initAuth();
 
     // 인증 상태 변경 감지 - Supabase 클라이언트가 직접 인증 작업을 수행할 때 자동으로 트리거됨
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user ?? null);
-        setLoading(false);
+      setUser(session?.user ?? null);
+      setLoading(false);
     });
 
     return () => {

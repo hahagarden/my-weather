@@ -8,7 +8,11 @@ import { weatherKeys } from "@/entities/weather/model";
 import { weatherService } from "@/entities/weather/server";
 import WeatherPage from "@/views/WeatherPage.client";
 
-export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const id = Number((await params).id);
   if (isNaN(id)) {
     notFound();
@@ -20,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     queryKey: weatherKeys.byRegionId(id),
     queryFn: () => weatherService.getWeatherByRegionId(id),
   });
-  
+
   const favoritePromise = qc.prefetchQuery({
     queryKey: favoriteKeys.byRegionId(id),
     queryFn: () => favoriteService.getFavoriteByRegionId(id),
@@ -29,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   await Promise.all([weatherPromise, favoritePromise]);
 
   const dehydratedState = dehydrate(qc);
-  
+
   return (
     <QueryHydration dehydratedState={dehydratedState}>
       <WeatherPage id={id} />

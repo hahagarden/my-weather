@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +8,10 @@ import { getFavoriteByRegionId } from "@/entities/favorite/api";
 import { favoriteKeys } from "@/entities/favorite/model";
 import { getRegionById } from "@/entities/region/api";
 import { regionKeys } from "@/entities/region/model";
-import { getWeatherByCoords, getWeatherByRegionId } from "@/entities/weather/api";
+import {
+  getWeatherByCoords,
+  getWeatherByRegionId,
+} from "@/entities/weather/api";
 import { weatherKeys } from "@/entities/weather/model";
 import { AddFavoriteButton } from "@/features/add-favorite/ui";
 import { RemoveFavoriteButton } from "@/features/remove-favorite/ui";
@@ -17,17 +20,21 @@ import { useAuth, useGeolocation } from "@/shared/hooks";
 import { LoadingSpinner } from "@/shared/ui";
 
 export default function WeatherPage({ id }: { id: number | null }) {
-  const geo = useGeolocation({enabled: id === null}); // id가 없으면 현재 위치 기반 날씨 조회
+  const geo = useGeolocation({ enabled: id === null }); // id가 없으면 현재 위치 기반 날씨 조회
   const { user } = useAuth();
-  
+
   const { data, isLoading } = useQuery({
-      queryKey:id ? weatherKeys.byRegionId(id) : geo.status === 'success' ? weatherKeys.byCoords(geo.coords.lat, geo.coords.lon) : ['weather', 'idle'],
-      queryFn: () => {
-        if (id) return getWeatherByRegionId(id);
-        if (!geo.coords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
-        return getWeatherByCoords(geo.coords.lat, geo.coords.lon);
-      },
-      enabled: Boolean(id) || geo.status === 'success',
+    queryKey: id
+      ? weatherKeys.byRegionId(id)
+      : geo.status === "success"
+        ? weatherKeys.byCoords(geo.coords.lat, geo.coords.lon)
+        : ["weather", "idle"],
+    queryFn: () => {
+      if (id) return getWeatherByRegionId(id);
+      if (!geo.coords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
+      return getWeatherByCoords(geo.coords.lat, geo.coords.lon);
+    },
+    enabled: Boolean(id) || geo.status === "success",
   });
 
   const { data: favorite } = useQuery({
@@ -53,7 +60,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
         temp: Math.round(hour.temp),
         conditionKey: hour.weather[0]?.icon?.slice(0, 2) ?? "01",
       })),
-    [data?.hourly]
+    [data?.hourly],
   );
 
   if (!data || isLoading) {
@@ -62,8 +69,10 @@ export default function WeatherPage({ id }: { id: number | null }) {
 
   const displayName = id ? (region?.regionName ?? `지역 ${id}`) : "현재 위치";
   const today = data.daily[0];
-  const currentConditionKey = data.current.weather[0]?.icon?.slice(0, 2) ?? "01";
-  const conditionInfo = WEATHER_CONDITIONS[currentConditionKey] ?? WEATHER_CONDITIONS["01"];
+  const currentConditionKey =
+    data.current.weather[0]?.icon?.slice(0, 2) ?? "01";
+  const conditionInfo =
+    WEATHER_CONDITIONS[currentConditionKey] ?? WEATHER_CONDITIONS["01"];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -72,10 +81,12 @@ export default function WeatherPage({ id }: { id: number | null }) {
           <div className="flex justify-between items-start mb-6 gap-2 md:gap-4">
             <div className="flex items-center gap-2 text-gray-500">
               <MapPin className="w-4 h-4 md:w-6 md:h-6" />
-              <span className="font-medium text-lg md:text-xl">{displayName}</span>
+              <span className="font-medium text-lg md:text-xl">
+                {displayName}
+              </span>
             </div>
-            {id && (
-              favorite ? (
+            {id &&
+              (favorite ? (
                 <RemoveFavoriteButton
                   favoriteId={favorite.id}
                   className="p-2 rounded-full transition-all bg-yellow-100 text-yellow-500 shadow-inner"
@@ -90,14 +101,17 @@ export default function WeatherPage({ id }: { id: number | null }) {
                 >
                   <Star className="w-6 h-6 md:w-8 md:h-8" />
                 </AddFavoriteButton>
-              )
-            )}
+              ))}
           </div>
 
           <div className="flex items-center gap-6 mb-8">
-            <div className="text-7xl font-bold text-gray-900">{Math.round(data.current.temp)}°</div>
+            <div className="text-7xl font-bold text-gray-900">
+              {Math.round(data.current.temp)}°
+            </div>
             <div className="flex flex-col gap-1">
-              <span className="text-2xl font-semibold text-gray-800">{conditionInfo.label}</span>
+              <span className="text-2xl font-semibold text-gray-800">
+                {conditionInfo.label}
+              </span>
               <div className="flex gap-4 text-sm font-medium">
                 <span className="flex items-center text-blue-500 text-lg font-bold">
                   <ArrowDown className="w-4 h-4 mr-1" />
@@ -114,18 +128,28 @@ export default function WeatherPage({ id }: { id: number | null }) {
       </div>
 
       <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-800 mb-4 px-2">시간대별 기온</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4 px-2">
+          시간대별 기온
+        </h3>
 
         <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
           {hourlyForecast.map((hour, index) => {
-            const condition = WEATHER_CONDITIONS[hour.conditionKey] ?? WEATHER_CONDITIONS["01"];
+            const condition =
+              WEATHER_CONDITIONS[hour.conditionKey] ?? WEATHER_CONDITIONS["01"];
             return (
-              <div key={`${hour.time}-${index}`} className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 transition-colors">
+              <div
+                key={`${hour.time}-${index}`}
+                className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 transition-colors"
+              >
                 <span className="text-xs text-gray-400 mb-2">{hour.time}</span>
                 <div className="mb-2">
-                  {condition?.icon ?? <SunDim className="w-6 h-6 text-yellow-500" />}
+                  {condition?.icon ?? (
+                    <SunDim className="w-6 h-6 text-yellow-500" />
+                  )}
                 </div>
-                <span className="text-sm font-bold text-gray-700">{hour.temp}°</span>
+                <span className="text-sm font-bold text-gray-700">
+                  {hour.temp}°
+                </span>
               </div>
             );
           })}

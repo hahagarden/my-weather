@@ -1,26 +1,28 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { ArrowDown, ArrowUp, Edit2, Trash2 } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { ArrowDown, ArrowUp, Edit2, Trash2 } from "lucide-react";
 
-import type { FavoriteWithWeather } from '@/entities/favorite/model';
-import { WEATHER_CONDITIONS } from '@/shared/constants';
-import { useModalStore } from '@/shared/stores';
+import type { FavoriteWithWeather } from "@/entities/favorite/model";
+import { WEATHER_CONDITIONS } from "@/shared/constants";
+import { useModalStore } from "@/shared/stores";
 
 interface WeatherCardProps {
   favorite: FavoriteWithWeather;
 }
 
 export default function WeatherCard({ favorite }: WeatherCardProps) {
-  const { region, regionLoading, weather, weatherLoading, weatherError } = favorite;
-  const { openUpdateFavoriteDisplayNameModal, openDeleteModal } = useModalStore();
+  const { region, regionLoading, weather, weatherLoading, weatherError } =
+    favorite;
+  const { openUpdateFavoriteDisplayNameModal, openDeleteModal } =
+    useModalStore();
   const router = useRouter();
 
   const displayName = favorite.display_name || region?.regionName;
 
   const onEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || '');
+    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || "");
   };
 
   const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,21 +57,24 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
   const currentImage = WEATHER_CONDITIONS[current.weather[0].icon.slice(0, 2)];
 
   return (
-    <div className="group relative bg-white rounded-3xl p-6 shadow-md border border-gray-100 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
-    onClick={onClick}
+    <div
+      className="group relative bg-white rounded-3xl p-6 shadow-md border border-gray-100 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+      onClick={onClick}
     >
       <div className="flex justify-between items-start mb-4 gap-4">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-1">{displayName}</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-1">
+            {displayName}
+          </h3>
         </div>
         <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-          <button 
+          <button
             onClick={onEdit}
             className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
-          <button 
+          <button
             onClick={onDelete}
             className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
           >
@@ -79,20 +84,28 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="p-4 bg-gray-50 rounded-2xl">
-          {currentImage.icon}
-        </div>
+        <div className="p-4 bg-gray-50 rounded-2xl">{currentImage.icon}</div>
         <div className="flex-1">
-          <div className="text-3xl font-black text-gray-800">{current.temp}°</div>
+          <div className="text-3xl font-black text-gray-800">
+            {current.temp}°
+          </div>
           <div className="flex gap-3 text-sm font-bold mt-1">
-            <span className="flex items-center text-blue-500"><ArrowDown className="w-3 h-3 mr-1" />{today.temp.min}°</span>
-            <span className="flex items-center text-red-500"><ArrowUp className="w-3 h-3 mr-1" />{today.temp.max}°</span>
+            <span className="flex items-center text-blue-500">
+              <ArrowDown className="w-3 h-3 mr-1" />
+              {today.temp.min}°
+            </span>
+            <span className="flex items-center text-red-500">
+              <ArrowUp className="w-3 h-3 mr-1" />
+              {today.temp.max}°
+            </span>
           </div>
         </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-50">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{currentImage.label}</span>
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          {currentImage.label}
+        </span>
       </div>
     </div>
   );

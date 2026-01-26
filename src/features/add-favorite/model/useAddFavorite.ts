@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { addFavorite } from '@/entities/favorite/api';
-import { type FavoriteInsert,favoriteKeys } from '@/entities/favorite/model';
+import { addFavorite } from "@/entities/favorite/api";
+import { type FavoriteInsert, favoriteKeys } from "@/entities/favorite/model";
 
 export function useAddFavorite() {
   const queryClient = useQueryClient();
@@ -13,7 +13,9 @@ export function useAddFavorite() {
     onSuccess: async (favorite) => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: favoriteKeys.list() }),
-        queryClient.invalidateQueries({ queryKey: favoriteKeys.byRegionId(favorite.region_id) }),
+        queryClient.invalidateQueries({
+          queryKey: favoriteKeys.byRegionId(favorite.region_id),
+        }),
       ]);
     },
   });

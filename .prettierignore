@@ -1,0 +1,15 @@
+.next
+node_modules
+dist
+build
+coverage
+data
+scripts
+supabase-migrations
+
+# env
+.env
+.env.*
+
+# generated
+*.generated.*

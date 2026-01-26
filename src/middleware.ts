@@ -1,33 +1,37 @@
-import { type NextRequest,NextResponse } from 'next/server'
-import { CookieOptions, createServerClient } from '@supabase/ssr'
+import { type NextRequest, NextResponse } from "next/server";
+import { CookieOptions, createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request })
+  let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) { return request.cookies.get(name)?.value },
+        get(name: string) {
+          return request.cookies.get(name)?.value;
+        },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({ request })
-          response.cookies.set({ name, value, ...options })
+          request.cookies.set({ name, value, ...options });
+          response = NextResponse.next({ request });
+          response.cookies.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({ request })
-          response.cookies.set({ name, value: '', ...options, maxAge: 0 })
+          request.cookies.set({ name, value: "", ...options });
+          response = NextResponse.next({ request });
+          response.cookies.set({ name, value: "", ...options, maxAge: 0 });
         },
       },
-    }
-  )
+    },
+  );
 
-  await supabase.auth.getUser() // 세션 갱신 역할
-  return response
+  await supabase.auth.getUser(); // 세션 갱신 역할
+  return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
-}
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};

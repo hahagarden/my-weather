@@ -1,7 +1,7 @@
-import 'server-only';
+import "server-only";
 
-import type { Region } from '../model';
-import raw from './regions-full.generated.json';
+import type { Region } from "../model";
+import raw from "./regions-full.generated.json";
 
 // JSON import는 기본적으로 unknown 취급이 안전
 const regions = raw as Region[];
