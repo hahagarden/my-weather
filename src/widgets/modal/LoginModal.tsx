@@ -31,7 +31,7 @@ export default function LoginModal() {
           </button>
         </div>
 
-        <LoginForm isSignUp={mode === "signup"} />
+        <LoginForm isSignUp={mode === "signup"} onClose={handleClose} />
 
         <div className="mt-6 text-center">
           <button

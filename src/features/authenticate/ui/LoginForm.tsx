@@ -11,13 +11,16 @@ import {
   formatError,
   SUPABASE_ERRORS,
 } from "@/shared/constants";
-import { useModalStore } from "@/shared/stores";
 
-export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
+interface LoginFormProps {
+  isSignUp: boolean;
+  onClose: () => void;
+}
+
+export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
   const [error, setError] = useState<string | null>(null);
   const loginMutation = useLogin();
   const signUpMutation = useSignUp();
-  const { closeLoginModal } = useModalStore();
 
   const isPending = loginMutation.isPending || signUpMutation.isPending;
 
@@ -65,7 +68,7 @@ export default function LoginForm({ isSignUp }: { isSignUp: boolean }) {
               ? AUTH_TOASTS.SIGNUP_EMAIL_SENT
               : AUTH_TOASTS.LOGIN_SUCCESS,
           );
-          closeLoginModal();
+          onClose();
         },
       },
     );
