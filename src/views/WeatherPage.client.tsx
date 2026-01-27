@@ -63,6 +63,10 @@ export default function WeatherPage({ id }: { id: number | null }) {
     [data?.hourly],
   );
 
+  if (!id && (geo.status === "idle" || geo.status === "loading")) {
+    return <LoadingSpinner />;
+  }
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
