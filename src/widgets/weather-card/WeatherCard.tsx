@@ -22,7 +22,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
 
   const onEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || "");
+    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || "", region?.regionName || "");
   };
 
   const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {

@@ -16,10 +16,12 @@ interface ModalStore {
     isOpen: boolean;
     favoriteId: number | null;
     currentDisplayName: string;
+    regionName: string;
   };
   openUpdateFavoriteDisplayNameModal: (
     favoriteId: number,
     currentDisplayName: string,
+    regionName: string,
   ) => void;
   closeUpdateFavoriteDisplayNameModal: () => void;
 
@@ -52,16 +54,19 @@ export const useModalStore = create<ModalStore>(
       isOpen: false,
       favoriteId: null,
       currentDisplayName: "",
+      regionName: "",
     },
     openUpdateFavoriteDisplayNameModal: (
       favoriteId: number,
       currentDisplayName: string,
+      regionName: string,
     ) =>
       set({
         updateFavoriteDisplayNameModal: {
           isOpen: true,
           favoriteId,
           currentDisplayName,
+          regionName,
         },
       }),
     closeUpdateFavoriteDisplayNameModal: () =>
@@ -70,6 +75,7 @@ export const useModalStore = create<ModalStore>(
           isOpen: false,
           favoriteId: null,
           currentDisplayName: "",
+          regionName: "",
         },
       }),
 

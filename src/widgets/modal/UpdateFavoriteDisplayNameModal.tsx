@@ -28,6 +28,7 @@ export default function UpdateFavoriteDisplayNameModal() {
         <UpdateFavoriteDisplayNameForm
           favoriteId={updateFavoriteDisplayNameModal.favoriteId}
           currentDisplayName={updateFavoriteDisplayNameModal.currentDisplayName}
+          regionName={updateFavoriteDisplayNameModal.regionName}
           onCancel={closeUpdateFavoriteDisplayNameModal}
         />
       </div>
