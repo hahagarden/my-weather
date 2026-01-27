@@ -22,15 +22,4 @@ export const regionRepo = {
     const region = byId.get(id);
     return region;
   },
-
-  /**
-   * 아주 단순 검색: 마지막 토큰 우선 후보군 좁히고,
-   * 최종은 regionName/parts 포함으로 필터링
-   */
-  searchByText(query: string): Region[] {
-    const q = query.trim();
-    if (!q) return [];
-
-    return regions.filter((r) => r.regionName.includes(q));
-  },
 };
