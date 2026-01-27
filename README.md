@@ -84,3 +84,16 @@ pnpm start
 - **디자인**: Google AI Studio로 UI 컨셉과 컴포넌트 구성을 참고했습니다.
 - **Auth**: Supabase 무료플랜으로 1시간에 2개의 계정까지 회원가입 이메일 인증 가능합니다. 
 - **Weather API**: OpenWeather 무료플랜으로 하루에 1000번까지 호출 가능합니다.
+
+<details>
+<summary> 2026. 01. 27. 수정</summary>
+<div markdown="1">
+  
+- 회원가입 후 로그인 모달 상태 초기화
+- 즐겨찾기 createdAt 내림차순으로 정렬
+- `/`페이지 초기 진입 시 깜빡임 수정
+- css 수정(모달 autoFocus, 다크모드)
+- UI 개선(온도 정수 표현, 즐겨찾기 별칭 수정 placeholder)
+
+</div>
+</details>
