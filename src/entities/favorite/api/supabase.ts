@@ -8,7 +8,10 @@ const supabase = createClient();
 export const getFavorites = async (): Promise<Favorite[]> => {
   await getCurrentUser();
 
-  const { data, error } = await supabase.from("favorites").select("*");
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("*")
+    .order("created_at", { ascending: false });
   if (error) throw error;
   return data;
 };

@@ -7,7 +7,10 @@ import type { Favorite } from "../model";
 export const favoriteService = {
   async getFavorites(): Promise<Favorite[]> {
     const supabase = await createClient();
-    const { data, error } = await supabase.from("favorites").select("*");
+    const { data, error } = await supabase
+      .from("favorites")
+      .select("*")
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
     return data;
