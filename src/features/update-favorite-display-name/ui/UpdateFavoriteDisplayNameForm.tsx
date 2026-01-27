@@ -59,6 +59,7 @@ export default function UpdateFavoriteDisplayNameForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <input
+        autoFocus
         type="text"
         value={displayName}
         onChange={(e) => setDisplayName(e.target.value)}
@@ -68,7 +69,7 @@ export default function UpdateFavoriteDisplayNameForm({
       <div className="flex gap-3">
         <button
           onClick={handleCancel}
-          className="flex-1 py-2 text-gray-600 font-semibold bg-gray-100 rounded-xl hover:bg-gray-200"
+          className="flex-1 py-2 text-gray-600 dark:text-gray-200 font-semibold bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           취소
         </button>

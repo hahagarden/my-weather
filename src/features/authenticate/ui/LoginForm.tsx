@@ -86,6 +86,7 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
             type="email"
             className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             placeholder="email@example.com"
+            autoFocus
           />
           <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500" />
         </div>
