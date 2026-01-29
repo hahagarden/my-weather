@@ -15,7 +15,7 @@ import {
 import { weatherKeys } from "@/entities/weather/model";
 import { AddFavoriteButton } from "@/features/add-favorite/ui";
 import { RemoveFavoriteButton } from "@/features/remove-favorite/ui";
-import { GENERAL_ERRORS, WEATHER_CONDITIONS } from "@/shared/constants";
+import { GENERAL_ERRORS, WEATHER_ICONS } from "@/shared/constants";
 import { useAuth, useGeolocation } from "@/shared/hooks";
 import { LoadingSpinner } from "@/shared/ui";
 
@@ -124,7 +124,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                {WEATHER_CONDITIONS[currentConditionKey]?.label}
+                {WEATHER_ICONS[currentConditionKey]?.label}
               </span>
               <div className="flex gap-4 text-sm font-medium">
                 <span className="flex items-center text-blue-500 dark:text-blue-400 text-lg font-bold">
@@ -147,10 +147,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
         </h3>
 
         <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-          {hourlyForecast.map((hour, index) => {
-            const condition =
-              WEATHER_CONDITIONS[hour.conditionKey] ?? WEATHER_CONDITIONS["01"];
-            return (
+          {hourlyForecast.map((hour, index) => (
               <div
                 key={`${hour.time}-${index}`}
                 className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/70 transition-colors"
@@ -159,16 +156,13 @@ export default function WeatherPage({ id }: { id: number | null }) {
                   {hour.time}
                 </span>
                 <div className="mb-2">
-                  {condition?.icon ?? (
-                    <SunDim className="w-6 h-6 text-yellow-500" />
-                  )}
+                  {WEATHER_ICONS[hour.conditionKey]?.icon}
                 </div>
                 <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
                   {hour.temp}°
                 </span>
               </div>
-            );
-          })}
+            ))}
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ import { useAddFavorite } from "@/features/add-favorite/model";
 import {
   AUTH_ERRORS,
   FAVORITE_ERRORS,
-  FAVORITE_TOASTS,
+  FAVORITE_SUCCESSES,
   formatError,
 } from "@/shared/constants";
 import { useAuth } from "@/shared/hooks";
@@ -61,7 +61,7 @@ export default function AddFavoriteButton({
     };
     addFavoriteMutation.mutate(favorite, {
       onSuccess: () => {
-        toast.success(FAVORITE_TOASTS.ADD_SUCCESS);
+        toast.success(FAVORITE_SUCCESSES.ADD_SUCCESS);
       },
       onError: (err: Error) => {
         toast.error(formatError(FAVORITE_ERRORS.ADD_FAILED, err));

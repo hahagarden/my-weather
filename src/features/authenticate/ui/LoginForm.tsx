@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useLogin, useSignUp } from "@/features/authenticate/model";
 import {
   AUTH_ERRORS,
-  AUTH_TOASTS,
+  AUTH_SUCCESSES,
   formatError,
   SUPABASE_ERRORS,
 } from "@/shared/constants";
@@ -65,8 +65,8 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
         onSuccess: () => {
           toast.success(
             isSignUp
-              ? AUTH_TOASTS.SIGNUP_EMAIL_SENT
-              : AUTH_TOASTS.LOGIN_SUCCESS,
+              ? AUTH_SUCCESSES.SIGNUP_EMAIL_SENT
+              : AUTH_SUCCESSES.LOGIN_SUCCESS,
           );
           onClose();
         },

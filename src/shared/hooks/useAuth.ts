@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 
-import { createClient } from "@/shared/api/supabase/client";
+import { createBrowserClient } from "@/shared/api/supabase/client";
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = createBrowserClient();
 
   useEffect(() => {
     const initAuth = async () => {

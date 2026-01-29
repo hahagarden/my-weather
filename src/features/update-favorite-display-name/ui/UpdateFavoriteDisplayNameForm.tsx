@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useUpdateFavoriteDisplayName } from "@/features/update-favorite-display-name/model";
 import {
   FAVORITE_ERRORS,
-  FAVORITE_TOASTS,
+  FAVORITE_SUCCESSES,
   formatError,
 } from "@/shared/constants";
 
@@ -46,7 +46,7 @@ export default function UpdateFavoriteDisplayNameForm({
         },
         onSuccess: () => {
           onCancel?.();
-          toast.success(FAVORITE_TOASTS.UPDATE_DISPLAY_NAME_SUCCESS);
+          toast.success(FAVORITE_SUCCESSES.UPDATE_DISPLAY_NAME_SUCCESS);
         },
       },
     );

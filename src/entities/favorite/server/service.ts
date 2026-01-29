@@ -1,12 +1,12 @@
 import "server-only";
 
-import { createClient } from "@/shared/api/supabase/server";
+import { createServerClient } from "@/shared/api/supabase/server";
 
 import type { Favorite } from "../model";
 
 export const favoriteService = {
   async getFavorites(): Promise<Favorite[]> {
-    const supabase = await createClient();
+    const supabase = await createServerClient();
     const { data, error } = await supabase
       .from("favorites")
       .select("*")
@@ -17,7 +17,7 @@ export const favoriteService = {
   },
 
   async getFavoriteByRegionId(regionId: number): Promise<Favorite | null> {
-    const supabase = await createClient();
+    const supabase = await createServerClient();
     const { data, error } = await supabase
       .from("favorites")
       .select("*")

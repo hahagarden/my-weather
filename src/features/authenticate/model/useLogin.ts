@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-import { createClient } from "@/shared/api/supabase/client";
+import { createBrowserClient } from "@/shared/api/supabase/client";
 
 import { revalidateAuth } from "./actions";
 
@@ -15,7 +15,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: async ({ email, password }: LoginCredentials) => {
       // 클라이언트에서 직접 로그인 (onAuthStateChange 자동 트리거)
-      const supabase = createClient();
+      const supabase = createBrowserClient();
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

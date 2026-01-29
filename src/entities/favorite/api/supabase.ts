@@ -1,9 +1,9 @@
-import { getCurrentUser } from "@/shared/api/supabase/auth";
-import { createClient } from "@/shared/api/supabase/client";
+import { createBrowserClient } from "@/shared/api/supabase/client";
+import { getCurrentUser } from "@/shared/api/supabase/client/auth";
 
 import type { Favorite, FavoriteInsert } from "../model";
 
-const supabase = createClient();
+const supabase = createBrowserClient();
 
 export const getFavorites = async (): Promise<Favorite[]> => {
   await getCurrentUser();

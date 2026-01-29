@@ -4,7 +4,7 @@ import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 
 import { useLogout } from "@/features/authenticate/model";
-import { AUTH_ERRORS, AUTH_TOASTS } from "@/shared/constants";
+import { AUTH_ERRORS, AUTH_SUCCESSES } from "@/shared/constants";
 import { useModalStore } from "@/shared/stores";
 import { Modal } from "@/shared/ui";
 
@@ -15,7 +15,7 @@ export default function LogoutConfirmModal() {
   const handleConfirm = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success(AUTH_TOASTS.LOGOUT_SUCCESS);
+        toast.success(AUTH_SUCCESSES.LOGOUT_SUCCESS);
         closeLogoutModal();
       },
       onError: () => {

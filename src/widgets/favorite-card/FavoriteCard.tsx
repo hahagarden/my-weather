@@ -4,14 +4,14 @@ import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Edit2, Trash2 } from "lucide-react";
 
 import type { FavoriteWithWeather } from "@/entities/favorite/model";
-import { WEATHER_CONDITIONS } from "@/shared/constants";
+import { WEATHER_ICONS } from "@/shared/constants";
 import { useModalStore } from "@/shared/stores";
 
-interface WeatherCardProps {
+interface FavoriteCardProps {
   favorite: FavoriteWithWeather;
 }
 
-export default function WeatherCard({ favorite }: WeatherCardProps) {
+export default function FavoriteCard({ favorite }: FavoriteCardProps) {
   const { region, regionLoading, weather, weatherLoading, weatherError } =
     favorite;
   const { openUpdateFavoriteDisplayNameModal, openDeleteModal } =
@@ -56,7 +56,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
   const today = weather.daily[0];
 
   const current = weather.current;
-  const currentImage = WEATHER_CONDITIONS[current.weather[0].icon.slice(0, 2)];
+  const currentIcon = WEATHER_ICONS[current.weather[0].icon.slice(0, 2)];
 
   return (
     <div
@@ -87,7 +87,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
 
       <div className="flex items-center gap-6">
         <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-          {currentImage.icon}
+          {currentIcon?.icon}
         </div>
         <div className="flex-1">
           <div className="text-3xl font-black text-gray-800 dark:text-gray-100">
@@ -108,7 +108,7 @@ export default function WeatherCard({ favorite }: WeatherCardProps) {
 
       <div className="mt-4 pt-4 border-t border-gray-50 dark:border-gray-800">
         <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-          {currentImage.label}
+          {currentIcon?.label}
         </span>
       </div>
     </div>

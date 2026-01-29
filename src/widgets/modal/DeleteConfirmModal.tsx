@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useRemoveFavorite } from "@/features/remove-favorite/model";
 import {
   FAVORITE_ERRORS,
-  FAVORITE_TOASTS,
+  FAVORITE_SUCCESSES,
   formatError,
 } from "@/shared/constants";
 import { useModalStore } from "@/shared/stores";
@@ -21,7 +21,7 @@ export default function DeleteConfirmModal() {
 
     removeFavoriteMutation.mutate(deleteModal.favoriteId, {
       onSuccess: () => {
-        toast.success(FAVORITE_TOASTS.DELETE_SUCCESS);
+        toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
         closeDeleteModal();
       },
       onError: (err: Error) => {

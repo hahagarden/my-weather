@@ -7,7 +7,7 @@ import { useRemoveFavorite } from "@/features/remove-favorite/model";
 import {
   AUTH_ERRORS,
   FAVORITE_ERRORS,
-  FAVORITE_TOASTS,
+  FAVORITE_SUCCESSES,
   formatError,
 } from "@/shared/constants";
 import { useAuth } from "@/shared/hooks";
@@ -37,7 +37,7 @@ export default function RemoveFavoriteButton({
 
     removeFavoriteMutation.mutate(favoriteId, {
       onSuccess: () => {
-        toast.success(FAVORITE_TOASTS.DELETE_SUCCESS);
+        toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
       },
       onError: (err: Error) => {
         toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));

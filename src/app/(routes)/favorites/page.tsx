@@ -7,13 +7,13 @@ import { regionKeys } from "@/entities/region/model";
 import { regionService } from "@/entities/region/server";
 import { weatherKeys } from "@/entities/weather/model";
 import { weatherService } from "@/entities/weather/server";
-import { createClient } from "@/shared/api/supabase/server";
+import { createServerClient } from "@/shared/api/supabase/server";
 import AuthRequiredPage from "@/views/AuthRequiredPage.client";
 import FavoritesPage from "@/views/FavoritesPage.client";
 
 export default async function Page() {
   // 로그인 확인
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const {
     data: { user },
     error: authError,

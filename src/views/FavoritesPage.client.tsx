@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import { useFavoritesWithWeather } from "@/features/list-favorites/model";
 import { GENERAL_ERRORS } from "@/shared/constants";
 import { LoadingSpinner } from "@/shared/ui";
-import { WeatherCard } from "@/widgets/weather-card";
+import { FavoriteCard } from "@/widgets/favorite-card";
 
 export default function FavoritesPage() {
   const {
@@ -45,7 +45,7 @@ export default function FavoritesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {favoritesWithWeather.map((fav) => (
-            <WeatherCard key={fav.id} favorite={fav} />
+            <FavoriteCard key={fav.id} favorite={fav} />
           ))}
         </div>
       )}
