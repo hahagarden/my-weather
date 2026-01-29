@@ -92,8 +92,18 @@ pnpm start
 - 회원가입 후 로그인 모달 상태 초기화
 - 즐겨찾기 createdAt 내림차순으로 정렬
 - `/`페이지 초기 진입 시 깜빡임 수정
-- css 수정(모달 autoFocus, 다크모드)
-- UI 개선(온도 정수 표현, 즐겨찾기 별칭 수정 placeholder)
+- UI/UX 개선(온도 정수 표현, 즐겨찾기 별칭 수정 placeholder, 모달 autoFocus, 다크모드)
+
+</div>
+</details>
+
+<details>
+<summary> 2026. 01. 30. 수정</summary>
+<div markdown="1">
+  
+- 다크모드에서 앱 진입 시 깜빡임 수정
+- UI(반응형, favicon) 및 UX(검색 체감속도) 개선
+- 리팩토링
 
 </div>
 </details>
