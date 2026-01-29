@@ -9,7 +9,7 @@ import { useSearchRegion } from "@/features/search-region/model";
 export default function RegionSearch() {
   const router = useRouter();
   const pathname = usePathname();
-  const { input, setInput, results: suggestions } = useSearchRegion(250);
+  const { input, setInput, results: suggestions } = useSearchRegion();
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
