@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Moon, Star, SunDim } from "lucide-react";
 
@@ -11,20 +10,39 @@ import { useAuth } from "@/shared/hooks";
 
 export default function Header() {
   const { user, loading } = useAuth();
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") {
+      return "light";
+    }
 
-  useEffect(() => {
     const storedTheme = window.localStorage.getItem("theme");
     if (storedTheme === "light" || storedTheme === "dark") {
-      setTheme(storedTheme);
-      return;
+      return storedTheme;
     }
 
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
-    setTheme(prefersDark ? "dark" : "light");
-  }, []);
+    return prefersDark ? "dark" : "light";
+  }); // script에서 초기화된 테마 값과 동일
+
+  // 서버렌더(theme 초기값: light) 하이드레이션 에러 방지를 위해 사용
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  const themeTitle = isHydrated
+    ? theme === "dark"
+      ? "라이트 모드"
+      : "다크 모드"
+    : "테마 전환";
+  const themeAriaLabel = isHydrated
+    ? theme === "dark"
+      ? "라이트 모드로 전환"
+      : "다크 모드로 전환"
+    : "테마 전환";
 
   useEffect(() => {
     const isDark = theme === "dark";
@@ -74,16 +92,11 @@ export default function Header() {
                 setTheme((prev) => (prev === "dark" ? "light" : "dark"))
               }
               className="flex items-center justify-center p-2 sm:px-4 sm:py-2 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              title={theme === "dark" ? "라이트 모드" : "다크 모드"}
-              aria-label={
-                theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"
-              }
+              title={themeTitle}
+              aria-label={themeAriaLabel}
             >
-              {theme === "dark" ? (
-                <SunDim className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
+              <SunDim className="w-5 h-5 hidden dark:block" />
+              <Moon className="w-5 h-5 dark:hidden" />
             </button>
 
             {user ? <LogoutButton /> : <LoginButton />}
