@@ -19,8 +19,39 @@ interface LoginFormProps {
 
 export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
   const [error, setError] = useState<string | null>(null);
-  const loginMutation = useLoginMutate();
-  const signUpMutation = useSignUpMutate();
+  const handleAuthError = (err: unknown) => {
+    const errMessage = (err as { message?: string }).message?.toLowerCase();
+
+    if (errMessage?.includes(SUPABASE_ERRORS.WEAK_PASSWORD)) {
+      setError(AUTH_ERRORS.WEAK_PASSWORD);
+      return;
+    }
+    if (errMessage?.includes(SUPABASE_ERRORS.EMAIL_NOT_CONFIRMED)) {
+      setError(AUTH_ERRORS.EMAIL_NOT_CONFIRMED);
+      return;
+    }
+    if (errMessage?.includes(SUPABASE_ERRORS.INVALID_CREDENTIALS)) {
+      setError(AUTH_ERRORS.INVALID_CREDENTIALS);
+      return;
+    }
+
+    setError(formatError(AUTH_ERRORS.AUTH_FAILED, err as Error));
+  };
+  
+  const loginMutation = useLoginMutate({
+    onSuccess: () => {
+      toast.success(AUTH_SUCCESSES.LOGIN_SUCCESS);
+      onClose();
+    },
+    onError: handleAuthError,
+  });
+  const signUpMutation = useSignUpMutate({
+    onSuccess: () => {
+      toast.success(AUTH_SUCCESSES.SIGNUP_EMAIL_SENT);
+      onClose();
+    },
+    onError: handleAuthError,
+  });
 
   const isPending = loginMutation.isPending || signUpMutation.isPending;
 
@@ -39,39 +70,7 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
 
     const mutation = isSignUp ? signUpMutation : loginMutation;
 
-    mutation.mutate(
-      { email, password },
-      {
-        onError: (err: unknown) => {
-          const errMessage = (
-            err as { message?: string }
-          ).message?.toLowerCase();
-
-          if (errMessage?.includes(SUPABASE_ERRORS.WEAK_PASSWORD)) {
-            setError(AUTH_ERRORS.WEAK_PASSWORD);
-            return;
-          }
-          if (errMessage?.includes(SUPABASE_ERRORS.EMAIL_NOT_CONFIRMED)) {
-            setError(AUTH_ERRORS.EMAIL_NOT_CONFIRMED);
-            return;
-          }
-          if (errMessage?.includes(SUPABASE_ERRORS.INVALID_CREDENTIALS)) {
-            setError(AUTH_ERRORS.INVALID_CREDENTIALS);
-            return;
-          }
-
-          setError(formatError(AUTH_ERRORS.AUTH_FAILED, err as Error));
-        },
-        onSuccess: () => {
-          toast.success(
-            isSignUp
-              ? AUTH_SUCCESSES.SIGNUP_EMAIL_SENT
-              : AUTH_SUCCESSES.LOGIN_SUCCESS,
-          );
-          onClose();
-        },
-      },
-    );
+    mutation.mutate({ email, password });
   };
 
   return (

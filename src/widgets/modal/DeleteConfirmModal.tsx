@@ -14,20 +14,20 @@ import { Modal } from "@/shared/ui";
 
 export default function DeleteConfirmModal() {
   const { deleteModal, closeDeleteModal } = useModalStore();
-  const removeFavoriteMutation = useRemoveFavoriteMutate();
+  const removeFavoriteMutation = useRemoveFavoriteMutate({
+    onSuccess: () => {
+      toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
+      closeDeleteModal();
+    },
+    onError: (err: Error) => {
+      toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
+    },
+  });
 
   const handleConfirm = () => {
     if (!deleteModal.favoriteId) return;
 
-    removeFavoriteMutation.mutate(deleteModal.favoriteId, {
-      onSuccess: () => {
-        toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
-        closeDeleteModal();
-      },
-      onError: (err: Error) => {
-        toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
-      },
-    });
+    removeFavoriteMutation.mutate(deleteModal.favoriteId);
   };
 
   if (!deleteModal.isOpen || !deleteModal.favoriteId) return null;

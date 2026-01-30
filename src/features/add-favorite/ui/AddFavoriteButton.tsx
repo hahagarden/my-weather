@@ -31,9 +31,17 @@ export default function AddFavoriteButton({
   className,
   children,
 }: AddFavoriteButtonProps) {
-  const addFavoriteMutation = useAddFavoriteMutate();
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
+  
+  const addFavoriteMutation = useAddFavoriteMutate({
+    onSuccess: () => {
+      toast.success(FAVORITE_SUCCESSES.ADD_SUCCESS);
+    },
+    onError: (err: Error) => {
+      toast.error(formatError(FAVORITE_ERRORS.ADD_FAILED, err));
+    },
+  });
 
   const { data: favorites } = useQuery({
     queryKey: favoriteKeys.list(),
@@ -59,14 +67,7 @@ export default function AddFavoriteButton({
       region_id: regionId,
       display_name: displayName,
     };
-    addFavoriteMutation.mutate(favorite, {
-      onSuccess: () => {
-        toast.success(FAVORITE_SUCCESSES.ADD_SUCCESS);
-      },
-      onError: (err: Error) => {
-        toast.error(formatError(FAVORITE_ERRORS.ADD_FAILED, err));
-      },
-    });
+    addFavoriteMutation.mutate(favorite);
   };
 
   return (

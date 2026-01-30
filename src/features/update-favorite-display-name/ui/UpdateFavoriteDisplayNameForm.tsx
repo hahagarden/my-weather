@@ -25,7 +25,16 @@ export default function UpdateFavoriteDisplayNameForm({
 }: UpdateFavoriteDisplayNameFormProps) {
   const [displayName, setDisplayName] = useState(currentDisplayName);
   const [error, setError] = useState<string | null>(null);
-  const updateFavoriteDisplayNameMutation = useUpdateFavoriteDisplayNameMutate();
+  const updateFavoriteDisplayNameMutation =
+    useUpdateFavoriteDisplayNameMutate({
+      onSuccess: () => {
+        onCancel?.();
+        toast.success(FAVORITE_SUCCESSES.UPDATE_DISPLAY_NAME_SUCCESS);
+      },
+      onError: (err: Error) => {
+        setError(formatError(FAVORITE_ERRORS.UPDATE_DISPLAY_NAME_FAILED, err));
+      },
+    });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,20 +45,10 @@ export default function UpdateFavoriteDisplayNameForm({
       return;
     }
 
-    updateFavoriteDisplayNameMutation.mutate(
-      { id: favoriteId, displayName: displayName.trim() },
-      {
-        onError: (err: Error) => {
-          setError(
-            formatError(FAVORITE_ERRORS.UPDATE_DISPLAY_NAME_FAILED, err),
-          );
-        },
-        onSuccess: () => {
-          onCancel?.();
-          toast.success(FAVORITE_SUCCESSES.UPDATE_DISPLAY_NAME_SUCCESS);
-        },
-      },
-    );
+    updateFavoriteDisplayNameMutation.mutate({
+      id: favoriteId,
+      displayName: displayName.trim(),
+    });
   };
 
   const handleCancel = () => {

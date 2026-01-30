@@ -1,18 +1,25 @@
 "use client";
 
+import type { UseMutationOptions } from "@tanstack/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateFavoriteDisplayName } from "@/entities/favorite/api";
-import { favoriteKeys } from "@/entities/favorite/model";
+import { type Favorite, favoriteKeys } from "@/entities/favorite/model";
 
-export function useUpdateFavoriteDisplayNameMutate() {
+type UpdateFavoriteDisplayNamePayload = { id: number; displayName: string };
+
+export function useUpdateFavoriteDisplayNameMutate(
+  options?: UseMutationOptions<Favorite, Error, UpdateFavoriteDisplayNamePayload>,
+) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, displayName }: { id: number; displayName: string }) =>
+    ...options,
+    mutationFn: ({ id, displayName }: UpdateFavoriteDisplayNamePayload) =>
       updateFavoriteDisplayName(id, displayName),
-    onSuccess: async () => {
+    onSuccess: async (favorite, variables, onMutateResult, context) => {
       await queryClient.invalidateQueries({ queryKey: favoriteKeys.list() });
+      options?.onSuccess?.(favorite, variables, onMutateResult, context);
     },
   });
 }

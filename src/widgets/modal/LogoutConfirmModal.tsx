@@ -10,18 +10,18 @@ import { Modal } from "@/shared/ui";
 
 export default function LogoutConfirmModal() {
   const { logoutModal, closeLogoutModal } = useModalStore();
-  const logoutMutation = useLogoutMutate();
+  const logoutMutation = useLogoutMutate({
+    onSuccess: () => {
+      toast.success(AUTH_SUCCESSES.LOGOUT_SUCCESS);
+      closeLogoutModal();
+    },
+    onError: () => {
+      toast.error(AUTH_ERRORS.LOGOUT_FAILED);
+    },
+  });
 
   const handleConfirm = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        toast.success(AUTH_SUCCESSES.LOGOUT_SUCCESS);
-        closeLogoutModal();
-      },
-      onError: () => {
-        toast.error(AUTH_ERRORS.LOGOUT_FAILED);
-      },
-    });
+    logoutMutation.mutate();
   };
 
   return (

@@ -24,7 +24,14 @@ export default function RemoveFavoriteButton({
   className,
   children,
 }: RemoveFavoriteButtonProps) {
-  const removeFavoriteMutation = useRemoveFavoriteMutate();
+  const removeFavoriteMutation = useRemoveFavoriteMutate({
+    onSuccess: () => {
+      toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
+    },
+    onError: (err: Error) => {
+      toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
+    },
+  });
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
 
@@ -35,14 +42,7 @@ export default function RemoveFavoriteButton({
       return;
     }
 
-    removeFavoriteMutation.mutate(favoriteId, {
-      onSuccess: () => {
-        toast.success(FAVORITE_SUCCESSES.DELETE_SUCCESS);
-      },
-      onError: (err: Error) => {
-        toast.error(formatError(FAVORITE_ERRORS.DELETE_FAILED, err));
-      },
-    });
+    removeFavoriteMutation.mutate(favoriteId);
   };
 
   return (
