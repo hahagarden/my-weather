@@ -4,8 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 
 import { createBrowserClient } from "@/shared/api/supabase/client";
 
-import { revalidateAuth } from "./actions";
-
 interface SignUpCredentials {
   email: string;
   password: string;
@@ -24,9 +22,6 @@ export function useSignUp() {
       if (error) {
         throw new Error(error.message);
       }
-
-      // 서버 캐시 무효화 (서버 액션)
-      await revalidateAuth();
 
       return { success: true };
     },

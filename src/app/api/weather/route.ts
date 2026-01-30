@@ -8,6 +8,8 @@ import {
   WEATHER_ERRORS,
 } from "@/shared/constants";
 
+export const revalidate = 300; // 날씨 응답은 5분 캐시
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const lat = searchParams.get("lat");

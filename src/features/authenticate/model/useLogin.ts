@@ -1,10 +1,8 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createBrowserClient } from "@/shared/api/supabase/client";
-
-import { revalidateAuth } from "./actions";
 
 interface LoginCredentials {
   email: string;
@@ -12,6 +10,8 @@ interface LoginCredentials {
 }
 
 export function useLogin() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async ({ email, password }: LoginCredentials) => {
       // 클라이언트에서 직접 로그인 (onAuthStateChange 자동 트리거)
@@ -25,10 +25,11 @@ export function useLogin() {
         throw new Error(error.message);
       }
 
-      // 서버 캐시 무효화 (서버 액션)
-      await revalidateAuth();
-
       return { success: true };
+    },
+    onSuccess: () => {
+      // 계정 전환 시 이전 사용자 데이터가 남지 않도록 클라이언트 캐시 제거
+      queryClient.clear();
     },
   });
 }

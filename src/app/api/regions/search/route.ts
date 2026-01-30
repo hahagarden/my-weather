@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { regionService } from "@/entities/region/server";
 import { getErrorMessage, REGION_ERRORS } from "@/shared/constants";
 
+export const revalidate = 86400; // 지역 데이터는 거의 변하지 않음 (24시간 캐시)
+
 const DEFAULT_LIMIT = 100;
 
 export function GET(req: Request) {
