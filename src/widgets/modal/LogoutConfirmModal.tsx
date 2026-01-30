@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 
@@ -9,9 +10,11 @@ import { useModalStore } from "@/shared/stores";
 import { Modal } from "@/shared/ui";
 
 export default function LogoutConfirmModal() {
+  const router = useRouter();
   const { logoutModal, closeLogoutModal } = useModalStore();
   const logoutMutation = useLogoutMutate({
     onSuccess: () => {
+      router.replace("/");
       toast.success(AUTH_SUCCESSES.LOGOUT_SUCCESS);
       closeLogoutModal();
     },

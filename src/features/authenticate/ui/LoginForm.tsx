@@ -11,6 +11,7 @@ import {
   formatError,
   SUPABASE_ERRORS,
 } from "@/shared/constants";
+import { useProtectedRoute } from "@/shared/contexts/ProtectedRouteContext";
 
 interface LoginFormProps {
   isSignUp: boolean;
@@ -18,6 +19,7 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
+  const { isProtectedRoute } = useProtectedRoute();
   const [error, setError] = useState<string | null>(null);
   const handleAuthError = (err: unknown) => {
     const errMessage = (err as { message?: string }).message?.toLowerCase();
@@ -37,8 +39,9 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
 
     setError(formatError(AUTH_ERRORS.AUTH_FAILED, err as Error));
   };
-  
+
   const loginMutation = useLoginMutate({
+    fromProtectedPage: isProtectedRoute,
     onSuccess: () => {
       toast.success(AUTH_SUCCESSES.LOGIN_SUCCESS);
       onClose();

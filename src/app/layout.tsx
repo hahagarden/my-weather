@@ -1,5 +1,7 @@
 import "./globals.css";
 
+import { ProtectedRouteProvider } from "@/shared/contexts/ProtectedRouteContext";
+
 import { QueryProvider, ToastProvider } from "./providers";
 
 const themeScript = `
@@ -31,10 +33,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body suppressHydrationWarning>
-        <QueryProvider>
-          <ToastProvider />
-          {children}
-        </QueryProvider>
+        <ProtectedRouteProvider>
+          <QueryProvider>
+            <ToastProvider />
+            {children}
+          </QueryProvider>
+        </ProtectedRouteProvider>
       </body>
     </html>
   );
