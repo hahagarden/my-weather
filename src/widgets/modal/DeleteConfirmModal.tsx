@@ -3,7 +3,7 @@
 import { AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
-import { useRemoveFavorite } from "@/features/remove-favorite/model";
+import { useRemoveFavoriteMutate } from "@/features/remove-favorite/model";
 import {
   FAVORITE_ERRORS,
   FAVORITE_SUCCESSES,
@@ -14,7 +14,7 @@ import { Modal } from "@/shared/ui";
 
 export default function DeleteConfirmModal() {
   const { deleteModal, closeDeleteModal } = useModalStore();
-  const removeFavoriteMutation = useRemoveFavorite();
+  const removeFavoriteMutation = useRemoveFavoriteMutate();
 
   const handleConfirm = () => {
     if (!deleteModal.favoriteId) return;

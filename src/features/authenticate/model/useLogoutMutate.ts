@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createBrowserClient } from "@/shared/api/supabase/client";
 
-export function useLogout() {
+export function useLogoutMutate() {
   const queryClient = useQueryClient();
 
   return useMutation({

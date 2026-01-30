@@ -3,14 +3,14 @@
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 
-import { useLogout } from "@/features/authenticate/model";
+import { useLogoutMutate } from "@/features/authenticate/model";
 import { AUTH_ERRORS, AUTH_SUCCESSES } from "@/shared/constants";
 import { useModalStore } from "@/shared/stores";
 import { Modal } from "@/shared/ui";
 
 export default function LogoutConfirmModal() {
   const { logoutModal, closeLogoutModal } = useModalStore();
-  const logoutMutation = useLogout();
+  const logoutMutation = useLogoutMutate();
 
   const handleConfirm = () => {
     logoutMutation.mutate(undefined, {

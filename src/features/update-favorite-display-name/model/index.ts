@@ -1,1 +1,1 @@
-export * from "./useUpdateFavoriteDisplayName";
+export * from "./useUpdateFavoriteDisplayNameMutate";

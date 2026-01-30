@@ -9,7 +9,7 @@ interface LoginCredentials {
   password: string;
 }
 
-export function useLogin() {
+export function useLoginMutate() {
   const queryClient = useQueryClient();
 
   return useMutation({

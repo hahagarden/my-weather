@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { useUpdateFavoriteDisplayName } from "@/features/update-favorite-display-name/model";
+import { useUpdateFavoriteDisplayNameMutate } from "@/features/update-favorite-display-name/model";
 import {
   FAVORITE_ERRORS,
   FAVORITE_SUCCESSES,
@@ -25,7 +25,7 @@ export default function UpdateFavoriteDisplayNameForm({
 }: UpdateFavoriteDisplayNameFormProps) {
   const [displayName, setDisplayName] = useState(currentDisplayName);
   const [error, setError] = useState<string | null>(null);
-  const updateFavoriteDisplayNameMutation = useUpdateFavoriteDisplayName();
+  const updateFavoriteDisplayNameMutation = useUpdateFavoriteDisplayNameMutate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

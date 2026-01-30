@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addFavorite } from "@/entities/favorite/api";
 import { type FavoriteInsert, favoriteKeys } from "@/entities/favorite/model";
 
-export function useAddFavorite() {
+export function useAddFavoriteMutate() {
   const queryClient = useQueryClient();
 
   return useMutation({

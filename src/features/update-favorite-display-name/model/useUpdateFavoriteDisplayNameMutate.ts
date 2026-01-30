@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateFavoriteDisplayName } from "@/entities/favorite/api";
 import { favoriteKeys } from "@/entities/favorite/model";
 
-export function useUpdateFavoriteDisplayName() {
+export function useUpdateFavoriteDisplayNameMutate() {
   const queryClient = useQueryClient();
 
   return useMutation({

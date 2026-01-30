@@ -1,1 +1,1 @@
-export * from "./useAddFavorite";
+export * from "./useAddFavoriteMutate";

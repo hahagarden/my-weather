@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { getFavorites } from "@/entities/favorite/api";
 import { type FavoriteInsert, favoriteKeys } from "@/entities/favorite/model";
-import { useAddFavorite } from "@/features/add-favorite/model";
+import { useAddFavoriteMutate } from "@/features/add-favorite/model";
 import {
   AUTH_ERRORS,
   FAVORITE_ERRORS,
@@ -31,7 +31,7 @@ export default function AddFavoriteButton({
   className,
   children,
 }: AddFavoriteButtonProps) {
-  const addFavoriteMutation = useAddFavorite();
+  const addFavoriteMutation = useAddFavoriteMutate();
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
 

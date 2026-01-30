@@ -9,7 +9,7 @@ interface SignUpCredentials {
   password: string;
 }
 
-export function useSignUp() {
+export function useSignUpMutate() {
   return useMutation({
     mutationFn: async ({ email, password }: SignUpCredentials) => {
       // 클라이언트에서 직접 회원가입 (onAuthStateChange 자동 트리거)

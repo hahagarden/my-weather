@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 
-import { useRemoveFavorite } from "@/features/remove-favorite/model";
+import { useRemoveFavoriteMutate } from "@/features/remove-favorite/model";
 import {
   AUTH_ERRORS,
   FAVORITE_ERRORS,
@@ -24,7 +24,7 @@ export default function RemoveFavoriteButton({
   className,
   children,
 }: RemoveFavoriteButtonProps) {
-  const removeFavoriteMutation = useRemoveFavorite();
+  const removeFavoriteMutation = useRemoveFavoriteMutate();
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
 

@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
 
-import { useLogin, useSignUp } from "@/features/authenticate/model";
+import { useLoginMutate, useSignUpMutate } from "@/features/authenticate/model";
 import {
   AUTH_ERRORS,
   AUTH_SUCCESSES,
@@ -19,8 +19,8 @@ interface LoginFormProps {
 
 export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
   const [error, setError] = useState<string | null>(null);
-  const loginMutation = useLogin();
-  const signUpMutation = useSignUp();
+  const loginMutation = useLoginMutate();
+  const signUpMutation = useSignUpMutate();
 
   const isPending = loginMutation.isPending || signUpMutation.isPending;
 
