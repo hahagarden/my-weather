@@ -2,12 +2,14 @@ import "server-only";
 
 import { regionService } from "@/entities/region/server";
 import { WEATHER_ERRORS } from "@/shared/constants";
+import { roundCoords } from "@/shared/utils/coords";
 
 import { parseWeatherDates, type Weather } from "../model";
 
 export const weatherService = {
   async getWeatherByCoords(lat: number, lon: number): Promise<Weather> {
-    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts&appid=${process.env.WEATHER_API_KEY}`;
+    const rounded = roundCoords(lat, lon);
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${rounded.lat}&lon=${rounded.lon}&units=metric&exclude=minutely,alerts&appid=${process.env.WEATHER_API_KEY}`;
     const response = await fetch(url, {
       // 외부 API 응답을 서버 캐시에 보관 (공통 데이터, 5분 재검증)
       next: { revalidate: 300 },

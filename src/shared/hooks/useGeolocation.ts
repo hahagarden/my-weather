@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { GENERAL_ERRORS } from "@/shared/constants";
+import { roundCoords } from "@/shared/utils/coords";
 
 type GeoState =
   | { status: "idle"; coords: null; error: null }
@@ -57,9 +58,13 @@ export function useGeolocation({
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        const { lat, lon } = roundCoords(
+          pos.coords.latitude,
+          pos.coords.longitude,
+        );
         setState({
           status: "success",
-          coords: { lat: pos.coords.latitude, lon: pos.coords.longitude },
+          coords: { lat, lon },
           error: null,
         });
       },
