@@ -98,11 +98,12 @@ pnpm start
 </details>
 
 <details>
-<summary> 2026. 01. 30. 수정</summary>
+<summary> 2026. 01. 31. 수정</summary>
 <div markdown="1">
   
 - 다크모드에서 앱 진입 시 깜빡임 수정
-- UI(반응형, favicon) 및 UX(검색 체감속도) 개선
+- API 호출 캐시 사용
+- UI(반응형, favicon) 및 UX(검색 체감속도, protected 라우트에서 로딩) 개선
 - 리팩토링
 
 </div>
