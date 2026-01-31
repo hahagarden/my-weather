@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true, // 터미널 로그에 fetch 캐시 여부(HIT/MISS)를 직접 출력
+    },
+  },
 };
 
 export default nextConfig;
