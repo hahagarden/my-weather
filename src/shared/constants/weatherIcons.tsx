@@ -30,7 +30,9 @@ export const WEATHER_ICONS: Record<
     label: "매우 흐림",
   },
   "09": {
-    icon: <CloudDrizzle className="w-8 h-8 text-blue-400" aria-label="소나기" />,
+    icon: (
+      <CloudDrizzle className="w-8 h-8 text-blue-400" aria-label="소나기" />
+    ),
     label: "소나기",
   },
   "10": {
@@ -38,7 +40,9 @@ export const WEATHER_ICONS: Record<
     label: "비",
   },
   "11": {
-    icon: <CloudLightning className="w-8 h-8 text-purple-500" aria-label="뇌우" />,
+    icon: (
+      <CloudLightning className="w-8 h-8 text-purple-500" aria-label="뇌우" />
+    ),
     label: "뇌우",
   },
   "13": {

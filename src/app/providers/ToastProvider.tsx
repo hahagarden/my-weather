@@ -14,9 +14,7 @@ const getInverseTheme = (): Theme => {
   if (storedTheme === "light") return "dark";
   if (storedTheme === "dark") return "light";
 
-  const prefersDark = window.matchMedia(
-    "(prefers-color-scheme: dark)",
-  ).matches;
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   return prefersDark ? "light" : "dark";
 };
 

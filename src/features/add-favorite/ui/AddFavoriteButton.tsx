@@ -33,7 +33,7 @@ export default function AddFavoriteButton({
 }: AddFavoriteButtonProps) {
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
-  
+
   const addFavoriteMutation = useAddFavoriteMutate({
     onSuccess: () => {
       toast.success(FAVORITE_SUCCESSES.ADD_SUCCESS);

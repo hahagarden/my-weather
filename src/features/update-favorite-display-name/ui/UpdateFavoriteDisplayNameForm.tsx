@@ -25,16 +25,15 @@ export default function UpdateFavoriteDisplayNameForm({
 }: UpdateFavoriteDisplayNameFormProps) {
   const [displayName, setDisplayName] = useState(currentDisplayName);
   const [error, setError] = useState<string | null>(null);
-  const updateFavoriteDisplayNameMutation =
-    useUpdateFavoriteDisplayNameMutate({
-      onSuccess: () => {
-        onCancel?.();
-        toast.success(FAVORITE_SUCCESSES.UPDATE_DISPLAY_NAME_SUCCESS);
-      },
-      onError: (err: Error) => {
-        setError(formatError(FAVORITE_ERRORS.UPDATE_DISPLAY_NAME_FAILED, err));
-      },
-    });
+  const updateFavoriteDisplayNameMutation = useUpdateFavoriteDisplayNameMutate({
+    onSuccess: () => {
+      onCancel?.();
+      toast.success(FAVORITE_SUCCESSES.UPDATE_DISPLAY_NAME_SUCCESS);
+    },
+    onError: (err: Error) => {
+      setError(formatError(FAVORITE_ERRORS.UPDATE_DISPLAY_NAME_FAILED, err));
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

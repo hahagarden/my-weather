@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDown, ArrowUp, MapPin, Star, SunDim } from "lucide-react";
+import { ArrowDown, ArrowUp, MapPin, Star } from "lucide-react";
 
 import { getFavoriteByRegionId } from "@/entities/favorite/api";
 import { favoriteKeys } from "@/entities/favorite/model";
@@ -154,21 +154,21 @@ export default function WeatherPage({ id }: { id: number | null }) {
 
         <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
           {hourlyForecast.map((hour, index) => (
-              <div
-                key={`${hour.time}-${index}`}
-                className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/70 transition-colors"
-              >
-                <span className="text-xs text-gray-400 dark:text-gray-500 mb-2">
-                  {hour.time}
-                </span>
-                <div className="mb-2">
-                  {WEATHER_ICONS[hour.conditionKey]?.icon}
-                </div>
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
-                  {hour.temp}°
-                </span>
+            <div
+              key={`${hour.time}-${index}`}
+              className="flex flex-col items-center min-w-[64px] p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/70 transition-colors"
+            >
+              <span className="text-xs text-gray-400 dark:text-gray-500 mb-2">
+                {hour.time}
+              </span>
+              <div className="mb-2">
+                {WEATHER_ICONS[hour.conditionKey]?.icon}
               </div>
-            ))}
+              <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
+                {hour.temp}°
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

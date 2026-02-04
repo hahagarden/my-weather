@@ -9,7 +9,11 @@ import { type Favorite, favoriteKeys } from "@/entities/favorite/model";
 type UpdateFavoriteDisplayNamePayload = { id: number; displayName: string };
 
 export function useUpdateFavoriteDisplayNameMutate(
-  options?: UseMutationOptions<Favorite, Error, UpdateFavoriteDisplayNamePayload>,
+  options?: UseMutationOptions<
+    Favorite,
+    Error,
+    UpdateFavoriteDisplayNamePayload
+  >,
 ) {
   const queryClient = useQueryClient();
 

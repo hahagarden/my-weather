@@ -22,7 +22,11 @@ export default function FavoriteCard({ favorite }: FavoriteCardProps) {
 
   const onEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    openUpdateFavoriteDisplayNameModal(favorite.id, displayName || "", region?.regionName || "");
+    openUpdateFavoriteDisplayNameModal(
+      favorite.id,
+      displayName || "",
+      region?.regionName || "",
+    );
   };
 
   const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
