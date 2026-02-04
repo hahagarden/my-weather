@@ -1,6 +1,5 @@
 import "server-only";
 
-import { regionService } from "@/entities/region/server";
 import { WEATHER_ERRORS } from "@/shared/constants";
 import { roundCoords } from "@/shared/utils/coords";
 
@@ -24,10 +23,5 @@ export const weatherService = {
 
     const data = await response.json();
     return parseWeatherDates(data);
-  },
-
-  async getWeatherByRegionId(id: number): Promise<Weather> {
-    const region = regionService.getById(id);
-    return this.getWeatherByCoords(Number(region.lat), Number(region.lon));
   },
 };

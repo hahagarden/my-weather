@@ -6,7 +6,7 @@ import { favoriteService } from "@/entities/favorite/server";
 import { regionKeys } from "@/entities/region/model";
 import { regionService } from "@/entities/region/server";
 import { weatherKeys } from "@/entities/weather/model";
-import { weatherService } from "@/entities/weather/server";
+import { getWeatherByRegion } from "@/features/weather-by-region";
 import FavoritesPage from "@/views/FavoritesPage.client";
 
 export default async function Page() {
@@ -21,19 +21,16 @@ export default async function Page() {
   const prefetchPromises = favorites.map(async (favorite) => {
     const regionId = favorite.region_id;
 
-    // Region 데이터 프리페치
-    const regionPromise = qc.prefetchQuery({
-      queryKey: regionKeys.byId(regionId),
-      queryFn: () => regionService.getById(regionId),
-    });
+    const region = regionService.getById(regionId);
+    qc.setQueryData(regionKeys.byId(regionId), region);
 
     // Weather 데이터 프리페치
     const weatherPromise = qc.prefetchQuery({
       queryKey: weatherKeys.byRegionId(regionId),
-      queryFn: () => weatherService.getWeatherByRegionId(regionId),
+      queryFn: () => getWeatherByRegion(region),
     });
 
-    return Promise.all([regionPromise, weatherPromise]);
+    return weatherPromise;
   });
 
   // 모든 프리페치 완료 대기

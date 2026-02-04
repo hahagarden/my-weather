@@ -4,8 +4,10 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { QueryHydration } from "@/app/providers";
 import { favoriteKeys } from "@/entities/favorite/model";
 import { favoriteService } from "@/entities/favorite/server";
+import { regionKeys } from "@/entities/region/model";
+import { regionService } from "@/entities/region/server";
 import { weatherKeys } from "@/entities/weather/model";
-import { weatherService } from "@/entities/weather/server";
+import { getWeatherByRegion } from "@/features/weather-by-region";
 import WeatherPage from "@/views/WeatherPage.client";
 
 export default async function Page({
@@ -20,9 +22,12 @@ export default async function Page({
 
   const qc = new QueryClient();
 
+  const region = regionService.getById(id);
+  qc.setQueryData(regionKeys.byId(id), region);
+
   const weatherPromise = qc.prefetchQuery({
     queryKey: weatherKeys.byRegionId(id),
-    queryFn: () => weatherService.getWeatherByRegionId(id),
+    queryFn: () => getWeatherByRegion(region),
   });
 
   const favoritePromise = qc.prefetchQuery({

@@ -18,21 +18,27 @@ import { RemoveFavoriteButton } from "@/features/remove-favorite/ui";
 import { GENERAL_ERRORS, WEATHER_ICONS } from "@/shared/constants";
 import { useAuth, useGeolocation } from "@/shared/hooks";
 import { LoadingSpinner } from "@/shared/ui";
+import { roundCoords } from "@/shared/utils/coords";
 
 export default function WeatherPage({ id }: { id: number | null }) {
   const geo = useGeolocation({ enabled: id === null }); // id가 없으면 현재 위치 기반 날씨 조회
   const { user } = useAuth();
 
+  const roundedCoords =
+    geo.status === "success"
+      ? roundCoords(geo.coords.lat, geo.coords.lon)
+      : null;
+
   const { data, isLoading, isError } = useQuery({
     queryKey: id
       ? weatherKeys.byRegionId(id)
-      : geo.status === "success"
-        ? weatherKeys.byCoords(geo.coords.lat, geo.coords.lon)
+      : roundedCoords
+        ? weatherKeys.byCoords(roundedCoords.lat, roundedCoords.lon)
         : ["weather", "idle"],
     queryFn: () => {
       if (id) return getWeatherByRegionId(id);
-      if (!geo.coords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
-      return getWeatherByCoords(geo.coords.lat, geo.coords.lon);
+      if (!roundedCoords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
+      return getWeatherByCoords(roundedCoords.lat, roundedCoords.lon);
     },
     enabled: Boolean(id) || geo.status === "success",
   });

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { weatherService } from "@/entities/weather/server";
+import { getWeatherByRegionId } from "@/features/weather-by-region";
 import {
   GENERAL_ERRORS,
   getErrorMessage,
@@ -27,7 +28,7 @@ export async function GET(request: Request) {
         );
       }
 
-      const data = await weatherService.getWeatherByRegionId(regionId);
+      const data = await getWeatherByRegionId(regionId);
       return NextResponse.json({ data });
     } catch (e) {
       const errorMessage = getErrorMessage(e);
