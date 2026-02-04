@@ -57,6 +57,48 @@ pnpm start
 - 모바일/데스크탑 반응형 UI 구성
 - 다크 모드 토글 및 시스템 테마 연동
 
+## 아키텍처 (FSD 기반)
+<details>
+<summary>프로젝트 구조와 패턴 보기</summary>
+<div markdown="1">
+
+### 전체 구조 개요
+- **Next.js App Router 기반 풀스택**: `app/` 라우팅 + `app/api/*` Route Handler로 백엔드 역할 통합
+- **FSD 레이어 분리**: `shared → entities → features → widgets → views → app`
+- **서버/클라이언트 책임 분리**: 서버 컴포넌트는 서버 전용 모듈 호출, 클라이언트는 HTTP API 호출
+- **데이터 캐싱 전략**: Route Handler `revalidate`, 외부 API 응답은 NEXT 서버 캐시 사용
+
+### 레이어별 역할
+- **`shared/`**: 공통 유틸, 상수, hooks, UI, Supabase 클라이언트 생성
+- **`entities/`**: 도메인 모델 + 서버 서비스 + 클라이언트 API
+  - 서버 서비스는 `server-only`로 분리
+  - Weather는 외부 API 호출, Favorite는 DB 접근, Region은 JSON repo 기반 검색
+- **`features/`**: 사용자 행동(액션) 중심 + 유즈케이스 단위 조합 로직
+  - 예: 즐겨찾기 추가/삭제/이름 변경, 지역 검색
+  - 예: **지역 id로 날씨를 조회**하는 흐름(지역 정보 조회 → 좌표 추출 → 외부 날씨 API 호출)
+- **`widgets/`**: 여러 feature/entity를 묶는 UI 블록
+- **`views/`**: 페이지 단위 화면 구성 (클라이언트 중심)
+- **`app/`**: 라우트 엔트리, API, 미들웨어, 전역 레이아웃
+
+### 서버/클라이언트 데이터 흐름
+- **서버 컴포넌트**
+  - `entities/*/server` 또는 `features/*/server` 호출
+  - TanStack Query로 서버 프리패치 + Hydration
+- **클라이언트 컴포넌트**
+  - `entities/*/api`로 Route Handler 호출
+  - 동일한 queryKey로 캐시 재사용
+- **Route Handler(`app/api`)**
+  - 서버 전용 유즈케이스(`features/*/server`) 또는 서비스(`entities/*/server`) 호출 후 응답 반환
+
+### 주요 패턴
+- **Service 패턴**: `entities/*/server/service.ts`에서 도메인 로직/외부 API 통합
+- **Repository(부분 적용)**: Region JSON을 메모리 repo로 유지
+- **유즈케이스 모듈화**: 여러 엔티티 조합은 feature로 캡슐화
+- **API Gateway**: `app/api/*`가 validation + error handling 수행
+
+</div>
+</details>
+
 ## 기술적 의사결정 및 이유
 
 - **지역 데이터 사전 생성 + 서버 메모리 캐시**: 한국 행정구역 CSV를 스크립트로 전처리해 JSON으로 생성하여 런타임 파싱 비용을 줄이고 검색 응답성을 확보했습니다. 지역 JSON이 약 6MB로 커서 클라이언트 정적 로딩 대신 서버에서 처리하고, 서버에서 JSON을 모듈로 로드해 메모리에 유지해 요청마다 재파싱하지 않도록 구성했습니다.
@@ -104,6 +146,18 @@ pnpm start
 - 다크모드에서 앱 진입 시 깜빡임 수정
 - API 호출 캐시 사용
 - UI(반응형, favicon) 및 UX(검색 체감속도, protected 라우트에서 로딩) 개선
+- 리팩토링
+
+</div>
+</details>
+
+<details>
+<summary> 2026. 02. 03. - 02. 05. 수정</summary>
+<div markdown="1">
+  
+- 빌드 에러(SSR 페이지가 catch 에 잡히는 문제) 수정
+- FSD entities 레이어의 슬라이스 간 참조(weatherService, regionService) 수정을 위해 features의 유즈케이스로 분리
+- `error.tsx` 추가
 - 리팩토링
 
 </div>
