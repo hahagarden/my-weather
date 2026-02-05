@@ -110,16 +110,26 @@ const geoEmdLines = parseSimpleCsv(await readFile(PATHS.geoEmdCsv, "utf-8"));
 
 const parsed = [];
 let errCount = 0;
+const isDebug = process.env.DEBUG_REGIONS === "1";
 
 addresses.forEach((addressArr, index) => {
     const record = createRegionRecord(addressArr, index, codeLines, geoSidoLines, geoSigLines, geoEmdLines);
     if ("error" in record) {
         errCount += 1;
-        console.error("========> error", record.addressArr, record.regionCode, record.error);
+        if (isDebug) {
+            console.log("regions:error", record.addressArr, record.regionCode, record.error);
+        }
+    } else {
+        parsed.push(record);
     }
-    parsed.push(record);
 });
 
-console.log("========> error count:", errCount);
+if (isDebug) {
+    console.log("regions:errors", errCount);
+}
+
+if (errCount > 0) {
+    throw new Error(`Region generation failed with ${errCount} errors`);
+}
 
 await writeFile(PATHS.outputJson, JSON.stringify(parsed, null, 2), "utf-8");

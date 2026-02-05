@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "setup": "node scripts/generate-regions.mjs",
-    "postinstall": "node scripts/generate-regions.mjs",
-    "prebuild": "node scripts/generate-regions.mjs",
+    "generate:regions": "node scripts/generate-regions.mjs",
+    "postinstall": "npm run generate:regions",
+    "prebuild": "npm run generate:regions",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
