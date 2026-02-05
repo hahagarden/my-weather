@@ -42,7 +42,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
           },
         };
 
-  const { data, isLoading, isError } = useQuery<
+  const { data: weather, isLoading, isError } = useQuery<
     Weather,
     Error,
     Weather,
@@ -64,7 +64,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
 
   const hourlyForecast = useMemo(
     () =>
-      (data?.hourly ?? []).slice(0, 24).map((hour) => ({
+      (weather?.hourly ?? []).slice(0, 24).map((hour) => ({
         time: hour.localTime.toLocaleTimeString("ko-KR", {
           hour: "2-digit",
           minute: "2-digit",
@@ -73,7 +73,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
         temp: Math.round(hour.temp),
         conditionKey: hour.weather[0]?.icon?.slice(0, 2) ?? "01",
       })),
-    [data?.hourly],
+    [weather?.hourly],
   );
 
   if (!id && (geo.status === "idle" || geo.status === "loading")) {
@@ -84,7 +84,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
     return <LoadingSpinner />;
   }
 
-  if (isError || !data || data.daily.length === 0) {
+  if (isError || !weather || weather.daily.length === 0) {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-8 text-center shadow-lg">
@@ -97,9 +97,9 @@ export default function WeatherPage({ id }: { id: number | null }) {
   }
 
   const displayName = id ? (region?.regionName ?? `지역 ${id}`) : "현재 위치";
-  const today = data.daily[0];
+  const today = weather.daily[0];
   const currentConditionKey =
-    data.current.weather[0]?.icon?.slice(0, 2) ?? "01";
+    weather.current.weather[0]?.icon?.slice(0, 2) ?? "01";
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -133,7 +133,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
 
           <div className="flex items-center gap-6 mb-8">
             <div className="text-7xl font-bold text-gray-900 dark:text-gray-100">
-              {Math.round(data.current.temp)}°
+              {Math.round(weather.current.temp)}°
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
