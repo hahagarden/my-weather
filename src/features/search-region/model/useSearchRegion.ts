@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getRegionsByQuery } from "@/entities/region/api";
-import { regionKeys } from "@/entities/region/model";
+import { regionSearchQuery } from "@/entities/region/model";
 
 export function useSearchRegion(debounceMs = 150) {
   const [input, setInput] = useState("");
@@ -18,8 +17,7 @@ export function useSearchRegion(debounceMs = 150) {
   }, [input, debounceMs]);
 
   const { data: results = [], isLoading } = useQuery({
-    queryKey: regionKeys.search(debouncedQuery),
-    queryFn: () => getRegionsByQuery(debouncedQuery),
+    ...regionSearchQuery(debouncedQuery),
     enabled: debouncedQuery.length > 0,
     placeholderData: (prev) => prev,
   });

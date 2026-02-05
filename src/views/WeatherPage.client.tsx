@@ -1,18 +1,20 @@
 "use client";
 
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  type QueryKey,
+  useQuery,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
 import { ArrowDown, ArrowUp, MapPin, Star } from "lucide-react";
 
-import { getFavoriteByRegionId } from "@/entities/favorite/api";
-import { favoriteKeys } from "@/entities/favorite/model";
-import { getRegionById } from "@/entities/region/api";
-import { regionKeys } from "@/entities/region/model";
+import { favoriteByRegionIdQuery } from "@/entities/favorite/model";
+import { regionByIdQuery } from "@/entities/region/model";
 import {
-  getWeatherByCoords,
-  getWeatherByRegionId,
-} from "@/entities/weather/api";
-import { weatherKeys } from "@/entities/weather/model";
+  type Weather,
+  weatherByCoordsQuery,
+  weatherByRegionQuery,
+} from "@/entities/weather/model";
 import { AddFavoriteButton } from "@/features/add-favorite/ui";
 import { RemoveFavoriteButton } from "@/features/remove-favorite/ui";
 import { GENERAL_ERRORS, WEATHER_ICONS } from "@/shared/constants";
@@ -29,29 +31,34 @@ export default function WeatherPage({ id }: { id: number | null }) {
       ? roundCoords(geo.coords.lat, geo.coords.lon)
       : null;
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: id
-      ? weatherKeys.byRegionId(id)
-      : roundedCoords
-        ? weatherKeys.byCoords(roundedCoords.lat, roundedCoords.lon)
-        : ["weather", "idle"],
-    queryFn: () => {
-      if (id) return getWeatherByRegionId(id);
-      if (!roundedCoords) throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
-      return getWeatherByCoords(roundedCoords.lat, roundedCoords.lon);
-    },
+  const weatherQuery = id
+    ? weatherByRegionQuery(id)
+    : roundedCoords
+      ? weatherByCoordsQuery(roundedCoords.lat, roundedCoords.lon)
+      : {
+          queryKey: ["weather", "idle"] as const,
+          queryFn: async () => {
+            throw new Error(GENERAL_ERRORS.MISSING_COORDINATES);
+          },
+        };
+
+  const { data, isLoading, isError } = useQuery<
+    Weather,
+    Error,
+    Weather,
+    QueryKey
+  >({
+    ...(weatherQuery as UseQueryOptions<Weather, Error, Weather, QueryKey>),
     enabled: Boolean(id) || geo.status === "success",
   });
 
   const { data: favorite } = useQuery({
-    queryKey: favoriteKeys.byRegionId(id ?? 0),
-    queryFn: () => getFavoriteByRegionId(id as number),
+    ...favoriteByRegionIdQuery(id ?? 0),
     enabled: Boolean(id) && !!user,
   });
 
   const { data: region } = useQuery({
-    queryKey: regionKeys.byId(id ?? 0),
-    queryFn: () => getRegionById(id as number),
+    ...regionByIdQuery(id ?? 0),
     enabled: Boolean(id),
   });
 

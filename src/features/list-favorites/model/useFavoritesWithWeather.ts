@@ -2,15 +2,12 @@
 
 import { useQueries, useQuery } from "@tanstack/react-query";
 
-import { getFavorites } from "@/entities/favorite/api";
 import {
-  favoriteKeys,
+  favoritesListQuery,
   type FavoriteWithWeather,
 } from "@/entities/favorite/model";
-import { getRegionById } from "@/entities/region/api";
-import { regionKeys } from "@/entities/region/model";
-import { getWeatherByRegionId } from "@/entities/weather/api";
-import { weatherKeys } from "@/entities/weather/model";
+import { regionByIdQuery } from "@/entities/region/model";
+import { weatherByRegionQuery } from "@/entities/weather/model";
 import { FAVORITE_ERRORS } from "@/shared/constants";
 
 export function useFavoritesWithWeather() {
@@ -19,15 +16,13 @@ export function useFavoritesWithWeather() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: favoriteKeys.list(),
-    queryFn: getFavorites,
+    ...favoritesListQuery(),
   });
 
   const regionQueries = useQueries({
     queries:
       favorites?.map((favorite) => ({
-        queryKey: regionKeys.byId(favorite.region_id),
-        queryFn: () => getRegionById(favorite.region_id),
+        ...regionByIdQuery(favorite.region_id),
         enabled: !!favorites && favorites.length > 0,
       })) ?? [],
   });
@@ -35,8 +30,7 @@ export function useFavoritesWithWeather() {
   const weatherQueries = useQueries({
     queries:
       favorites?.map((favorite) => ({
-        queryKey: weatherKeys.byRegionId(favorite.region_id),
-        queryFn: () => getWeatherByRegionId(favorite.region_id),
+        ...weatherByRegionQuery(favorite.region_id),
         enabled: !!favorites && favorites.length > 0,
       })) ?? [],
   });

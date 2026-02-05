@@ -4,8 +4,7 @@ import type { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { getFavorites } from "@/entities/favorite/api";
-import { type FavoriteInsert, favoriteKeys } from "@/entities/favorite/model";
+import { type FavoriteInsert, favoritesListQuery } from "@/entities/favorite/model";
 import { useAddFavoriteMutate } from "@/features/add-favorite/model";
 import {
   AUTH_ERRORS,
@@ -44,8 +43,7 @@ export default function AddFavoriteButton({
   });
 
   const { data: favorites } = useQuery({
-    queryKey: favoriteKeys.list(),
-    queryFn: getFavorites,
+    ...favoritesListQuery(),
     enabled: !!user,
   });
 
