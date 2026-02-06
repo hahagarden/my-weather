@@ -172,6 +172,7 @@ pnpm start
 <div markdown="1">
   
 - 빌드 에러(SSR 페이지가 catch 에 잡히는 문제) 수정
+- Tanstack Query 서버 상태 관리 설정 추가
 - FSD `entities` 레이어의 슬라이스 간 참조(weatherService, regionService) 수정을 위해 `features`의 유즈케이스로 분리
 - `error.tsx` 추가
 - 리팩토링
