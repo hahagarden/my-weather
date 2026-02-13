@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import { QueryHydration } from "@/app/providers";
@@ -8,6 +9,10 @@ import { regionService } from "@/entities/region/server";
 import { weatherKeys } from "@/entities/weather/model";
 import { getWeatherByRegion } from "@/features/weather-by-region";
 import FavoritesPage from "@/views/FavoritesPage.client";
+
+export const metadata: Metadata = {
+  title: "즐겨찾기",
+};
 
 export default async function Page() {
   const qc = new QueryClient();

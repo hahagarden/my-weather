@@ -12,8 +12,8 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "내 날씨 | 지역별 날씨 한눈에",
-    template: "%s | 내 날씨",
+    default: "My Weather | 지역별 날씨 한눈에",
+    template: "%s | My Weather",
   },
   description:
     "전국 지역별 현재 날씨와 예보를 한눈에 확인하세요. 즐겨찾기로 자주 보는 지역을 모아보세요.",
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
     "전국 날씨",
   ],
   openGraph: {
-    title: "내 날씨 | 지역별 날씨 한눈에",
+    title: "My Weather | 지역별 날씨 한눈에",
     description: "전국 지역별 현재 날씨와 예보를 한눈에 확인하세요.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "내 날씨 | 지역별 날씨 한눈에",
+    title: "My Weather | 지역별 날씨 한눈에",
     description: "전국 지역별 현재 날씨와 예보를 한눈에 확인하세요.",
   },
 };
