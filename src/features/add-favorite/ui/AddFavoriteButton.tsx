@@ -20,6 +20,8 @@ interface AddFavoriteButtonProps {
   displayName?: string | null;
   className?: string;
   children?: ReactNode;
+  /** 아이콘만 넣을 때 스크린 리더용 이름 (예: "서울 즐겨찾기 추가") */
+  ariaLabel?: string;
 }
 
 const MAX_FAVORITES = 6;
@@ -29,6 +31,7 @@ export default function AddFavoriteButton({
   displayName,
   className,
   children,
+  ariaLabel,
 }: AddFavoriteButtonProps) {
   const { user } = useAuth();
   const { openLoginModal } = useModalStore();
@@ -71,9 +74,11 @@ export default function AddFavoriteButton({
   return (
     <div className="flex flex-col items-end gap-1">
       <button
+        type="button"
         onClick={handleClick}
         disabled={addFavoriteMutation.isPending}
         className={className}
+        aria-label={ariaLabel}
       >
         {children ??
           (addFavoriteMutation.isPending ? "추가 중..." : "⭐ 즐겨찾기 추가")}

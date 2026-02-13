@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col h-screen relative">
       <Header />
-      <div className="flex-1 p-6">{children}</div>
+      <main className="flex-1 p-6">{children}</main>
 
       {/* Modals */}
       <LoginModal />

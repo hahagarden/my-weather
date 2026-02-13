@@ -28,12 +28,19 @@ export default function LogoutConfirmModal() {
   };
 
   return (
-    <Modal isOpen={logoutModal.isOpen} onClose={closeLogoutModal}>
+    <Modal
+      isOpen={logoutModal.isOpen}
+      onClose={closeLogoutModal}
+      titleId="logout-modal-title"
+    >
       <div className="p-6 text-center">
         <div className="w-16 h-16 bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
-          <LogOut className="w-8 h-8" />
+          <LogOut className="w-8 h-8" aria-hidden />
         </div>
-        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+        <h2
+          id="logout-modal-title"
+          className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2"
+        >
           로그아웃 하시겠습니까?
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-6">

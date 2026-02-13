@@ -55,9 +55,13 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 gap-2">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group shrink-0"
+            aria-label="홈"
+          >
             <div className="p-2 bg-blue-500 rounded-xl group-hover:bg-blue-600 transition-colors">
-              <SunDim className="w-6 h-6 text-white" />
+              <SunDim className="w-6 h-6 text-white" aria-hidden />
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 hidden md:inline">
               My Weather
@@ -81,8 +85,9 @@ export default function Header() {
               href="/favorites"
               className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-yellow-50 dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title="즐겨찾기"
+              aria-label="즐겨찾기"
             >
-              <Star className="w-5 h-5" />
+              <Star className="w-5 h-5" aria-hidden />
               <span className="hidden md:inline">즐겨찾기</span>
             </Link>
 
@@ -95,8 +100,8 @@ export default function Header() {
               title={themeTitle}
               aria-label={themeAriaLabel}
             >
-              <SunDim className="w-5 h-5 hidden dark:block" />
-              <Moon className="w-5 h-5 dark:hidden" />
+              <SunDim className="w-5 h-5 hidden dark:block" aria-hidden />
+              <Moon className="w-5 h-5 dark:hidden" aria-hidden />
             </button>
 
             {user ? <LogoutButton /> : <LoginButton />}

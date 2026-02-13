@@ -33,12 +33,19 @@ export default function DeleteConfirmModal() {
   if (!deleteModal.isOpen || !deleteModal.favoriteId) return null;
 
   return (
-    <Modal isOpen={deleteModal.isOpen} onClose={closeDeleteModal}>
+    <Modal
+      isOpen={deleteModal.isOpen}
+      onClose={closeDeleteModal}
+      titleId="delete-modal-title"
+    >
       <div className="p-6 text-center">
         <div className="w-16 h-16 bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
-          <AlertCircle className="w-8 h-8" />
+          <AlertCircle className="w-8 h-8" aria-hidden />
         </div>
-        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+        <h2
+          id="delete-modal-title"
+          className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2"
+        >
           정말 삭제하시겠습니까?
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-6">

@@ -107,26 +107,28 @@ export default function WeatherPage({ id }: { id: number | null }) {
         <div className="relative p-6 md:p-8">
           <div className="flex justify-between items-start mb-6 gap-2 md:gap-4">
             <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-              <MapPin className="w-4 h-4 md:w-6 md:h-6" />
-              <span className="font-medium text-lg md:text-xl">
+              <MapPin className="w-4 h-4 md:w-6 md:h-6 shrink-0" aria-hidden />
+              <h1 className="font-medium text-lg md:text-xl">
                 {displayName}
-              </span>
+              </h1>
             </div>
             {id &&
               (favorite ? (
                 <RemoveFavoriteButton
                   favoriteId={favorite.id}
+                  ariaLabel={`${displayName} 즐겨찾기 해제`}
                   className="p-2 rounded-full transition-all bg-yellow-100 dark:bg-yellow-400/20 text-yellow-500 dark:text-yellow-400 shadow-inner"
                 >
-                  <Star className="w-6 h-6 md:w-8 md:h-8 fill-current" />
+                  <Star className="w-6 h-6 md:w-8 md:h-8 fill-current" aria-hidden />
                 </RemoveFavoriteButton>
               ) : (
                 <AddFavoriteButton
                   regionId={id}
                   displayName={displayName}
+                  ariaLabel={`${displayName} 즐겨찾기 추가`}
                   className="p-2 rounded-full transition-all bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-yellow-500 dark:hover:text-yellow-400"
                 >
-                  <Star className="w-6 h-6 md:w-8 md:h-8" />
+                  <Star className="w-6 h-6 md:w-8 md:h-8" aria-hidden />
                 </AddFavoriteButton>
               ))}
           </div>
@@ -141,11 +143,11 @@ export default function WeatherPage({ id }: { id: number | null }) {
               </span>
               <div className="flex gap-4 text-sm font-medium">
                 <span className="flex items-center text-blue-500 dark:text-blue-400 text-lg font-bold">
-                  <ArrowDown className="w-4 h-4 mr-1" />
+                  <ArrowDown className="w-4 h-4 mr-1" aria-hidden />
                   {Math.round(today.temp.min)}°
                 </span>
                 <span className="flex items-center text-red-500 dark:text-red-400 text-lg font-bold">
-                  <ArrowUp className="w-4 h-4 mr-1" />
+                  <ArrowUp className="w-4 h-4 mr-1" aria-hidden />
                   {Math.round(today.temp.max)}°
                 </span>
               </div>
@@ -154,10 +156,10 @@ export default function WeatherPage({ id }: { id: number | null }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-800">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 px-2">
+      <section className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-800" aria-labelledby="hourly-heading">
+        <h2 id="hourly-heading" className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 px-2">
           시간대별 기온
-        </h3>
+        </h2>
 
         <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
           {hourlyForecast.map((hour, index) => (
@@ -177,7 +179,7 @@ export default function WeatherPage({ id }: { id: number | null }) {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -17,17 +17,26 @@ export default function LoginModal() {
   };
 
   return (
-    <Modal isOpen={loginModal.isOpen} onClose={handleClose}>
+    <Modal
+      isOpen={loginModal.isOpen}
+      onClose={handleClose}
+      titleId="login-modal-title"
+    >
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <h2
+            id="login-modal-title"
+            className="text-2xl font-bold text-gray-800 dark:text-gray-100"
+          >
             {mode === "login" ? "로그인" : "회원가입"}
           </h2>
           <button
+            type="button"
             onClick={handleClose}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            aria-label="닫기"
           >
-            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden />
           </button>
         </div>
 
@@ -35,6 +44,7 @@ export default function LoginModal() {
 
         <div className="mt-6 text-center">
           <button
+            type="button"
             onClick={() => setMode(mode === "login" ? "signup" : "login")}
             className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
           >

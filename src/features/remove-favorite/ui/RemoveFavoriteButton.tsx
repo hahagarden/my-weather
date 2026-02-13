@@ -17,12 +17,15 @@ interface RemoveFavoriteButtonProps {
   favoriteId: number;
   className?: string;
   children?: ReactNode;
+  /** 아이콘만 넣을 때 스크린 리더용 이름 (예: "서울 즐겨찾기 해제") */
+  ariaLabel?: string;
 }
 
 export default function RemoveFavoriteButton({
   favoriteId,
   className,
   children,
+  ariaLabel,
 }: RemoveFavoriteButtonProps) {
   const removeFavoriteMutation = useRemoveFavoriteMutate({
     onSuccess: () => {
@@ -47,9 +50,11 @@ export default function RemoveFavoriteButton({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={removeFavoriteMutation.isPending}
       className={className}
+      aria-label={ariaLabel}
     >
       {children ??
         (removeFavoriteMutation.isPending ? "해제 중..." : "즐겨찾기 해제")}

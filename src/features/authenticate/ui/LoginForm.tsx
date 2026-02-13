@@ -79,32 +79,36 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+        <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           이메일
         </label>
         <div className="relative">
           <input
+            id="login-email"
             name="email"
             type="email"
             className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             placeholder="email@example.com"
+            autoComplete="email"
             autoFocus
           />
-          <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500" />
+          <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden />
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+        <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           비밀번호
         </label>
         <div className="relative">
           <input
+            id="login-password"
             name="password"
             type="password"
             className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             placeholder="••••••••"
+            autoComplete={isSignUp ? "new-password" : "current-password"}
           />
-          <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500" />
+          <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden />
         </div>
       </div>
 
@@ -114,7 +118,11 @@ export default function LoginForm({ isSignUp, onClose }: LoginFormProps) {
       >
         {isPending ? "로딩중..." : isSignUp ? "가입하기" : "로그인"}
       </button>
-      {error && <span className="text-xs text-red-600">{error}</span>}
+      {error && (
+        <p role="alert" className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </form>
   );
 }

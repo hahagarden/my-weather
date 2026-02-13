@@ -58,29 +58,40 @@ export default function UpdateFavoriteDisplayNameForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <label htmlFor="favorite-display-name" className="sr-only">
+        표시 이름
+      </label>
       <input
+        id="favorite-display-name"
         autoFocus
         type="text"
         value={displayName}
         onChange={(e) => setDisplayName(e.target.value)}
         className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all mb-6"
         placeholder={regionName}
+        aria-invalid={!!error}
+        aria-describedby={error ? "favorite-display-name-error" : undefined}
       />
       <div className="flex gap-3">
         <button
+          type="button"
           onClick={handleCancel}
           className="flex-1 py-2 text-gray-600 dark:text-gray-200 font-semibold bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           취소
         </button>
         <button
-          onClick={handleSubmit}
+          type="submit"
           className="flex-1 py-2 text-white font-semibold bg-blue-600 rounded-xl hover:bg-blue-700"
         >
           {updateFavoriteDisplayNameMutation.isPending ? "저장 중..." : "저장"}
         </button>
       </div>
-      {error && <span className="text-xs text-red-600">{error}</span>}
+      {error && (
+        <p id="favorite-display-name-error" role="alert" className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </form>
   );
 }
