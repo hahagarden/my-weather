@@ -20,6 +20,7 @@ pnpm install
 `.env.local` 파일을 생성하고 아래 값을 입력합니다.
 
 ```
+NEXT_PUBLIC_SITE_URL=your_deployment_url
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 WEATHER_API_KEY=your_openweather_api_key
@@ -67,6 +68,7 @@ pnpm start
 - 즐겨찾기 최대 6개 제한 (클라이언트 + DB 트리거)
 - 모바일/데스크탑 반응형 UI 구성
 - 다크 모드 토글 및 시스템 테마 연동
+- SEO 및 웹 접근성 설정
 
 ## 아키텍처 (FSD 기반)
 
@@ -135,6 +137,23 @@ pnpm start
 - **UI**: Tailwind CSS, Lucide Icons, Sonner(Toast)
 - **Search**: Fuse.js
 - **Weather API**: OpenWeather One Call 3.0
+
+## 화면 기록
+![앱이용화면](https://github.com/user-attachments/assets/886025ca-227e-4946-9308-0b9b3a19342f)
+
+### 에러 페이지
+
+<img width="800" height="600" alt="로그인필요" src="https://github.com/user-attachments/assets/bf8b3494-a9f5-4b0d-9847-a29df74712aa" />
+<img width="800" height="600" alt="존재하지않는페이지" src="https://github.com/user-attachments/assets/f069b4ee-e562-430e-b20e-3d29198fd74e" />
+<img width="800" height="600" alt="기타에러" src="https://github.com/user-attachments/assets/6960f2e7-eb34-405b-b4a2-78ffcac6864c" />
+
+### 모바일 반응형
+
+<img width="398" height="740" alt="모바일 반응형1" src="https://github.com/user-attachments/assets/6ac1427a-0b30-41df-85e1-b8af7916cf27" />
+<img width="398" height="741" alt="모바일 반응형2" src="https://github.com/user-attachments/assets/c0ec0b99-c1b5-41d9-adf8-d77ea0e1d032" />
+<img width="399" height="742" alt="모바일 반응형3" src="https://github.com/user-attachments/assets/5ed8f918-889a-41a5-aae8-bd34d0deaaf2" />
+<img width="397" height="744" alt="모바일 반응형4" src="https://github.com/user-attachments/assets/85cc78af-ad01-4ceb-9f21-d9c50ca90a59" />
+
 
 ## 특이사항
 
