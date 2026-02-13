@@ -1,6 +1,6 @@
 # My Weather
 
-배포 주소: https://my-weather-red.vercel.app/ (Vercel)
+배포 주소: https://my-weather-red.vercel.app (Vercel)
 
 현재 위치 또는 검색한 지역의 날씨를 확인하고, 즐겨찾기 목록으로 관리할 수 있는 웹 앱입니다.  
 지역 검색은 한국 행정구역 데이터를 기반으로 빠르게 동작하며, 로그인 시 즐겨찾기 기능이 활성화됩니다.
@@ -176,6 +176,15 @@ pnpm start
 - FSD `entities` 레이어의 슬라이스 간 참조(weatherService, regionService) 수정을 위해 `features`의 유즈케이스로 분리
 - `error.tsx` 추가
 - 리팩토링
+
+</div>
+</details>
+
+<details>
+<summary> 2026. 02. 13. 수정</summary>
+<div markdown="1">
+  
+- SEO 설정 및 웹 접근성 개선(시맨틱 태그, 키보드 포커스, 대체 텍스트 등)
 
 </div>
 </details>
